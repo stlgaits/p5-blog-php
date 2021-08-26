@@ -1,11 +1,11 @@
 # p5-blog-php
-### Openclassrooms project : develop your own blog using PHP.
+Openclassrooms project : develop your own blog using PHP.
 
-#### Features 
+## Features 
 - Front office accessible to all users
 - Back office accessible to admins only
 
-## Front office
+### Front office
 The website includes the following pages : 
 - Homepage : short introduction of myself as a web developer (name, picture, description, PDF CV, social networks you can reach me on) as well as a contact form.
 - Blogposts : display all articles ordered by latest. Each blog post card must include a title, updated at date, lead paragraph & link to article.
@@ -14,19 +14,19 @@ The website includes the following pages :
 A navbar & a footer must be present on all pages. 
 Footer contains a link to Admin back office.
 
-## Back office (admin interface)
+### Back office (admin interface)
 - Only specific accounts with an admin role can access the back office
     
- #### Specs
+## Specs
  - PHP 7.4
  - Bootstrap 5
  - Bundles installed via Composer :
     - Twig
     - Autoload
     
-  #### Success criteria
+### Success criteria
   The website must be responsive & secured. Code quality assessments must be performed via Symfony Insight or Codacy.
-##### Required UML diagrams :
+### Required UML diagrams :
 - use case diagrams
 - class diagram
 - sequence diagrams
