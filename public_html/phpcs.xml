@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<ruleset name="MyPHPBlog">
+    <description>My formatting rules</description>
+    <arg name="colors"/>
+    <arg value="p"/>
+    <!-- <folder>src</folder> -->
+    <file>index.php</file>
+    <rule ref="PSR2"></rule>
+    <rule ref="PSR12"></rule>
+</ruleset>

@@ -1,0 +1,48 @@
+version: '3'
+
+services: 
+  php:
+    container_name: 'php'
+    build: 
+      context: './php/'
+    networks:
+      - backend
+    volumes:
+      - ./public_html/:/var/www/html/
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blog
+    ports: 
+      - "3306:3306"
+    expose:
+      - '3306'
+    volumes:
+    - "../log:/var/log/mysql/"
+    - "./data:/var/lib/mysql"
+    networks:
+      - backend
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #   - 8080:8080
+  #   networks: 
+      # - backend
+  apache:
+    build: './apache/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public_html/:/var/www/html/
+networks:
+  frontend:
+  backend:
