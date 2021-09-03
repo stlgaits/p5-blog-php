@@ -8,6 +8,22 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class App
 {
+
+
+    private $modules = [];
+
+    /**
+     * App constructor
+     *
+     * @param array $modules : (Optional) list of modules to be loaded
+     */
+    public function __construct(array $modules = [])
+    {
+        foreach($modules as $module){
+            $this->modules[] = new $module();
+        }
+    }
+
     public function run(ServerRequestInterface $request): ResponseInterface
     {
         
@@ -20,8 +36,8 @@ class App
                             ->withHeader('Location', substr($uri, 0, -1));
         }
 
-        if ($uri === '/blog') {
-            return new Response(200, ['Location' => $uri ], '<h1>Bienvenue sur mon blog</h1>');
+        if ($uri === "/blog") {
+            return new Response(200, [], '<h1>Bienvenue sur mon blog</h1>');
         }
 
         return new Response(404, [], '<h1>Erreur 404</h1>');
