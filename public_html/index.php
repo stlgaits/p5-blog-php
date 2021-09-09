@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 require_once realpath("./gaitsblog/vendor/autoload.php");
 
-$app = new App\App([
-    BlogModule::class
+$app = new App\Framework\App([
+    App\Blog\BlogModule::class
 ]);
 
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Framework\Controller;
 
-use App\Http\Response;
+use App\Framework\Http\Response;
 
 class HomeController
 {

@@ -1,10 +1,33 @@
 <?xml version="1.0" ?>
-<ruleset name="MyPHPBlog">
+<ruleset name="MyPHPBlog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="phpcs.xsd">
     <description>My formatting rules</description>
     <arg name="colors"/>
-    <arg value="p"/>
-    <!-- <folder>src</folder> -->
+    <arg value="np"/>
     <file>index.php</file>
+    <file>gaitsblog/src</file>
+    <file>gaitsblog/tests</file>
     <rule ref="PSR2"></rule>
     <rule ref="PSR12"></rule>
+    <!-- Ban some functions -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="sizeof" value="count"/>
+                <element key="delete" value="unset"/>
+                <element key="print" value="echo"/>
+                <element key="is_null" value="null"/>
+                <element key="create_function" value="null"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Private methods MUST not be prefixed with an underscore -->
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <type>error</type>
+    </rule>
+
+    <!-- Private properties MUST not be prefixed with an underscore -->
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <type>error</type>
+    </rule>
 </ruleset>
