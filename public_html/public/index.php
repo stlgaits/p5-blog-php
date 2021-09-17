@@ -1,11 +1,5 @@
 <?php 
 
-use Mezzio\Router\Route;
-use GuzzleHttp\Psr7\Response;
-use Mezzio\Router\RouteCollector;
-use Mezzio\Router\FastRouteRouter;
-use Mezzio\Router\Middleware\DispatchMiddleware;
-
 require_once realpath("./../vendor/autoload.php");
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
@@ -44,6 +38,7 @@ switch ($routeInfo[0]) {
         $controller = new $class;
         $handler = array($controller, $methodName);
         $vars = $routeInfo[2];
+        // send response
         call_user_func_array($handler, $vars);
         break;
 }
