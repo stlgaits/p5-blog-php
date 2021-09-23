@@ -1,0 +1,30 @@
+{
+  "name": "blog-estelle-gaits",
+  "version": "1.0.0",
+  "description": "My Vanilla PHP & Bootstrap blog. This is the fifth project (out of 9) of the Openclassrooms PHP / Symfony web app developer course.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EstelleMyddleware/p5-blog-php.git"
+  },
+  "keywords": [
+    "blog",
+    "php",
+    "bootstrap"
+  ],
+  "author": "Estelle Gaits",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EstelleMyddleware/p5-blog-php/issues"
+  },
+  "homepage": "https://github.com/EstelleMyddleware/p5-blog-php#readme",
+  "dependencies": {
+    "startbootstrap-clean-blog": "^6.0.5"
+  }
+}
