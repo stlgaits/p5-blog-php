@@ -7,8 +7,6 @@ require_once realpath("./../vendor/autoload.php");
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
-
-
 /** Router : add list of routes with method, uri & handler */
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'HomeController@index');
