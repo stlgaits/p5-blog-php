@@ -14,6 +14,7 @@
         "http-interop/http-factory-guzzle": "^1.2",
         "http-interop/response-sender": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "mezzio/mezzio-fastroute": "^3.2"
+        "mezzio/mezzio-fastroute": "^3.2",
+        "twig/twig": "^3.3"
     }
 }

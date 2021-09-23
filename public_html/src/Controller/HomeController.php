@@ -2,42 +2,30 @@
 
 namespace App\Controller;
 
+use App\TwigRenderer;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-
-class HomeController  implements MiddlewareInterface
-// extends MiddlewareInterface  
-// implements RequestHandlerInterface 
+class HomeController
 {
-
-    public function hello() : Response {
-
-        $body = '<h1>Coucou toi</h1>';
-        return new Response(200, [], $body);
-    }
-
-    public function index() : Response {
-
-        $body = '<h1>SALUT</h1>';
-        return new Response(200, [], $body);
-    }
+    /**
+     * Twig Environment
+     *
+     * @var TwigRenderer
+     */
+    private $environment;
 
     /**
-     * Process an incoming server request.
-     *
-     * Processes an incoming server request in order to produce a response.
-     * If unable to produce the response itself, it may delegate to the provided
-     * request handler to do so.
+     * Twig Renderer
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        return new Response(200, [], 'COUCOU');
-    }
+    private $renderer;
     
-    // public function handle() ?Response {
-    //     return new Response(200, [], 'ALLO');
-    // }
+    public function __construct()
+    {
+        $this->environment = new TwigRenderer();
+        $this->renderer = $this->environment->getTwig();
+    }
+
+    public function index() : Response 
+    {
+        return new Response(200, [], $this->renderer->render('home.html.twig'));
+    }
 }
