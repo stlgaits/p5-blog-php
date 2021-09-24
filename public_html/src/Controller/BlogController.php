@@ -9,7 +9,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class BlogController 
+class BlogController
 {
     /**
      * Twig Environment
@@ -29,20 +29,19 @@ class BlogController
         $this->renderer = $this->environment->getTwig();
     }
     
-    public function list():Response
+    public function list(): Response
     {
         return new Response(200, [], $this->renderer->render('blog.html.twig'));
     }
 
 
-    public function post():Response
+    public function post(): Response
     {
         return new Response(200, [], $this->renderer->render('post.html.twig'));
     }
 
-    public function test():Response
+    public function test(): Response
     {
         return new Response(200, [], $this->renderer->render('base.html.twig'));
     }
-
 }

@@ -26,7 +26,7 @@ class NotFoundController
         $this->renderer = $this->environment->getTwig();
     }
     
-    public function notFound():Response
+    public function notFound(): Response
     {
         return new Response(404, [], $this->renderer->render('404.html.twig'));
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\TwigRenderer;
 use GuzzleHttp\Psr7\Response;
+
 class HomeController
 {
     /**
@@ -24,7 +25,7 @@ class HomeController
         $this->renderer = $this->environment->getTwig();
     }
 
-    public function index() : Response 
+    public function index(): Response
     {
         return new Response(200, [], $this->renderer->render('home.html.twig'));
     }

@@ -5,7 +5,8 @@ namespace App;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class TwigRenderer {
+class TwigRenderer
+{
 
     /**
      * @var FilesystemLoader
@@ -22,7 +23,6 @@ class TwigRenderer {
     {
         $this->loader = new FilesystemLoader('./../templates');
         $this->environment = new Environment($this->loader, ['debug' => true]);
-
     }
 
     public function getTwig()
