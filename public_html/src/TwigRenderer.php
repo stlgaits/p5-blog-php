@@ -23,6 +23,7 @@ class TwigRenderer
     {
         $this->loader = new FilesystemLoader('./../templates');
         $this->environment = new Environment($this->loader, ['debug' => true]);
+        $this->environment->addExtension(new \Twig\Extension\DebugExtension());
     }
 
     public function getTwig()

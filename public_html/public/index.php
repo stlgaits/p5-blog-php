@@ -3,6 +3,7 @@
 use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
+require_once './../src/config.php';
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
@@ -27,6 +28,16 @@ if (false !== $pos = strpos($uri, '?')) {
 
 $uri = rawurldecode($uri);
 
+
+
+// Ignore potential trailing slash from URI (except on root URL)
+if (!empty($uri) && $uri[-1] === "/" && strlen($uri) > 1 ) {
+    $uri = substr($uri, 0, -1);
+    $response = new Response(301, ['Location' => $uri]);
+}
+
+$response = new Response();
+
 try {
     $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
     if (!empty($routeInfo[1])) {
@@ -37,7 +48,7 @@ try {
     var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
     throw new Exception('La classe ou la méthode demandée n\'est pas reconnue');
 }
-$response = new Response();
+
 
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
