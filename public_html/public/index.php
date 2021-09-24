@@ -1,6 +1,5 @@
 <?php
 
-use App\TwigRenderer;
 use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
@@ -28,16 +27,28 @@ if (false !== $pos = strpos($uri, '?')) {
 
 $uri = rawurldecode($uri);
 
-$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+try {
+    $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+    if(!empty($routeInfo[1])){
+        $className = substr($routeInfo[1], 0, strpos($routeInfo[1], '@'));
+        $methodName = substr($routeInfo[1], strpos($routeInfo[1], '@') +1);
+    }
+} catch (Exception $e){
+    var_dump($e->getMessage().' '.$e->getLine().' '.$e->getFile());
+    throw new Exception('La classe ou la méthode demandée n\'est pas reconnue');
 
-$className = substr($routeInfo[1], 0, strpos($routeInfo[1], '@'));
-$methodName = substr($routeInfo[1], strpos($routeInfo[1], '@') +1);
-
+}
 $response = new Response();
 
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
+        $class = 'App\Controller\\NotFoundController';
+        $methodName = 'notFound';
+        $controller = new $class;
+        $vars = [];
+        $handler = array($controller, $methodName);
+        $response = call_user_func_array($handler, $vars);
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];

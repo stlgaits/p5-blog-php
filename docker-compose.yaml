@@ -2,9 +2,9 @@ version: '3'
 
 services: 
   php-fpm:
-    container_name: 'php'
+    container_name: "php"
     build: 
-      context: './php/'
+      context: "./php/"
     networks:
       - backend
     volumes:
@@ -18,21 +18,29 @@ services:
     ports: 
       - "3306:3306"
     expose:
-      - '3306'
+      - "3306"
     volumes:
     - "../log:/var/log/mysql/"
     - "./data:/var/lib/mysql"
     networks:
       - backend
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #   - 8080:8080
-  #   networks: 
-      # - backend
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+    - "8585:80"
+    container_name: admin
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    networks: 
+      - backend
   apache:
-    build: './apache/'
+    build: "./apache/"
     depends_on:
       - php-fpm
       - mysql
