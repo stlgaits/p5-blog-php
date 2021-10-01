@@ -14,7 +14,11 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/index', 'HomeController@index');
     $r->addRoute('GET', '/blog', 'BlogController@list');
     $r->addRoute('GET', '/test', 'BlogController@test');
-    $r->addRoute('GET', '/post', 'BlogController@post');
+    $r->addRoute('GET', '/post/{id}', 'BlogController@post');
+    $r->addRoute('GET', '/admin', 'AdminController@index');
+    $r->addRoute('GET', '/admin/create-post', 'AdminController@createPost');
+    $r->addRoute('POST', '/admin/add-post', 'AdminController@addPost');
+    
 });
 
 // Fetch method and URI from Server Globals
@@ -28,8 +32,6 @@ if (false !== $pos = strpos($uri, '?')) {
 
 $uri = rawurldecode($uri);
 
-
-
 // Ignore potential trailing slash from URI (except on root URL)
 if (!empty($uri) && $uri[-1] === "/" && strlen($uri) > 1 ) {
     $uri = substr($uri, 0, -1);
@@ -40,6 +42,7 @@ $response = new Response();
 
 try {
     $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
     if (!empty($routeInfo[1])) {
         $className = substr($routeInfo[1], 0, strpos($routeInfo[1], '@'));
         $methodName = substr($routeInfo[1], strpos($routeInfo[1], '@') + 1);

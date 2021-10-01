@@ -8,18 +8,6 @@
     <div id="posts" class="my-5">
         <h1>Articles</h1>
         <p>Découvrez ici la liste des derniers articles du blog. Bonne lecture !</p>
-        {# <ol> #}
-        {# {% for post in  posts %} #}
-            {# <li>
-                <ul>
-                    <h2>{{ post.title }}</h2>   
-                    <li>{{ post.slug }}</li>
-                    <li>{{ post.createdAt }} - {{ post.createdBy }}</li>
-                    <li>{{ post.content }}</li>
-                </ul>
-            </li> #}
-        {# {% endfor %} #}
-        {# </ol> #}
         {% for post in  posts %}
             <div class="card mb-4">
                 <h3 class="card-header">{{ post.title }}</h3>
@@ -35,7 +23,7 @@
                     <p class="card-text">{{ post.content }}</p>
                 </div>
                 <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
+                    <a href="./../post/{{post.id}}" class="card-link">Lire l'article</a>
                     <a href="#" class="card-link">Another link</a>
                 </div>
             </div>

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Model\PostManager;
+use Exception;
 use App\TwigRenderer;
+use App\Model\PostManager;
 use GuzzleHttp\Psr7\Response;
+
 class BlogController
 {
     /**
@@ -44,10 +46,13 @@ class BlogController
     {
         $blogPosts = $this->manager->readAll();
 
-        return new Response(200, [], 
-            $this->renderer->render('blog.html.twig', 
+        return new Response(
+            200, 
+            [], 
+            $this->renderer->render(
+                'blog.html.twig', 
                 [
-                'posts' => $blogPosts
+                    'posts' => $blogPosts
                 ]
             )
         );
@@ -58,9 +63,28 @@ class BlogController
      *
      * @return Response
      */
-    public function post(): Response
+    public function post($id): Response
     {
-        return new Response(200, [], $this->renderer->render('post.html.twig'));
+        try {
+              // get post ID
+        $post = $this->manager->read($id);
+        
+        // get post object
+        // display post
+        } catch (Exception $e) {
+            var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
+            throw new Exception('Cet article ne semble pas exister.');
+        }
+
+        return new Response(
+            200,
+            [], 
+            $this->renderer->render(
+            'post.html.twig',
+            [
+                'post' => $post
+            ]
+        ));
     }
 
     public function test(): Response
