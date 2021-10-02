@@ -37,11 +37,7 @@
                 </div>
             </div>
         </nav>
-        <div id="content" class="container">
-            <main class="pb-5">
-                {% block content %}{% endblock %}
-            </main>
-        </div>
+        {% block content %}{% endblock %}
         <div id="footer" class="bg-dark text-white d-flex justify-content-center position-fixed bottom-0 end-0 start-0">
             {% block footer %}
                 <ul class="list-unstyled">

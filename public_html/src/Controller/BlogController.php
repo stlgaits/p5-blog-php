@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Exception;
 use App\TwigRenderer;
 use App\Model\PostManager;
 use GuzzleHttp\Psr7\Response;
