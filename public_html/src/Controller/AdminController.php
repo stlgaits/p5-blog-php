@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use Exception;
-use App\Entity\Post;
 use App\TwigRenderer;
 use App\Model\PostManager;
 use App\Model\UserManager;
@@ -83,5 +81,13 @@ class AdminController
                                 'posts' => $posts,
                                 'authors' => $authors
                             ]));
+    }
+
+    public function showUsers(): Response
+    {
+        $users = $this->userManager->readAll();
+        // var_dump($users);
+        // die();
+        return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users]));
     }
 }

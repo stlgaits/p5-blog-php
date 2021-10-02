@@ -92,6 +92,7 @@ class User
     public function getRoles()
     {
         $roles = $this->roles;
+        $roles = json_decode($roles, true);
         // guarantees every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
         $roles = array_unique($roles);
