@@ -8,7 +8,8 @@ use App\Entity\User;
 class UserManager  extends Manager
 {
     
-    public function readAll(){
+    public function readAll()
+    {
         $users = [];
         $sql = "SELECT * FROM user";
         $results = $this->db->query($sql);
@@ -18,7 +19,8 @@ class UserManager  extends Manager
         return $users;
     }
 
-    public function read($id){
+    public function read($id)
+    {
         $sql = "SELECT * FROM user WHERE id = ?";
         $r = $this->db->prepare($sql);
         $r->bindValue(1, $id, PDO::PARAM_INT);
@@ -27,7 +29,8 @@ class UserManager  extends Manager
         return new User($r->fetch());
     }
 
-    public function create($username, $email, $first_name, $last_name, $password, $roles){
+    public function create($username, $email, $first_name, $last_name, $password, $roles)
+    {
         $sql = "INSERT INTO user(username, email, first_name, last_name, password, roles) 
                 VALUES(:username, :email, :first_name, :last_name, :password, :roles)";
         $r = $this->db->prepare($sql);
@@ -43,13 +46,15 @@ class UserManager  extends Manager
         return $newUserId;
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $sql = "DELETE FROM user WHERE id=?";
         $r = $this->db->prepare($sql);
         $r->execute(array($id));
     }
 
-    public function update($id, $username, $email, $first_name, $last_name, $password, $roles){
+    public function update($id, $username, $email, $first_name, $last_name, $password, $roles)
+    {
         $sql = "UPDATE user SET username = :username,
                                 email = :email,
                                 first_name = :first_name,
@@ -70,4 +75,31 @@ class UserManager  extends Manager
         return new User($r->fetch());
     }
 
+    public function getAllRoles()
+    {
+        $sql = "SELECT DISTINCT roles FROM user";
+        $results = $this->db->query($sql);
+        $results = $results->fetchAll();
+        foreach($results as $rolesArray){
+            foreach($rolesArray as $rolelist){
+                $rolelist = json_decode($rolelist, true);
+                $roles[] = $rolelist;
+            }
+        }
+        return $this->sortRolesArray($roles);
+    }
+
+    public function sortRolesArray($roles)
+    {
+        $sortedRoles = [];
+        foreach ($roles as $rolelist){
+            foreach($rolelist as $role){
+                if (!in_array($role, $sortedRoles)){
+                    $sortedRoles[]= $role;
+                }
+            }
+        }
+        return $sortedRoles;
+    }
 }
+

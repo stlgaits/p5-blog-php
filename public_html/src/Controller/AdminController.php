@@ -86,8 +86,20 @@ class AdminController
     public function showUsers(): Response
     {
         $users = $this->userManager->readAll();
-        // var_dump($users);
-        // die();
+        $roles = $this->getRoles();
+        var_dump($users);
+        die();
         return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users]));
+    }
+
+    public function getRoles()
+    {
+        return $this->userManager->getAllRoles();
+    }
+
+    public function assignedRoles($user, $roles)
+    {
+        // if(str_contains($user->getRoles(), $r))
+        //TODO
     }
 }
