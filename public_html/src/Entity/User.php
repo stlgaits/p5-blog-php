@@ -7,8 +7,8 @@ class User
     private $id;
     private $username;
     private $email;
-    private $firstName;
-    private $lastName;
+    private $first_name;
+    private $last_name;
     private $password;
     private $roles;
 
@@ -29,6 +29,9 @@ class User
 
     public function setId($id)
     {
+        if(is_string($id) && intval($id) > 0){
+            $this->id = intval($id);
+        }
         if(is_int($id) && $id > 0) {
             $this->id = $id;
         }
@@ -56,24 +59,24 @@ class User
     }
 
     
-    public function getFirstName()
+    public function getFirst_name()
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
-    public function setFirstName($firstName)
+    public function setFirst_name($first_name)
     {
-        $this->firstName = $firstName;
+        $this->first_name = $first_name;
     } 
     
-    public function getLasttName()
+    public function getLast_name()
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
-    public function setLastName($lastName)
+    public function setLast_name($last_name)
     {
-        $this->lastName = $lastName;
+        $this->last_name = $last_name;
     }
 
     public function getPassword()

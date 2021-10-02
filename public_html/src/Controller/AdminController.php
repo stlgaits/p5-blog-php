@@ -73,7 +73,7 @@ class AdminController
         foreach ($posts as $post){
             $authorID = $post->getCreated_By();
             $author = $this->userManager->read($authorID);
-            $authors[] = $author;
+            $authors[$authorID] = $author;
         }
 
         return new Response(200, 
@@ -81,7 +81,7 @@ class AdminController
                             $this->renderer->render('admin-posts.html.twig', 
                             [ 
                                 'posts' => $posts,
-                                ''
+                                'authors' => $authors
                             ]));
     }
 }

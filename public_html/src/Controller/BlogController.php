@@ -6,6 +6,7 @@ use Exception;
 use App\TwigRenderer;
 use App\Model\PostManager;
 use GuzzleHttp\Psr7\Response;
+use App\Model\UserManager;
 
 class BlogController
 {
@@ -29,12 +30,20 @@ class BlogController
      */
     private $manager;
 
+    /**
+     * User manager : PDO connection to Users stored in the database
+     *
+     * @var UserManager
+     */
+    private $userManager;
+
     
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->manager = new PostManager();
+        $this->userManager = new UserManager();
     }
     
     /**
@@ -45,6 +54,11 @@ class BlogController
     public function list(): Response
     {
         $blogPosts = $this->manager->readAll();
+        foreach ($blogPosts as $post){
+            $authorID = $post->getCreated_By();
+            $author = $this->userManager->read($authorID);
+            $authors[$authorID] = $author;
+        }
 
         return new Response(
             200, 
@@ -52,7 +66,8 @@ class BlogController
             $this->renderer->render(
                 'blog.html.twig', 
                 [
-                    'posts' => $blogPosts
+                    'posts' => $blogPosts,
+                    'authors' => $authors
                 ]
             )
         );
@@ -65,16 +80,9 @@ class BlogController
      */
     public function post($id): Response
     {
-        try {
-              // get post ID
+
         $post = $this->manager->read($id);
-        
-        // get post object
-        // display post
-        } catch (Exception $e) {
-            var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
-            throw new Exception('Cet article ne semble pas exister.');
-        }
+        $author = $this->userManager->read($post->getCreated_By());
 
         return new Response(
             200,
@@ -82,7 +90,8 @@ class BlogController
             $this->renderer->render(
             'post.html.twig',
             [
-                'post' => $post
+                'post' => $post,
+                'author' => $author
             ]
         ));
     }

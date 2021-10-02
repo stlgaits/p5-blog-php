@@ -5,29 +5,49 @@
     {{ parent() }}
 {% endblock %}
 {% block admin_content %}
-    <div>
+    <div class="mb-5 pb-5">
         <h2 class="text-secondary">Articles</h2>
         <p class="lead">Administrez ici les articles du blog.</p>
+        <div class="d-flex justify-content-end">
+            <a href="./../admin/create-post" class="btn btn-link">Ajouter +</a>
+        </div>
         <table class="table table-hover">
+            <caption>Liste des articles</caption>
             <thead>
                 <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Titre</th>
-                <th scope="col">slug</th>
-                <th scope="col">Date création</th>
-                <th scope="col">Date modification</th>
-                <th scope="col">Auteur</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Slug</th>
+                    <th scope="col">Date création</th>
+                    <th scope="col">Date modification</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col" colspan="5">Edition</th>
                 </tr>
             </thead>
             <tbody>
                 {% for post in  posts %}
-                <tr class="table-active">
+                <tr>
                     <th scope="row">{{ post.id }}</th>
                     <td>{{ post.title }}</td>
                     <td>{{ post.slug }}</td>
                     <td>{{ post.created_at }}</td>
                     <td>datemodif TODO</td>
-                    <td>{{ post.created_by }}</td>
+                    <td>
+                        {% for author in authors %}
+                            {% if post.created_by == author.id %}
+                                {{author.username}} 
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Voir</a>
+                    </td>
+                    <td>
+                        <a href="./../post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" type="button">Supprimer</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
