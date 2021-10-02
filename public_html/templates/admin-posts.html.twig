@@ -1,0 +1,37 @@
+{% extends "admin.html.twig" %}
+
+{% block title %}Nouvel article{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block admin_content %}
+    <div>
+        <h2 class="text-secondary">Articles</h2>
+        <p class="lead">Administrez ici les articles du blog.</p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titre</th>
+                <th scope="col">slug</th>
+                <th scope="col">Date création</th>
+                <th scope="col">Date modification</th>
+                <th scope="col">Auteur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in  posts %}
+                <tr class="table-active">
+                    <th scope="row">{{ post.id }}</th>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.slug }}</td>
+                    <td>{{ post.created_at }}</td>
+                    <td>datemodif TODO</td>
+                    <td>{{ post.created_by }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

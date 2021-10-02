@@ -10,7 +10,7 @@ class User
     private $firstName;
     private $lastName;
     private $password;
-    private $roles = [];
+    private $roles;
 
     public function __construct(array $data=[]){
         $this->hydrate($data);
@@ -86,16 +86,16 @@ class User
         $this->password = $password;
     }
 
-    public function getRoles(): array
+    public function getRoles()
     {
         $roles = $this->roles;
         // guarantees every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        $roles = array_unique($roles);
+        return  json_encode($roles);
     }
 
-    public function setRoles(array $roles)
+    public function setRoles($roles)
     {
         $this->roles = $roles;
     }
@@ -113,5 +113,10 @@ class User
                 $this->$methodName($value);
             }
         }
+    }
+
+    public function __toString()
+    {
+        return $this->username;
     }
 }

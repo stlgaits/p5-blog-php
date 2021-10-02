@@ -6,6 +6,7 @@ use Exception;
 use App\Entity\Post;
 use App\TwigRenderer;
 use App\Model\PostManager;
+use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
 
 class AdminController
@@ -27,12 +28,20 @@ class AdminController
      * @var PostManager
      */
     private $postManager;
+
+    /**
+     * UserManager
+     * 
+     * @var UsertManager
+     */
+    private $userManager;
     
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->postManager = new PostManager();
+        $this->userManager = new UserManager();
     }
 
     public function index(): Response
@@ -52,7 +61,27 @@ class AdminController
             // next step 2 : éviter la variable super globale 
             // next step 3 : sécurité (htmlspecialchars etc) 
             $newBlogPostId = $this->postManager->create($_POST['title'], $_POST['content'], 2, $_POST['slug']);
+            $newBlogPost = $this->postManager->read($newBlogPostId);
         } 
-        return new Response(200, [], $this->renderer->render('add-post.html.twig'));
+        
+        // return new Response(301, ['Location' => '']);
+    }
+
+    public function showPosts(): Response
+    {
+        $posts = $this->postManager->readAll();
+        foreach ($posts as $post){
+            $authorID = $post->getCreated_By();
+            $author = $this->userManager->read($authorID);
+            $authors[] = $author;
+        }
+
+        return new Response(200, 
+                            [],
+                            $this->renderer->render('admin-posts.html.twig', 
+                            [ 
+                                'posts' => $posts,
+                                ''
+                            ]));
     }
 }
