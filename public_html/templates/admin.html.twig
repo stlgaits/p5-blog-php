@@ -3,6 +3,8 @@
 {% block title %}Interface administrateur{% endblock %}
 {% block head %}
     {{ parent() }}
+    {# TODO: add a CONDITION on base URI either here or base.html.twig to determine path to css dir #}
+    <link rel="stylesheet" href="../../public/assets/css/bootstrap.min.css"/>
 {% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between">

@@ -43,15 +43,14 @@
                         <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Voir</a>
                     </td>
                     <td>
-                        <a href="./../post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
+                        <a href="./edit-post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
                     </td>
                     <td>
-                        <button class="btn btn-danger" type="button">Supprimer</button>
+                        <a  href="./delete-post/{{post.id}}" class="btn btn-danger" role="button">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
     </div>
 {% endblock %}

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "twig/cssinliner-extra": "^3.3"
+    }
+}

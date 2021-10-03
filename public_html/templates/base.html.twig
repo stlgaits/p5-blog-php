@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+  {# {% apply inline_css(source("@public/assets/css/bootstrap.min.css")) %} #}
 <html>
     <head>
         {% block head %}
+        
             <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css"/>
+            {# <link rel="stylesheet" href="{{ source('@public/assets/css/bootstrap.min.css') }}" /> #}
             <title>{% block title %}{% endblock %} Estelle Gaits - Blog PHP Openclassrooms </title>
         {% endblock %}
     </head>
@@ -49,3 +52,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     </body>
 </html>
+{# {% endapply %} #}

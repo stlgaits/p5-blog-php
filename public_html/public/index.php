@@ -17,7 +17,10 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/post/{id}', 'BlogController@post');
     $r->addRoute('GET', '/admin', 'AdminController@index');
     $r->addRoute('GET', '/admin/create-post', 'AdminController@createPost');
+    $r->addRoute('GET', '/admin/edit-post/{id}', 'AdminController@editPost');
+    $r->addRoute('POST', '/admin/update-post/{id}', 'AdminController@updatePost');
     $r->addRoute('POST', '/admin/add-post', 'AdminController@addPost');
+    $r->addRoute('GET', '/admin/delete-post/{id}', 'AdminController@deletePost');
     $r->addRoute('GET', '/admin/show-posts', 'AdminController@showPosts');
     $r->addRoute('GET', '/admin/show-users', 'AdminController@showUsers');
     
