@@ -5,11 +5,44 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <div id="content" class="container">
-        <main class="pb-5">
+    <div id="content" class="container-fluid">
+        <main class="pb-5 mx-5">
+            <div class="alert alert-dismissible alert-info my-2">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {% if user %}
+                    Bonjour <strong>{{user.username}} !</strong> 
+                {% else %}
+                    Bienvenue. Vous êtes connecté en tant que visiteur. Si vous souhaitez publier sur ce blog ou laisser un commentaire, veuillez vous connecter.
+                {% endif %}
+            </div>
             <div class="mt-5 p-4 p-md-5 mb-4 text-white rounded bg-dark">
-                <h2 class="display-4 fst-italic">Bienvenue sur mon blog</h2>
-                <p class="lead my-3">Irure commodo qui commodo in incididunt voluptate officia magna eiusmod et irure. Veniam pariatur laboris ex laboris dolore. Nulla elit dolor commodo aliquip nisi eiusmod. Quis ipsum nisi minim velit consectetur excepteur nulla aliqua non anim enim. Tempor anim laborum quis elit qui elit pariatur sunt. Deserunt cillum excepteur amet adipisicing et non eiusmod voluptate aliquip consectetur veniam id aliquip. Sint tempor consequat mollit aliquip ea occaecat esse amet.</p>
+                <h2 class="display-4 fst-italic">Estelle Gaits</h2>
+                <p class="lead my-3">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p> 
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-8 mb-5">
+                    <div class="card mb-3 rounded shadow-sm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="../public/assets/images/Estelle.jpg" alt="Estelle Gaits" class="img-fluid rounded-start h-100"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body m-4">
+                                    <h4 class="card-title mb-4">Bienvenue sur mon blog !</h4>
+                                    <p class="card-text">Découvrez ici mes réalisations dans le cadre du parcours Développeur d'Applications PHP / Symfony que je suis actuellement en alternance via Openclassrooms.</p>
+                                    <p class="card-text">Je vous propose également d'échanger sur l'actualité du monde du développement web au travers des différents articles du blog.</p> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card rounded shadow-sm bg-light">
+                        <div class="card-body">
+                            <img src="../public/assets/images/Bloc-marque.png" alt="Logo Agence Escadença" class="img-fluid " />
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

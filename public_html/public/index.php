@@ -1,6 +1,6 @@
 <?php
 
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response; 
 
 require_once realpath("./../vendor/autoload.php");
 require_once './../src/config.php';
@@ -14,6 +14,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/index', 'HomeController@index');
     $r->addRoute('GET', '/blog', 'BlogController@list');
     $r->addRoute('GET', '/test', 'BlogController@test');
+    $r->addRoute('GET', '/login', 'UserController@login');
+    $r->addRoute('POST', '/login-user', 'UserController@loginUser');
     $r->addRoute('GET', '/post/{id}', 'BlogController@post');
     $r->addRoute('GET', '/admin', 'AdminController@index');
     $r->addRoute('GET', '/admin/create-post', 'AdminController@createPost');

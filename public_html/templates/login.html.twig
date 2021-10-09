@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Se connecter{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+<div class="d-flex bg-light align-center text-center justify-content-center">
+    <main class="py-5 my-5">
+        <form action="login-user" method="post">
+            <img class="mb-4" src="../public/assets/images/Coccinelle-seule.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 fw-normal">Connexion</h1>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" placeholder="nom@exemple.com" name="email">
+                <label for="floatingInput">Adresse email</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="password">
+                <label for="floatingPassword">Mot de passe</label>
+            </div>
+
+            <div class="checkbox mb-3 mt-2">
+                <label>
+                    <input type="checkbox" value="remember-me" name="remember-me"> Se souvenir de moi
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Se connecter</button>
+            {# <p class="mt-5 mb-3 text-muted">© 2017–2021</p> #}
+        </form>
+        <div class="alert alert-dismissible alert-danger my-2">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {% if message %}
+                {{ message }}
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}

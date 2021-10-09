@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use PDO;
+use Exception;
 use App\Entity\User;
 
 class UserManager  extends Manager
@@ -27,6 +28,19 @@ class UserManager  extends Manager
         $r->execute();
 
         return new User($r->fetch());
+    }
+
+    public function findByEmail(string $email)
+    {
+        $sql = "SELECT * FROM user WHERE email = ?";
+        $r = $this->db->prepare($sql);
+        $r->bindValue(1, $email, PDO::PARAM_STR);
+        $r->execute();
+        $result = $r->fetch();
+        if(!$result){
+            return null;
+        } 
+        return new User($result);
     }
 
     public function create($username, $email, $first_name, $last_name, $password, $roles)
