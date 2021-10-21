@@ -45,6 +45,7 @@ class UserController
     public function loginUser()
     {
         session_start();
+        //TODO:  inverser la logique => exception en premier 'fail first'
         if(isset($_POST['email'])){
             try {
                 $user = $this->userManager->findByEmail($_POST['email']);
