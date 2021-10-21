@@ -61,7 +61,7 @@ class AdminController
             // next step 2 : éviter la variable super globale 
             // next step 3 : sécurité (htmlspecialchars etc) 
             $newBlogPostId = $this->postManager->create($_POST['title'], $_POST['content'], 2, $_POST['slug']);
-            $newBlogPost = $this->postManager->read($newBlogPostId);
+            $this->postManager->read($newBlogPostId);
         } 
         // redirect to Admin Blog Posts List 
         return new Response(301, ['Location' => 'show-posts']);
@@ -131,6 +131,6 @@ class AdminController
     public function assignedRoles($user, $roles)
     {
         // if(str_contains($user->getRoles(), $r))
-        //TODO
+        //TODO:
     }
 }
