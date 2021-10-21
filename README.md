@@ -1,5 +1,11 @@
 # p5-blog-php
+<<<<<<< HEAD
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/693dc9aa9f5c462cbeed4e5ff1a78bc5)](https://app.codacy.com/gh/EstelleMyddleware/p5-blog-php?utm_source=github.com&utm_medium=referral&utm_content=EstelleMyddleware/p5-blog-php&utm_campaign=Badge_Grade_Settings)
+=======
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/693dc9aa9f5c462cbeed4e5ff1a78bc5)](https://app.codacy.com/gh/EstelleMyddleware/p5-blog-php?utm_source=github.com&utm_medium=referral&utm_content=EstelleMyddleware/p5-blog-php&utm_campaign=Badge_Grade_Settings)
+
+>>>>>>> 8e83ff4 (Add Codacy badge)
 Openclassrooms project : develop your own blog using PHP.
 
 ## Features 
