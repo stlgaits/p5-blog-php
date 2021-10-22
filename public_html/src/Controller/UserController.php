@@ -63,8 +63,12 @@ class UserController
 
     public function logoutUser()
     {
-        //TODO: instead of redirecting user to homepage if already logged in, I want to modify the 'login' button to a 'logout' button which
-        // would then remove user session & redirect to login form
+        // In addition to redirecting user to homepage if already logged in, 
+        // we modify the 'login' button to a 'logout' button which then destroys user session
+        $this->session->delete('username');
+        $this->session->delete('userID');
+        $this->session->destroy();
+        return new Response(301, ['Location' => '/']);
     }
 
     public function loginUser()
