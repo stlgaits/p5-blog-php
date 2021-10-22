@@ -20,15 +20,9 @@ class LoginTest extends TestCase
 
     public function test_empty_email_fails()
     {
-        $response = $this->controller->loginUser();
+        // $response = $this->controller->loginUser();
         // var_dump($response);
         // die();
     }
 
-    // public function test_homepage_is_displayed(): void
-    // {
-    //     $response = $this->controller->index();
-    //     $this->assertEquals("<h1>SALUT</h1>", $response->getBody());
-    //     $this->assertEquals(200, $response->getStatusCode());
-    // }
 }
