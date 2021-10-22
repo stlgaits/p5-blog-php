@@ -53,17 +53,17 @@ class BlogController
     public function list(): Response
     {
         $blogPosts = $this->manager->readAll();
-        foreach ($blogPosts as $post){
+        foreach ($blogPosts as $post) {
             $authorID = $post->getCreated_By();
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
 
         return new Response(
-            200, 
-            [], 
+            200,
+            [],
             $this->renderer->render(
-                'blog.html.twig', 
+                'blog.html.twig',
                 [
                     'posts' => $blogPosts,
                     'authors' => $authors
@@ -85,14 +85,15 @@ class BlogController
 
         return new Response(
             200,
-            [], 
+            [],
             $this->renderer->render(
-            'post.html.twig',
-            [
+                'post.html.twig',
+                [
                 'post' => $post,
                 'author' => $author
-            ]
-        ));
+                ]
+            )
+        );
     }
 
     public function test(): Response

@@ -8,9 +8,8 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-
-
-class LoggedInMiddleware implements MiddlewareInterface {
+class LoggedInMiddleware implements MiddlewareInterface
+{
 
     /**
      *
@@ -30,14 +29,13 @@ class LoggedInMiddleware implements MiddlewareInterface {
      * If unable to produce the response itself, it may delegate to the provided
      * request handler to do so.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface 
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = $this->auth->getUser();
-        if(is_null($user)){
+        if (is_null($user)) {
             throw new ForbiddenException();
         }
 
         return $handler->handle($request->withAttribute('user', $user));
     }
-
 }

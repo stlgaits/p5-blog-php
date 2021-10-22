@@ -6,7 +6,7 @@ use PDO;
 use Exception;
 use App\Entity\User;
 
-class UserManager  extends Manager
+class UserManager extends Manager
 {
     
     public function readAll()
@@ -14,7 +14,7 @@ class UserManager  extends Manager
         $users = [];
         $sql = "SELECT * FROM user";
         $results = $this->db->query($sql);
-        while($user = $results->fetch()){
+        while ($user = $results->fetch()) {
             $users[] = new User($user);
         }
         return $users;
@@ -37,9 +37,9 @@ class UserManager  extends Manager
         $r->bindValue(1, $email, PDO::PARAM_STR);
         $r->execute();
         $result = $r->fetch();
-        if(!$result){
+        if (!$result) {
             return null;
-        } 
+        }
         return new User($result);
     }
 
@@ -94,8 +94,8 @@ class UserManager  extends Manager
         $sql = "SELECT DISTINCT roles FROM user";
         $results = $this->db->query($sql);
         $results = $results->fetchAll();
-        foreach($results as $rolesArray){
-            foreach($rolesArray as $rolelist){
+        foreach ($results as $rolesArray) {
+            foreach ($rolesArray as $rolelist) {
                 $rolelist = json_decode($rolelist, true);
                 $roles[] = $rolelist;
             }
@@ -106,14 +106,13 @@ class UserManager  extends Manager
     public function sortRolesArray($roles)
     {
         $sortedRoles = [];
-        foreach ($roles as $rolelist){
-            foreach($rolelist as $role){
-                if (!in_array($role, $sortedRoles)){
-                    $sortedRoles[]= $role;
+        foreach ($roles as $rolelist) {
+            foreach ($rolelist as $role) {
+                if (!in_array($role, $sortedRoles)) {
+                    $sortedRoles[] = $role;
                 }
             }
         }
         return $sortedRoles;
     }
 }
-

@@ -18,7 +18,8 @@ class LoginTest extends TestCase
         $this->renderer = new TwigRenderer();
     }
 
-    public function test_empty_email_fails(){
+    public function test_empty_email_fails()
+    {
         $response = $this->controller->loginUser();
         // var_dump($response);
         // die();

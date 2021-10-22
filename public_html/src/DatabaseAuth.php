@@ -4,7 +4,8 @@ namespace App;
 
 use App\Entity\User;
 
-class DatabaseAuth implements Auth {
+class DatabaseAuth implements Auth
+{
 
     /**
      *

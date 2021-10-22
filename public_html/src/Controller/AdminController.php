@@ -29,7 +29,7 @@ class AdminController
 
     /**
      * UserManager
-     * 
+     *
      * @var UsertManager
      */
     private $userManager;
@@ -51,38 +51,42 @@ class AdminController
     public function createPost(): Response
     {
         return new Response(200, [], $this->renderer->render('create-post.html.twig'));
-    } 
+    }
     
     // send the request to Database
     public function addPost(): Response
     {
-        if(isset($_POST)){
+        if (isset($_POST)) {
             // next step 1 : récupérer le User proprement (session?) & le passer en param
-            // next step 2 : éviter la variable super globale 
-            // next step 3 : sécurité (htmlspecialchars etc) 
+            // next step 2 : éviter la variable super globale
+            // next step 3 : sécurité (htmlspecialchars etc)
             $newBlogPostId = $this->postManager->create($_POST['title'], $_POST['content'], 2, $_POST['slug']);
             $this->postManager->read($newBlogPostId);
-        } 
-        // redirect to Admin Blog Posts List 
+        }
+        // redirect to Admin Blog Posts List
         return new Response(301, ['Location' => 'show-posts']);
     }
 
     public function showPosts(): Response
     {
         $posts = $this->postManager->readAll();
-        foreach ($posts as $post){
+        foreach ($posts as $post) {
             $authorID = $post->getCreated_By();
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
 
-        return new Response(200, 
-                            [],
-                            $this->renderer->render('admin-posts.html.twig', 
-                            [ 
+        return new Response(
+            200,
+            [],
+            $this->renderer->render(
+                'admin-posts.html.twig',
+                [
                                 'posts' => $posts,
                                 'authors' => $authors
-                            ]));
+                                ]
+            )
+        );
     }
 
     // form to edit a blog post
@@ -94,21 +98,20 @@ class AdminController
 
     public function updatePost($id): Response
     {
-        if(isset($_POST)){
+        if (isset($_POST)) {
             // next step 1 : récupérer le User proprement (session?) & le passer en param
-            // next step 2 : éviter la variable super globale 
-            // next step 3 : sécurité (htmlspecialchars etc) 
+            // next step 2 : éviter la variable super globale
+            // next step 3 : sécurité (htmlspecialchars etc)
             $updatedBlogPostId = $this->postManager->update($id, $_POST['title'], $_POST['content'], $_POST['slug']);
-
-        } 
-        // redirect to Admin Blog Posts List 
+        }
+        // redirect to Admin Blog Posts List
         return new Response(301, ['Location' => '/admin/show-posts']);
     }
 
     public function deletePost($id): Response
     {
         $this->postManager->delete($id);
-        // redirect to Admin Blog Posts List 
+        // redirect to Admin Blog Posts List
         return new Response(302, ['Location' => '/admin/show-posts']);
     }
 

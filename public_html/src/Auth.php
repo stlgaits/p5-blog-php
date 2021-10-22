@@ -1,11 +1,11 @@
 <?php
 
-
 namespace App;
 
 use App\Entity\User;
 
-interface Auth {
+interface Auth
+{
 
     /**
      *
