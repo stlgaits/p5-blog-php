@@ -75,11 +75,10 @@ class UserController
     {
         $email = $this->request->getParsedBody()['email'];
         $password = $this->request->getParsedBody()['password'];
-        if (!isset($this->request->getParsedBody()['remember-me'])) {
-            $rememberMe = '';
-        } else {
+        $rememberMe = '';
+        if (isset($this->request->getParsedBody()['remember-me'])) {
             $rememberMe = $this->request->getParsedBody()['remember-me'];
-        }
+        } 
         $message = 'Veuillez vérifier vos identifiants de connexion.';
         if (empty($email) || empty($password)) {
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
