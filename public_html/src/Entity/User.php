@@ -12,27 +12,29 @@ class User
     private $password;
     private $roles;
 
-    public function __construct(array $data=[]){
+    public function __construct(array $data = [])
+    {
         $this->hydrate($data);
     }
 
-    public function __get($property){
-        if(property_exists($this, $property)){
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
             return $this->$property;
         }
     }
 
-	public function getId()
+    public function getId()
     {
         return $this->id;
     }
 
     public function setId($id)
     {
-        if(is_string($id) && intval($id) > 0){
+        if (is_string($id) && intval($id) > 0) {
             $this->id = intval($id);
         }
-        if(is_int($id) && $id > 0) {
+        if (is_int($id) && $id > 0) {
             $this->id = $id;
         }
     }
@@ -67,7 +69,7 @@ class User
     public function setFirst_name($first_name)
     {
         $this->first_name = $first_name;
-    } 
+    }
     
     public function getLast_name()
     {
@@ -104,15 +106,16 @@ class User
         $this->roles = $roles;
     }
     
-    private function hydrate($data){
+    private function hydrate($data)
+    {
         // Boucle sur tous les champs et valeurs
-        foreach($data as $key => $value){
-            // Construit le nom de la méthode grâce 
+        foreach ($data as $key => $value) {
+            // Construit le nom de la méthode grâce
             // au nom des champs de la DB
-            $methodName = 'set'.ucfirst($key);
+            $methodName = 'set' . ucfirst($key);
             
             // Si la méthode existe
-            if(method_exists($this, $methodName)){
+            if (method_exists($this, $methodName)) {
                 // Appel de la méthode
                 $this->$methodName($value);
             }

@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use Exception;
+use App\Session;
 use App\TwigRenderer;
 use App\Model\PostManager;
-use GuzzleHttp\Psr7\Response;
 use App\Model\UserManager;
-use Exception;
+use GuzzleHttp\Psr7\Response;
 
 class UserController
 {
@@ -29,67 +30,79 @@ class UserController
      */
     private $userManager;
 
-    
+    /**
+     *
+     * @var ServerRequest
+     */
+    private $request;
+
+    /**
+     *
+     * @var Session
+     */
+    private $session;
+
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->userManager = new UserManager();
+        $this->session = new Session();
+        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
 
     public function login()
     {
+        // redirect user to homepage if user is already logged in
+        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) {
+            return new Response(301, ['Location' => '/']);
+        }
         return new Response(200, [], $this->renderer->render('login.html.twig'));
+    }
+
+
+    public function logoutUser()
+    {
+        //TODO: instead of redirecting user to homepage if already logged in, I want to modify the 'login' button to a 'logout' button which
+        // would then remove user session & redirect to login form
     }
 
     public function loginUser()
     {
-        session_start();
-        //TODO:  inverser la logique => exception en premier 'fail first'
-        if(isset($_POST['email'])){
-            try {
-                $user = $this->userManager->findByEmail($_POST['email']);
-            } catch (Exception $e){
-                $user = null;
-            }
-            if(!empty($user)){
-                if(isset($_POST['password'])){
-                    $actualPassword = $user->getPassword();
-                    $inputPassword = $_POST['password'];      
-                    // compare password input from the form to actual password recorded in the database
-                    if($actualPassword === $inputPassword){
-                        // 'Remember me' checkbox
-                        if(isset($_POST['remember-me']) && $_POST['remember-me'] === 'remember-me'){
-                            // store user in cookies
-                            setcookie('username', $user->getUsername(), time()+(3600*24*30),null, null, false, true);
-                            setcookie('password', $user->getPassword(), time()+(3600*24*30),null, null, false, true);
-                        }
-                        $_SESSION['username'] = $user->getUsername();
-                        $_SESSION['password'] = $user->getPassword();
-
-                        // TODO: remplacer par une redirection pour notamment avoir la bonne URI + alléger le code
-                        return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
-                    }
-                    $message = 'Mot de passe incorrect';
-                    session_destroy();
-                    // throw new Exception('Mot de passe incorrect'); 
-                    
-                    return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
-                }
-                $message = 'Veuillez renseigner votre mot de passe'; 
-                session_destroy();
-                // throw new Exception('Veuillez renseigner votre mot de passe.');
-                return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
-            }
-            $message = 'L\'adresse email est incorrecte.';
-            session_destroy();
-            // throw new Exception('L\'adresse email est incorrecte.');
+        $email = $this->request->getParsedBody()['email'];
+        $password = $this->request->getParsedBody()['password'];
+        if (!isset($this->request->getParsedBody()['remember-me'])) {
+            $rememberMe = '';
+        } else {
+            $rememberMe = $this->request->getParsedBody()['remember-me'];
+        }
+        $message = 'Veuillez vérifier vos identifiants de connexion.';
+        if (empty($email) || empty($password)) {
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
         }
-        $message = 'Veuillez renseigner vos informations de connexion.';
-        session_destroy();
-        // throw new Exception ('Veuillez renseigner vos informations de connexion.');
+        try {
+            $user = $this->userManager->findByEmail($email);
+            if (empty($user)) {
+                return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
+            }
+            $actualPassword = $user->getPassword();
+            // wrong password input
+            if ($password !== $actualPassword) {
+                return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
+            }
+            // 'Remember me' checkbox
+            if ($rememberMe === 'remember-me') {
+                // store user in cookies
+                setcookie('username', $user->getUsername(), time() + (3600 * 24 * 30), null, null, false, true);
+            }
+            // store user in session
+            $this->session->set('username',  $user->getUsername());
+            $this->session->set('userID',  $user->getId());
+            // successful login redirects to homepage
+            return new Response(301, ['Location' => '/']);
+        } catch (Exception $e) {
+            $user = null;
         return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
+        }
     }
-
 }

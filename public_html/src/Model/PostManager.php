@@ -7,7 +7,7 @@ use DateTime;
 use Exception;
 use App\Entity\Post;
 
-class PostManager  extends Manager
+class PostManager extends Manager
 {
     
     public function readAll()
@@ -15,7 +15,7 @@ class PostManager  extends Manager
         $posts = [];
         $sql = "SELECT * FROM post ORDER BY created_at";
         $results = $this->db->query($sql);
-        while($post = $results->fetch()){
+        while ($post = $results->fetch()) {
             $posts[] = new Post($post);
         }
         return $posts;
@@ -42,7 +42,7 @@ class PostManager  extends Manager
             ':content' => $content,
             ':created_at' => $now->format('Y-m-d H:i:s'),
             ':created_by' => $created_by,
-            ':slug' => $slug 
+            ':slug' => $slug
         ));
         $newPostId = $this->db->lastInsertId();
 
@@ -66,5 +66,4 @@ class PostManager  extends Manager
             $r->bindValue(':id', $id, PDO::PARAM_INT);
             $r->execute();
     }
-
 }

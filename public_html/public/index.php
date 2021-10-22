@@ -1,6 +1,6 @@
 <?php
 
-use GuzzleHttp\Psr7\Response; 
+use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
 require_once './../src/config.php';
@@ -25,7 +25,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/admin/delete-post/{id}', 'AdminController@deletePost');
     $r->addRoute('GET', '/admin/show-posts', 'AdminController@showPosts');
     $r->addRoute('GET', '/admin/show-users', 'AdminController@showUsers');
-    
 });
 
 // Fetch method and URI from Server Globals
@@ -40,7 +39,7 @@ if (false !== $pos = strpos($uri, '?')) {
 $uri = rawurldecode($uri);
 
 // Ignore potential trailing slash from URI (except on root URL)
-if (!empty($uri) && $uri[-1] === "/" && strlen($uri) > 1 ) {
+if (!empty($uri) && $uri[-1] === "/" && strlen($uri) > 1) {
     $uri = substr($uri, 0, -1);
     $response = new Response(301, ['Location' => $uri]);
 }
