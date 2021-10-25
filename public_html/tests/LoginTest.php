@@ -15,12 +15,13 @@ class LoginTest extends TestCase
     public function setUp(): void
     {
         $this->controller = new UserController();
-        $this->renderer = new TwigRenderer();
+        // $this->renderer = new TwigRenderer();
     }
 
     public function test_empty_email_fails()
     {
-        // $response = $this->controller->loginUser();
+        $response = $this->controller->login();
+        $this->assertEquals(200, $response->getStatusCode());
         // var_dump($response);
         // die();
     }

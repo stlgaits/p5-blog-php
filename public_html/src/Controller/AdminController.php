@@ -64,8 +64,9 @@ class AdminController
         if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) 
         {
             $user = $this->userManager->read($this->session->get('userID'));
+            return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $user]));
         }
-        return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $user]));
+        return new Response(200, [], $this->renderer->render('admin.html.twig'));
     }
 
     // display the form to create a new Blog Post

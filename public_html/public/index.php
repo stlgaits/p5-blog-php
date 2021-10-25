@@ -3,7 +3,8 @@
 use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
-require_once './../src/config.php';
+// require_once './../src/config.php';
+require_once __DIR__.'/../src/config.php';
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 

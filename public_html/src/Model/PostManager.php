@@ -14,6 +14,7 @@ class PostManager extends Manager
     {
         $posts = [];
         $sql = "SELECT * FROM post ORDER BY created_at";
+        // TODO: jointure sur le User pour éviter d'avoir à appeler un READ supplémentaire pour chaque userID
         $results = $this->db->query($sql);
         while ($post = $results->fetch()) {
             $posts[] = new Post($post);
