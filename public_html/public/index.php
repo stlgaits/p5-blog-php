@@ -14,9 +14,10 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/home', 'HomeController@index');
     $r->addRoute('GET', '/index', 'HomeController@index');
     $r->addRoute('GET', '/blog', 'BlogController@list');
-    $r->addRoute('GET', '/test', 'BlogController@test');
     $r->addRoute('GET', '/login', 'UserController@login');
+    $r->addRoute('GET', '/register', 'UserController@register');
     $r->addRoute('POST', '/login-user', 'UserController@loginUser');
+    $r->addRoute('POST', '/register-user', 'UserController@registerUser');
     $r->addRoute('POST', '/logout-user', 'UserController@logoutUser');
     $r->addRoute('GET', '/post/{id}', 'BlogController@post');
     $r->addRoute('GET', '/admin', 'AdminController@index');

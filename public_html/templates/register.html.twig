@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}S'inscrire'{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+<div class="d-flex text-center justify-content-center pt-5 mt-5">
+    <main class="py-5 my-5 bg-light w-50 ">
+        {% if message %}
+            {% if success %}
+                <div class="alert alert-dismissible alert-success my-2">
+            {% else %}
+                <div class="alert alert-dismissible alert-danger my-2">
+            {% endif %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+                </div>
+        {% endif %}
+        <form action="register-user" method="post">
+            <img class="mb-4" src="../public/assets/images/Coccinelle-seule.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 fw-normal">Inscription</h1>
+            <p class="lead">Vous souhaitez contribuer à ce blog ? Pour cela, il vous suffit de créer un compte !</p>
+            <div class="form-floating mx-4 my-4">
+                <input type="email" class="form-control" id="floatingInput" placeholder="nom@exemple.com" name="email" required>
+                <label for="floatingInput">Adresse email</label>
+            </div>
+            <div class="form-floating mx-4 my-4">
+                <input type="text" class="form-control" id="floatingInput" placeholder="totoche65" name="username" required>
+                <label for="floatingInput">Nom d'utilisateur</label>
+            </div>
+            <div class="form-floating mx-4 my-4">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Estelle" name="first_name" required>
+                <label for="floatingInput">Prénom</label>
+            </div>
+            <div class="form-floating mx-4 my-4">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Gaits" name="last_name" required>
+                <label for="floatingInput">Nom</label>
+            </div>
+            <div class="form-floating mx-4 my-4">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="password" required>
+                <label for="floatingPassword">Mot de passe</label>
+            </div>
+            <button class="w-50 btn btn-lg btn-primary mx-4 my-4" type="submit">Créer mon compte</button>
+        </form>
+    </main>
+</div>
+{% endblock %}

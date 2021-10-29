@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Entity;
+
+/**
+ * TODO: NEED TO DECIDE WHETHER I CHOOSE TO IMPLEMENT THIS CLASS OR IF I PERSIST WITH TRICKY STRINGS / OBJ TO JSON DECODE???
+ */
+class Role {
+
+}

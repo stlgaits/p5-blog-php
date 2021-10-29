@@ -73,7 +73,7 @@ class BlogController
     }
 
     /**
-     * Display a single psot
+     * Display a single post
      *
      * @return Response
      */
@@ -94,10 +94,5 @@ class BlogController
                 ]
             )
         );
-    }
-
-    public function test(): Response
-    {
-        return new Response(200, [], $this->renderer->render('base.html.twig'));
     }
 }
