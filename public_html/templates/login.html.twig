@@ -11,11 +11,11 @@
             <img class="mb-4" src="../public/assets/images/Coccinelle-seule.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 fw-normal">Connexion</h1>
             <div class="form-floating mx-4 my-4">
-                <input type="email" class="form-control" id="floatingInput" placeholder="nom@exemple.com" name="email">
+                <input type="email" class="form-control" id="floatingInput" placeholder="nom@exemple.com" name="email" required>
                 <label for="floatingInput">Adresse email</label>
             </div>
             <div class="form-floating mx-4 my-4">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="password">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="password" required>
                 <label for="floatingPassword">Mot de passe</label>
             </div>
             <div class="checkbox mb-3 mt-2">
@@ -26,7 +26,7 @@
             <button class="w-50 btn btn-lg btn-primary mx-4 my-4" type="submit">Se connecter</button>
         </form>
         {% if message %}
-            <div class="alert alert-dismissible alert-danger my-2">
+                <div class="alert alert-dismissible alert-danger my-2">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 {{ message }}
                 </div>

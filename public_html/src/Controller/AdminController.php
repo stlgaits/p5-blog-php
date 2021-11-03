@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Session;
 use App\TwigRenderer;
 use App\Model\PostManager;
 use App\Model\UserManager;
@@ -30,20 +31,41 @@ class AdminController
     /**
      * UserManager
      *
-     * @var UsertManager
+     * @var UserManager
      */
     private $userManager;
     
+    /**
+     * Current User Session
+     *
+     * @var Session
+     */
+    private $session;
+
+    /**
+     *
+     * @var ServerRequest
+     */
+    private $request;
+
+
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->postManager = new PostManager();
         $this->userManager = new UserManager();
+        $this->session = new Session();
+        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
 
     public function index(): Response
     {
+        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) 
+        {
+            $user = $this->userManager->read($this->session->get('userID'));
+            return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $user]));
+        }
         return new Response(200, [], $this->renderer->render('admin.html.twig'));
     }
 
@@ -56,13 +78,17 @@ class AdminController
     // send the request to Database
     public function addPost(): Response
     {
-        if (isset($_POST)) {
-            // next step 1 : récupérer le User proprement (session?) & le passer en param
-            // next step 2 : éviter la variable super globale
-            // next step 3 : sécurité (htmlspecialchars etc)
-            $newBlogPostId = $this->postManager->create($_POST['title'], $_POST['content'], 2, $_POST['slug']);
-            $this->postManager->read($newBlogPostId);
+        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) 
+        {
+            $user = $this->userManager->read($this->session->get('userID'));
         }
+        $title =  $this->request->getParsedBody()['title'];
+        $content =  $this->request->getParsedBody()['content'];
+        $slug =  $this->request->getParsedBody()['slug'];
+        $author = $user->getId();
+        $newBlogPostId = $this->postManager->create($title, $content, $author, $slug);
+        // TODO: next step 3 : sécurité (htmlspecialchars etc)
+        $this->postManager->read($newBlogPostId);
         // redirect to Admin Blog Posts List
         return new Response(301, ['Location' => 'show-posts']);
     }
@@ -98,12 +124,11 @@ class AdminController
 
     public function updatePost($id): Response
     {
-        if (isset($_POST)) {
-            // next step 1 : récupérer le User proprement (session?) & le passer en param
-            // next step 2 : éviter la variable super globale
-            // next step 3 : sécurité (htmlspecialchars etc)
-            $updatedBlogPostId = $this->postManager->update($id, $_POST['title'], $_POST['content'], $_POST['slug']);
-        }
+        $title =  $this->request->getParsedBody()['title'];
+        $content =  $this->request->getParsedBody()['content'];
+        $slug =  $this->request->getParsedBody()['slug'];
+        $this->postManager->update($id, $title, $content, $slug);
+        // TODO: next step 3 : sécurIté (htmlspecialchars etc)
         // redirect to Admin Blog Posts List
         return new Response(301, ['Location' => '/admin/show-posts']);
     }

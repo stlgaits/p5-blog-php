@@ -5,7 +5,6 @@ namespace App\Controller;
 use Exception;
 use App\Session;
 use App\TwigRenderer;
-use App\Model\PostManager;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
 
@@ -51,6 +50,11 @@ class UserController
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
 
+    /**
+     * User login View
+     *
+     * @return Response
+     */
     public function login()
     {
         // redirect user to homepage if user is already logged in
@@ -60,22 +64,98 @@ class UserController
         return new Response(200, [], $this->renderer->render('login.html.twig'));
     }
 
-
-    public function logoutUser()
+    /**
+     * Register user View
+     *
+     * @return Response
+     */
+    public function register()
     {
-        //TODO: instead of redirecting user to homepage if already logged in, I want to modify the 'login' button to a 'logout' button which
-        // would then remove user session & redirect to login form
+        // redirect user to homepage if user is already logged in
+        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) {
+            return new Response(301, ['Location' => '/']);
+        }
+        return new Response(200, [], $this->renderer->render('register.html.twig'));
     }
 
+    /**
+     * Store a new user in Database
+     * @return Response
+     */
+    public function registerUser()
+    {
+        $message = 'Veuillez renseigner vos futurs identifiants de connexion.';
+        $email = $this->request->getParsedBody()['email'];
+        $username = $this->request->getParsedBody()['username'];
+        $lastName = $this->request->getParsedBody()['last_name'];
+        $firstName = $this->request->getParsedBody()['first_name'];
+        $password = $this->request->getParsedBody()['password'];
+        if(strlen($password) < 8){
+            $message = 'Votre mot de passe doit contenir au moins 12 caractères.';
+            return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+        }
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        try {
+            // first check that user isn't already stored in database
+            if($this->userManager->findByEmail($email) !== null){
+                $message = 'Cette adresse email est déjà associée à un compte.';
+                return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+            }
+            //TODO: find a way to fix this PROPERLY to get a decent role atttribution strategy
+            // $roles = ['ROLE_USER', 'ROLE_ADMIN'];
+            // $roles = new \stdClass;
+            // // $roles = 'ROLE_USER';
+            // $object = (object) [ '0' => 'ROLE_USER'];
+            // $string = strval($object);
+            // $bdd = '{"0": "ROLE_USER","1": "ROLE_EDITOR"}';
+            // var_dump($bdd);
+            // var_dump($string);
+            // var_dump(json_decode($string));
+            // // var_dump($roles);
+            // // var_dump(json_encode($roles));
+            
+            // die();
+            $roles = "ROLE_USER";
+            $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, json_encode($roles));
+            if(empty($user)){
+                $message = "Impossible de créer le nouvel utilisateur";
+                return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+            }
+            $message = "Votre compte a été créé avec succès";
+            return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message, 'success' => true]));
+
+        } catch (Exception $e){
+            $message = $e->getMessage();
+            return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
+        }
+    }
+
+    /**
+     * Redirect user to homepage if already logged in, 
+     * modify the 'login' button to a 'logout' button which then destroys user session
+     * @return Response (Redirect to homepage)
+     */
+    public function logoutUser()
+    {
+        $this->session->delete('username');
+        $this->session->delete('userID');
+        $this->session->destroy();
+        return new Response(301, ['Location' => '/']);
+    }
+
+    /**
+     * Attempt to retrieve user from database using login form input 
+     * Begins user session if successful
+     * @return Response
+     */
     public function loginUser()
     {
         $email = $this->request->getParsedBody()['email'];
         $password = $this->request->getParsedBody()['password'];
-        if (!isset($this->request->getParsedBody()['remember-me'])) {
-            $rememberMe = '';
-        } else {
+        $rememberMe = '';
+        if (isset($this->request->getParsedBody()['remember-me'])) {
             $rememberMe = $this->request->getParsedBody()['remember-me'];
-        }
+        } 
         $message = 'Veuillez vérifier vos identifiants de connexion.';
         if (empty($email) || empty($password)) {
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
@@ -102,7 +182,7 @@ class UserController
             return new Response(301, ['Location' => '/']);
         } catch (Exception $e) {
             $user = null;
-        return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
+            return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));
         }
     }
 }

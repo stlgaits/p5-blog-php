@@ -50,7 +50,8 @@ class HomeController
         {
             // Display username 
             $user = $this->userManager->read($this->session->get('userID'));
+            return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
         }
-        return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
+        return new Response(200, [], $this->renderer->render('home.html.twig'));
     }
 }
