@@ -5,10 +5,8 @@ namespace App\Controller;
 use Exception;
 use App\Session;
 use App\TwigRenderer;
-use App\Model\PostManager;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
-use stdClass;
 
 class UserController
 {
@@ -82,8 +80,6 @@ class UserController
 
     /**
      * Store a new user in Database
-     *  TODO: verify whether user's email already set in database to prevent duplicates (unique constraint)
-     *  TODO: constraints on password input : minimum length of 8 chars
      * @return Response
      */
     public function registerUser()
@@ -94,10 +90,11 @@ class UserController
         $lastName = $this->request->getParsedBody()['last_name'];
         $firstName = $this->request->getParsedBody()['first_name'];
         $password = $this->request->getParsedBody()['password'];
+        if(strlen($password) < 8){
+            $message = 'Votre mot de passe doit contenir au moins 12 caractères.';
+            return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+        }
         $password = password_hash($password, PASSWORD_DEFAULT);
-        // if (empty($email) || empty($password) || empty($username) || empty($lastName || empty($firstName || empty()))) {
-        //     return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
-        // }
         try {
             // first check that user isn't already stored in database
             if($this->userManager->findByEmail($email) !== null){
