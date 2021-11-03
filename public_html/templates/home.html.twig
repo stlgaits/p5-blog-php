@@ -7,7 +7,7 @@
 {% block content %}
     <div id="content" class="container-fluid">
         <main class="pb-5 mx-5">
-            <div class="alert alert-dismissible alert-info my-2">
+            <div class="alert alert-dismissible alert-primary my-3">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 {% if user %}
                     Bonjour <strong>{{user.username}} !</strong> 
@@ -15,9 +15,9 @@
                     Bienvenue. Vous êtes connecté en tant que visiteur. Si vous souhaitez publier sur ce blog ou laisser un commentaire, veuillez vous connecter.
                 {% endif %}
             </div>
-            <div class="mt-5 p-4 p-md-5 mb-4 text-white rounded bg-dark">
-                <h2 class="display-4 fst-italic">Estelle Gaits</h2>
-                <p class="lead my-3">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p> 
+            <div class="mt-3 p-4 p-md-5 mb-4 text-white rounded bg-dark">
+                    <h2 class="display-4 fst-italic">Estelle Gaits</h2>
+                    <p class="lead my-3">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p> 
             </div>
             <div class="row mb-5">
                 <div class="col-md-8 mb-5">
@@ -28,16 +28,34 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card-body m-4">
-                                    <h4 class="card-title mb-4">Bienvenue sur mon blog !</h4>
-                                    <p class="card-text">Découvrez ici mes réalisations dans le cadre du parcours Développeur d'Applications PHP / Symfony que je suis actuellement en alternance via Openclassrooms.</p>
-                                    <p class="card-text">Je vous propose également d'échanger sur l'actualité du monde du développement web au travers des différents articles du blog.</p> 
+                                    <h3 class="card-title mb-4">Bienvenue sur mon blog !</h3>
+                                    <p class="card-text text-justify">
+                                        Découvrez ici mes réalisations dans le cadre du parcours <strong>Développeur d'Applications PHP / Symfony</strong> d'Openclassrooms. 
+                                        J'effectue ce parcours en <strong>alternance</strong> au sein de l'entreprise <a href="https://www.myddleware.com/" target="_blank">Myddleware</a>,
+                                        porteuse du logiciel éponyme. Ainsi, mon expérience m'a permis de développer de solides bases
+                                        dans les technologies backend, mais également sur de nombreux CRMs & ERPs tels que Wordpress, 
+                                        SuiteCRM, Vtiger, Moodle, Magento, Airtable, Salesforce, et bien d'autres encore.
+                                    </p>
+                                    <p class="card-text text-justify">
+                                        Au quotidien, je travaille à la création et l'amélioration de connecteurs 
+                                        vers les différentes APIs de ces plateformes, que ce soit en lecture ou en écriture, ainsi qu'au développement de features custom sur SuiteCRM (front & backend).
+                                        Myddleware étant un logiciel Open Source gratuit, un de mes rôles inclut également le support client et utilisateur, notamment via notre <a href="https://github.com/Myddleware/myddleware/issues" target="_blank">GitHub communautaire</a>.
+                                    </p>
+                                    <p class="card-text text-justify">
+                                        Mais assez parlé de moi ! Je vous propose également ici d'échanger sur l'actualité du monde du développement web au travers des différents <a href="./../blog" target="_blank">articles de ce blog</a>. Je vous encourage à laisser vos commentaires, pour cela, il vous suffit simplement de <a href="./../register" target="_blank">créer un compte</a>.
+                                    </p>
+                                    <a class="btn btn-primary btn-lg rounded mt-5" role="button" href="../public/assets/docs/CV.pdf" download>Télécharger mon CV</a>
+                                    <a class="btn btn-warning btn-lg rounded mt-5" role="button" href="https://github.com/EstelleMyddleware" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                        Mon GitHub
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
-                    <div class="card rounded shadow-sm bg-light">
+                    <div class="card rounded shadow-sm bg-nav">
                         <div class="card-body">
                             <img src="../public/assets/images/Bloc-marque.png" alt="Logo Agence Escadença" class="img-fluid " />
                         </div>

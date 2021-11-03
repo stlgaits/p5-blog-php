@@ -38,7 +38,7 @@ Footer contains a link to Admin back office.
 
 ### Success criteria
 
-  The website must be responsive & secured. Code quality assessments must be performed via Symfony Insight or Codacy.
+  The website must be responsive & secured. Code quality assessments done via Codacy.
 
 ### Required UML diagrams
 
