@@ -101,22 +101,8 @@ class UserController
                 $message = 'Cette adresse email est déjà associée à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
-            //TODO: find a way to fix this PROPERLY to get a decent role atttribution strategy
-            // $roles = ['ROLE_USER', 'ROLE_ADMIN'];
-            // $roles = new \stdClass;
-            // // $roles = 'ROLE_USER';
-            // $object = (object) [ '0' => 'ROLE_USER'];
-            // $string = strval($object);
-            // $bdd = '{"0": "ROLE_USER","1": "ROLE_EDITOR"}';
-            // var_dump($bdd);
-            // var_dump($string);
-            // var_dump(json_decode($string));
-            // // var_dump($roles);
-            // // var_dump(json_encode($roles));
-            
-            // die();
-            $roles = "ROLE_USER";
-            $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, json_encode($roles));
+            $admin = false;
+            $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, $admin);
             if(empty($user)){
                 $message = "Impossible de créer le nouvel utilisateur";
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
@@ -184,5 +170,55 @@ class UserController
             $user = null;
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));
         }
+    }
+
+
+    /**
+     * Checks whether user is currently logged in
+     *
+     * @return boolean
+     */
+    public function isLoggedIn(): bool
+    {
+        // User credentials are stored in User Session
+        if (empty($this->session->get('userID')) && empty($this->session->get('username'))) 
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Checks a user's role 
+     *
+     * @return boolean
+     */
+    public function isAdmin($user): bool
+    {
+        if($user->role === false || $user->role === 0){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks whether the current user has admin role
+     *
+     * @return boolean
+     */
+    public function isCurrentUserAdmin(): bool
+    {
+        /**
+         * First retrieve user from session
+         */
+        if($this->isLoggedIn()){
+            $user = $this->userManager->read($this->session->get('userID'));
+            $role = $user->getRole();
+            if($role === false || $role === 0){
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -15,17 +15,20 @@
                         <img class="card-img-top" src="https://picsum.photos/900/400">
                         <div class="card-body">
                             <h2 class="card-title">{{ post.title }}</h2>
-                            {# TODO: include blog post lead sentence ('chapo') #}
                             <p class="badge rounded-pill bg-secondary">{{ post.slug }}</p>
                             <p class="card-subtitle text-muted">
-                                {{ post.created_at }} - 
+                                {% if post.updated_at is not null %}
+                                    Modifié le {{ post.updated_at }} - 
+                                {% else %}    
+                                    Ecrit le {{ post.created_at }} - 
+                                {% endif %}
                                 {% for author in authors %}
                                     {% if post.created_by == author.id %}
                                         {{author.username}} 
                                     {% endif %}
                                 {% endfor %}
                             </p>
-                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text">{{ post.lead_sentence }}</p>
                             <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Lire l'article</a>
                         </div>
                     </div>

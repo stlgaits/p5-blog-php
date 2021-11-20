@@ -10,7 +10,7 @@ class User
     private $first_name;
     private $last_name;
     private $password;
-    private $roles;
+    private $role;
 
     public function __construct(array $data = [])
     {
@@ -91,19 +91,14 @@ class User
         $this->password = $password;
     }
 
-    public function getRoles()
+    public function getRole()
     {
-        $roles = $this->roles;
-        $roles = json_decode($roles, true);
-        // guarantees every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-        $roles = array_unique($roles);
-        return  json_encode($roles);
+        return $this->role;
     }
 
-    public function setRoles($roles)
+    public function setRole($role)
     {
-        $this->roles = $roles;
+        $this->role = $role;
     }
     
     private function hydrate($data)

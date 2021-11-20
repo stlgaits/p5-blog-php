@@ -17,6 +17,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Titre</th>
+                    <th scope="col">Chapô</th>
                     <th scope="col">Slug</th>
                     <th scope="col">Date création</th>
                     <th scope="col">Date modification</th>
@@ -29,9 +30,10 @@
                 <tr>
                     <th scope="row">{{ post.id }}</th>
                     <td>{{ post.title }}</td>
+                    <td>{{ post.lead_sentence }}</td>
                     <td>{{ post.slug }}</td>
                     <td>{{ post.created_at }}</td>
-                    <td>datemodif TODO</td>
+                    <td>{{ post.updated_at }}</td>
                     <td>
                         {% for author in authors %}
                             {% if post.created_by == author.id %}

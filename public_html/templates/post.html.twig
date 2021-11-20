@@ -12,6 +12,9 @@
                 <p class="text-muted">Publié le {{ post.created_at }} - auteur : {{author.username}}</p>
                 <img class="card-img-top mb-5" src="https://picsum.photos/900/400">
                 <p class="badge rounded-pill bg-secondary">{{ post.slug }}</p>
+                <div class="fw-bold display-6 mb-4">
+                    {{ post.lead_sentence }}
+                </div>
                 <div class="">
                     {{ post.content }}
                 </div>

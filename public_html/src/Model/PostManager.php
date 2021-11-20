@@ -32,14 +32,15 @@ class PostManager extends Manager
         return new Post($r->fetch());
     }
 
-    public function create(string $title, string $content, $created_by, string $slug)
+    public function create(string $title, string $content, $created_by, string $slug, string $leadSentence)
     {
         $now = new DateTime();
-        $sql = "INSERT INTO post(title, content, created_at, created_by, slug) 
-                VALUES(:title, :content, :created_at, :created_by, :slug)";
+        $sql = "INSERT INTO post(title, lead_sentence, content, created_at, created_by, slug) 
+                VALUES(:title, :lead_sentence, :content, :created_at, :created_by, :slug)";
         $r = $this->db->prepare($sql);
         $r->execute(array(
             ':title' => $title,
+            ':lead_sentence' => $leadSentence,
             ':content' => $content,
             ':created_at' => $now->format('Y-m-d H:i:s'),
             ':created_by' => $created_by,
@@ -57,13 +58,16 @@ class PostManager extends Manager
         $r->execute(array($id));
     }
 
-    public function update(int $id, string $title, string $content, string $slug)
+    public function update(int $id, string $title, string $content, string $slug, string $leadSentence)
     {
-            $sql = "UPDATE post SET title = :title, content = :content, slug = :slug WHERE id = :id";
+            $sql = "UPDATE post SET title = :title, lead_sentence = :lead_sentence, content = :content, slug = :slug, updated_at = :updated_at WHERE id = :id";
             $r = $this->db->prepare($sql);
+            $now = new DateTime();
             $r->bindValue(':title', $title, PDO::PARAM_STR);
+            $r->bindValue(':lead_sentence', $leadSentence, PDO::PARAM_STR);
             $r->bindValue(':content', $content, PDO::PARAM_STR);
             $r->bindValue(':slug', $slug, PDO::PARAM_STR);
+            $r->bindValue(':updated_at', $now->format('Y-m-d H:i:s'));
             $r->bindValue(':id', $id, PDO::PARAM_INT);
             $r->execute();
     }
