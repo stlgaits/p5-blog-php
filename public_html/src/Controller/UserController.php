@@ -81,6 +81,7 @@ class UserController
 
     /**
      * Store a new user in Database
+     *
      * @return Response
      */
     public function registerUser()
@@ -91,35 +92,35 @@ class UserController
         $lastName = $this->request->getParsedBody()['last_name'];
         $firstName = $this->request->getParsedBody()['first_name'];
         $password = $this->request->getParsedBody()['password'];
-        if(strlen($password) < 8){
+        if (strlen($password) < 8) {
             $message = 'Votre mot de passe doit contenir au moins 12 caractères.';
             return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
         }
         $password = password_hash($password, PASSWORD_DEFAULT);
         try {
             // first check that user isn't already stored in database
-            if($this->userManager->findByEmail($email) !== null){
+            if ($this->userManager->findByEmail($email) !== null) {
                 $message = 'Cette adresse email est déjà associée à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
             $admin = false;
             $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, $admin);
-            if(empty($user)){
+            if (empty($user)) {
                 $message = "Impossible de créer le nouvel utilisateur";
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
             $message = "Votre compte a été créé avec succès";
             return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message, 'success' => true]));
-
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $message = $e->getMessage();
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
         }
     }
 
     /**
-     * Redirect user to homepage if already logged in, 
+     * Redirect user to homepage if already logged in,
      * modify the 'login' button to a 'logout' button which then destroys user session
+     *
      * @return Response (Redirect to homepage)
      */
     public function logoutUser()
@@ -131,8 +132,9 @@ class UserController
     }
 
     /**
-     * Attempt to retrieve user from database using login form input 
+     * Attempt to retrieve user from database using login form input
      * Begins user session if successful
+     *
      * @return Response
      */
     public function loginUser()
@@ -142,7 +144,7 @@ class UserController
         $rememberMe = '';
         if (isset($this->request->getParsedBody()['remember-me'])) {
             $rememberMe = $this->request->getParsedBody()['remember-me'];
-        } 
+        }
         $message = 'Veuillez vérifier vos identifiants de connexion.';
         if (empty($email) || empty($password)) {
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
@@ -163,8 +165,8 @@ class UserController
                 setcookie('username', $user->getUsername(), time() + (3600 * 24 * 30), null, null, false, true);
             }
             // store user in session
-            $this->session->set('username',  $user->getUsername());
-            $this->session->set('userID',  $user->getId());
+            $this->session->set('username', $user->getUsername());
+            $this->session->set('userID', $user->getId());
             // successful login redirects to homepage
             return new Response(301, ['Location' => '/']);
         } catch (Exception $e) {
@@ -182,21 +184,20 @@ class UserController
     public function isLoggedIn(): bool
     {
         // User credentials are stored in User Session
-        if (empty($this->session->get('userID')) && empty($this->session->get('username'))) 
-        {
+        if (empty($this->session->get('userID')) && empty($this->session->get('username'))) {
             return false;
         }
         return true;
     }
     
     /**
-     * Checks a user's role 
+     * Checks a user's role
      *
      * @return boolean
      */
     public function isAdmin($user): bool
     {
-        if($user->role === false || $user->role === 0){
+        if ($user->role === false || $user->role === 0) {
             return false;
         }
         return true;
@@ -212,10 +213,10 @@ class UserController
         /**
          * First retrieve user from session
          */
-        if($this->isLoggedIn()){
+        if ($this->isLoggedIn()) {
             $user = $this->userManager->read($this->session->get('userID'));
             $role = $user->getRole();
-            if($role === false || $role === 0 || $role === '0'){
+            if ($role === false || $role === 0 || $role === '0') {
                 return false;
             }
             return true;

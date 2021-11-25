@@ -2,7 +2,8 @@
 
 namespace App;
 
-class Session {
+class Session
+{
 
 
     private function ensureStarted()
@@ -14,14 +15,14 @@ class Session {
 
     public function destroy(): void
     {
-        if (session_status() === PHP_SESSION_ACTIVE ) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
     }
 
     /**
-     * @param string $key
-     * @param mixed $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function get(string $key, $default = null)
@@ -34,8 +35,8 @@ class Session {
     }
 
     /**
-     * @param string $key
-     * @param $value
+     * @param  string $key
+     * @param  $value
      * @return mixed
      */
     public function set(string $key, $value): void

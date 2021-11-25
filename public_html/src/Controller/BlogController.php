@@ -52,7 +52,6 @@ class BlogController
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
         $this->userController = new UserController();
-
     }
     
     /**
@@ -69,7 +68,7 @@ class BlogController
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(
                 200,
                 [],
@@ -106,8 +105,7 @@ class BlogController
     {
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
-        if(!$this->userController->isLoggedIn()){
-
+        if (!$this->userController->isLoggedIn()) {
             return new Response(
                 200,
                 [],
@@ -133,6 +131,5 @@ class BlogController
                 ]
             )
         );
-
     }
 }
