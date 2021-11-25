@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Exception;
 use App\Session;
+use App\Entity\User;
 use App\TwigRenderer;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
@@ -214,11 +215,21 @@ class UserController
         if($this->isLoggedIn()){
             $user = $this->userManager->read($this->session->get('userID'));
             $role = $user->getRole();
-            if($role === false || $role === 0){
+            if($role === false || $role === 0 || $role === '0'){
                 return false;
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Retrieves current user from session storage
+     *
+     * @return User
+     */
+    public function getCurrentUser(): User
+    {
+        return $this->userManager->read($this->session->get('userID'));
     }
 }

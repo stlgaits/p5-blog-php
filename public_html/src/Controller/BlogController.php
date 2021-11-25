@@ -36,6 +36,14 @@ class BlogController
      */
     private $userManager;
 
+
+    /**
+     * User Controller
+     *
+     * @var UserController
+     */
+    private $userController;
+
     
     public function __construct()
     {
@@ -43,22 +51,38 @@ class BlogController
         $this->renderer = $this->environment->getTwig();
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
+        $this->userController = new UserController();
+
     }
     
     /**
-     * Display all blog posts
+     * Displays all blog posts
      *
      * @return Response
      */
     public function list(): Response
     {
+
         $blogPosts = $this->manager->readAll();
         foreach ($blogPosts as $post) {
             $authorID = $post->getCreated_By();
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
-
+        if(!$this->userController->isLoggedIn()){
+            return new Response(
+                200,
+                [],
+                $this->renderer->render(
+                    'blog.html.twig',
+                    [
+                        'posts' => $blogPosts,
+                        'authors' => $authors,
+                    ]
+                )
+            );
+        }
+        $user = $this->userController->getCurrentUser();
         return new Response(
             200,
             [],
@@ -66,7 +90,8 @@ class BlogController
                 'blog.html.twig',
                 [
                     'posts' => $blogPosts,
-                    'authors' => $authors
+                    'authors' => $authors,
+                    'user' => $user
                 ]
             )
         );
@@ -79,10 +104,23 @@ class BlogController
      */
     public function post($id): Response
     {
-
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
+        if(!$this->userController->isLoggedIn()){
 
+            return new Response(
+                200,
+                [],
+                $this->renderer->render(
+                    'post.html.twig',
+                    [
+                    'post' => $post,
+                    'author' => $author
+                    ]
+                )
+            );
+        }
+        $user = $this->userController->getCurrentUser();
         return new Response(
             200,
             [],
@@ -90,9 +128,11 @@ class BlogController
                 'post.html.twig',
                 [
                 'post' => $post,
-                'author' => $author
+                'author' => $author,
+                'user' => $user
                 ]
             )
         );
+
     }
 }
