@@ -43,10 +43,10 @@ class UserManager extends Manager
         return new User($result);
     }
 
-    public function create($username, $email, $first_name, $last_name, $password, $roles)
+    public function create($username, $email, $first_name, $last_name, $password, $role)
     {
-        $sql = "INSERT INTO user(username, email, first_name, last_name, password, roles) 
-                VALUES(:username, :email, :first_name, :last_name, :password, :roles)";
+        $sql = "INSERT INTO user(username, email, first_name, last_name, password, role) 
+                VALUES(:username, :email, :first_name, :last_name, :password, :role)";
         $r = $this->db->prepare($sql);
         $r->execute(array(
             ':username' => $username,
@@ -54,7 +54,7 @@ class UserManager extends Manager
             ':first_name' => $first_name,
             ':last_name' => $last_name,
             ':password' => $password,
-            ':roles' => $roles
+            ':role' => $role
         ));
         $newUserId = $this->db->lastInsertId();
         return $newUserId;
@@ -67,14 +67,14 @@ class UserManager extends Manager
         $r->execute(array($id));
     }
 
-    public function update($id, $username, $email, $first_name, $last_name, $password, $roles)
+    public function update($id, $username, $email, $first_name, $last_name, $password, $role)
     {
         $sql = "UPDATE user SET username = :username,
                                 email = :email,
                                 first_name = :first_name,
                                 last_name = :last_name,
                                 password = :password,
-                                roles = :roles,
+                                role = :role,
                 WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('username', $username, PDO::PARAM_STR);
@@ -82,37 +82,10 @@ class UserManager extends Manager
         $r->bindValue('first_name', $first_name, PDO::PARAM_STR);
         $r->bindValue('last_name', $last_name, PDO::PARAM_STR);
         $r->bindValue('password', $password, PDO::PARAM_STR);
-        $r->bindValue('roles', $roles, PDO::PARAM_STR);
+        $r->bindValue('role', $role, PDO::PARAM_STR);
         $r->bindValue('id', $id, PDO::PARAM_INT);
         $r->execute();
 
         return new User($r->fetch());
-    }
-
-    public function getAllRoles()
-    {
-        $sql = "SELECT DISTINCT roles FROM user";
-        $results = $this->db->query($sql);
-        $results = $results->fetchAll();
-        foreach ($results as $rolesArray) {
-            foreach ($rolesArray as $rolelist) {
-                $rolelist = json_decode($rolelist, true);
-                $roles[] = $rolelist;
-            }
-        }
-        return $this->sortRolesArray($roles);
-    }
-
-    public function sortRolesArray($roles)
-    {
-        $sortedRoles = [];
-        foreach ($roles as $rolelist) {
-            foreach ($rolelist as $role) {
-                if (!in_array($role, $sortedRoles)) {
-                    $sortedRoles[] = $role;
-                }
-            }
-        }
-        return $sortedRoles;
     }
 }

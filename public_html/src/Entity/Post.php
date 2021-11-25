@@ -13,8 +13,10 @@ class Post
     private $title;
     private $content;
     private $createdAt;
+    private $updatedAt;
     private $createdBy;
     private $slug;
+    private $leadSentence;
 
     public function __construct(array $data = [])
     {
@@ -68,6 +70,16 @@ class Post
         $this->content = strip_tags($content, ['p','a','i']);
     }
 
+    public function getLead_Sentence()
+    {
+        return $this->leadSentence;
+    }
+
+    public function setLead_Sentence($leadSentence)
+    {
+        $this->leadSentence = strip_tags($leadSentence, ['p','a','i']);
+    }
+
     public function getCreated_At()
     {
         return $this->createdAt;
@@ -80,9 +92,32 @@ class Post
         $d = DateTime::createFromFormat($format, $createdAt);
         if ($createdAt == $d->format($format)) {
             $this->createdAt = $d->format($format);
+        } else {
+            $dd = new DateTime();
+            $this->createdAt = $dd->format($format);
+
         }
-        $dd = new DateTime();
-        $this->createdAt = $dd->format($format);
+    }
+
+    public function getUpdated_At()
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdated_At($updatedAt)
+    {
+        if(!empty($updatedAt)){
+            $format = 'Y-m-d H:i:s';
+            // Teste la validité de la date
+            $d = DateTime::createFromFormat($format, $updatedAt);
+
+            if ($updatedAt == $d->format($format)) {
+                $this->updatedAt = $d->format($format);
+            } else {
+                $dd = new DateTime();
+                $this->updatedAt = $dd->format($format);
+            }
+        }
     }
 
     public function getCreated_By()
