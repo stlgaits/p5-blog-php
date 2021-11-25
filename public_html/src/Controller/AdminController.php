@@ -56,6 +56,12 @@ class AdminController
      */
     private $userController;
 
+    /**
+     * Currently logged in user
+     *
+     * @var User|boolean
+     */
+    private $user;
 
     public function __construct()
     {
@@ -66,6 +72,12 @@ class AdminController
         $this->userController = new UserController();
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        // only allow access to users who are both logged in and have admin role
+        if($this->userController->isCurrentUserAdmin() === false){
+            //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
+            return new Response(301, ['Location' => 'login']);
+        }
+        
     }
 
     public function index(): Response
@@ -74,8 +86,8 @@ class AdminController
         if(!$this->userController->isLoggedIn()){
             return new Response(301, ['Location' => 'login']);
         }
-        $user = $this->userManager->read($this->session->get('userID'));
-        return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $user]));
+        $this->user = $this->userController->getCurrentUser();
+        return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $this->user]));
     }
 
     // display the form to create a new Blog Post
