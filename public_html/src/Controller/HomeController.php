@@ -54,8 +54,8 @@ class HomeController
     public function index(): Response
     {
         // change view according to whether user is logged in or not
-        if($this->userController->isLoggedIn()){
-            // Display username 
+        if ($this->userController->isLoggedIn()) {
+            // Display username
             $user = $this->userManager->read($this->session->get('userID'));
             return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
         }

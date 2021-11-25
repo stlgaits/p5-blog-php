@@ -38,14 +38,16 @@ class PostManager extends Manager
         $sql = "INSERT INTO post(title, lead_sentence, content, created_at, created_by, slug) 
                 VALUES(:title, :lead_sentence, :content, :created_at, :created_by, :slug)";
         $r = $this->db->prepare($sql);
-        $r->execute(array(
+        $r->execute(
+            array(
             ':title' => $title,
             ':lead_sentence' => $leadSentence,
             ':content' => $content,
             ':created_at' => $now->format('Y-m-d H:i:s'),
             ':created_by' => $created_by,
             ':slug' => $slug
-        ));
+            )
+        );
         $newPostId = $this->db->lastInsertId();
 
         return $newPostId;

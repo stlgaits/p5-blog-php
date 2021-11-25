@@ -24,6 +24,7 @@ class AdminController
 
     /**
      * PostManager
+     *
      * @var PostManager
      */
     private $postManager;
@@ -73,17 +74,16 @@ class AdminController
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
         // only allow access to users who are both logged in and have admin role
-        if($this->userController->isCurrentUserAdmin() === false){
+        if ($this->userController->isCurrentUserAdmin() === false) {
             //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
             return new Response(301, ['Location' => 'login']);
         }
-        
     }
 
     public function index(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $this->user = $this->userController->getCurrentUser();
@@ -94,7 +94,7 @@ class AdminController
     public function createPost(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         return new Response(200, [], $this->renderer->render('create-post.html.twig'));
@@ -104,7 +104,7 @@ class AdminController
     public function addPost(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $user = $this->userManager->read($this->session->get('userID'));
@@ -123,7 +123,7 @@ class AdminController
     public function showPosts(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $posts = $this->postManager->readAll();
@@ -149,7 +149,7 @@ class AdminController
     public function editPost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $post = $this->postManager->read($id);
@@ -159,7 +159,7 @@ class AdminController
     public function updatePost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $title =  $this->request->getParsedBody()['title'];
@@ -175,7 +175,7 @@ class AdminController
     public function deletePost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $this->postManager->delete($id);
@@ -188,7 +188,7 @@ class AdminController
     public function showUsers(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if(!$this->userController->isLoggedIn()){
+        if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $users = $this->userManager->readAll();
@@ -206,6 +206,4 @@ class AdminController
     //     // if(str_contains($user->getRoles(), $r))
     //     //TODO:
     // }
-
-
 }

@@ -23,7 +23,6 @@ class IndexTest extends TestCase
         $this->userManager = new UserManager();
         $this->controller = new HomeController();
         $this->renderer = new TwigRenderer();
-
     }
 
     public function test_homepage_is_displayed(): void

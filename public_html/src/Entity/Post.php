@@ -95,7 +95,6 @@ class Post
         } else {
             $dd = new DateTime();
             $this->createdAt = $dd->format($format);
-
         }
     }
 
@@ -106,7 +105,7 @@ class Post
 
     public function setUpdated_At($updatedAt)
     {
-        if(!empty($updatedAt)){
+        if (!empty($updatedAt)) {
             $format = 'Y-m-d H:i:s';
             // Teste la validité de la date
             $d = DateTime::createFromFormat($format, $updatedAt);

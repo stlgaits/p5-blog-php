@@ -48,14 +48,16 @@ class UserManager extends Manager
         $sql = "INSERT INTO user(username, email, first_name, last_name, password, role) 
                 VALUES(:username, :email, :first_name, :last_name, :password, :role)";
         $r = $this->db->prepare($sql);
-        $r->execute(array(
+        $r->execute(
+            array(
             ':username' => $username,
             ':email' => $email,
             ':first_name' => $first_name,
             ':last_name' => $last_name,
             ':password' => $password,
             ':role' => $role
-        ));
+            )
+        );
         $newUserId = $this->db->lastInsertId();
         return $newUserId;
     }
