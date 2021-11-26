@@ -72,6 +72,7 @@ class UserController
      */
     public function register()
     {
+        //TODO: refactor here
         // redirect user to homepage if user is already logged in
         if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) {
             return new Response(301, ['Location' => '/']);
@@ -103,7 +104,7 @@ class UserController
                 $message = 'Cette adresse email est déjà associée à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
-            $admin = false;
+            $admin = 0;
             $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, $admin);
             if (empty($user)) {
                 $message = "Impossible de créer le nouvel utilisateur";
