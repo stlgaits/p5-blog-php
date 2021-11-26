@@ -109,6 +109,7 @@ class UserController
                 $message = "Impossible de créer le nouvel utilisateur";
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
+            // TODO: redirect to LOGIN user (post) so that user lands on either homepage or profile page
             $message = "Votre compte a été créé avec succès";
             return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message, 'success' => true]));
         } catch (Exception $e) {

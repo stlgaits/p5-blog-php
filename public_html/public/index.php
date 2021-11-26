@@ -28,6 +28,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/admin/delete-post/{id}', 'AdminController@deletePost');
     $r->addRoute('GET', '/admin/show-posts', 'AdminController@showPosts');
     $r->addRoute('GET', '/admin/show-users', 'AdminController@showUsers');
+    $r->addRoute('GET', '/admin/delete-user/{id}', 'AdminController@deleteUser');
 });
 
 // Fetch method and URI from Server Globals
@@ -57,6 +58,7 @@ try {
         $methodName = substr($routeInfo[1], strpos($routeInfo[1], '@') + 1);
     }
 } catch (Exception $e) {
+    //TODO: il faut que ce soit plus propre que ça
     var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
     throw new Exception('La classe ou la méthode demandée n\'est pas reconnue');
 }

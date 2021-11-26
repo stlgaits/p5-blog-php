@@ -197,4 +197,15 @@ class AdminController
 
         return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users,   'user' => $this->user]));
     }
+
+    public function deleteUser($id): Response
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userController->isLoggedIn()) {
+            return new Response(301, ['Location' => 'login']);
+        }
+        $this->userManager->delete($id);
+        // redirect to Admin Blog Posts List
+            return new Response(302, ['Location' => '/admin/show-users']);
+    } 
 }
