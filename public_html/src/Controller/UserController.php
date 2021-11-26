@@ -59,7 +59,7 @@ class UserController
     public function login()
     {
         // redirect user to homepage if user is already logged in
-        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) {
+        if ($this->isLoggedIn()) {
             return new Response(301, ['Location' => '/']);
         }
         return new Response(200, [], $this->renderer->render('login.html.twig'));
@@ -72,9 +72,8 @@ class UserController
      */
     public function register()
     {
-        //TODO: refactor here
         // redirect user to homepage if user is already logged in
-        if (!empty($this->session->get('userID')) && !empty($this->session->get('username'))) {
+        if ($this->isLoggedIn()) {
             return new Response(301, ['Location' => '/']);
         }
         return new Response(200, [], $this->renderer->render('register.html.twig'));
@@ -93,7 +92,7 @@ class UserController
         $lastName = $this->request->getParsedBody()['last_name'];
         $firstName = $this->request->getParsedBody()['first_name'];
         $password = $this->request->getParsedBody()['password'];
-        if (strlen($password) < 8) {
+        if (strlen($password) < 12) {
             $message = 'Votre mot de passe doit contenir au moins 12 caractères.';
             return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
         }
@@ -156,8 +155,9 @@ class UserController
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             $actualPassword = $user->getPassword();
+            // Check password input against hashed password in database
+            if(!password_verify($password, $actualPassword)){
             // wrong password input
-            if ($password !== $actualPassword) {
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             // 'Remember me' checkbox
