@@ -84,7 +84,7 @@ class UserManager extends Manager
         $r->bindValue('first_name', $first_name, PDO::PARAM_STR);
         $r->bindValue('last_name', $last_name, PDO::PARAM_STR);
         $r->bindValue('password', $password, PDO::PARAM_STR);
-        $r->bindValue('role', $role, PDO::PARAM_STR);
+        $r->bindValue('role', $role, PDO::PARAM_INT);
         $r->bindValue('id', $id, PDO::PARAM_INT);
         $r->execute();
 

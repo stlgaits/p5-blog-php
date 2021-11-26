@@ -78,6 +78,7 @@ class AdminController
             //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
             return new Response(301, ['Location' => 'login']);
         }
+        $this->user = $this->userController->getCurrentUser();
     }
 
     public function index(): Response
@@ -86,7 +87,7 @@ class AdminController
         if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
-        $this->user = $this->userController->getCurrentUser();
+        // $this->user = $this->userController->getCurrentUser();
         return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $this->user]));
     }
 
@@ -97,7 +98,7 @@ class AdminController
         if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
-        return new Response(200, [], $this->renderer->render('create-post.html.twig'));
+        return new Response(200, [], $this->renderer->render('create-post.html.twig', ['user' => $this->user]));
     }
     
     // send the request to Database
@@ -139,7 +140,8 @@ class AdminController
                 'admin-posts.html.twig',
                 [
                                 'posts' => $posts,
-                                'authors' => $authors
+                                'authors' => $authors,
+                                'user' => $this->user
                                 ]
             )
         );
@@ -153,7 +155,7 @@ class AdminController
             return new Response(301, ['Location' => 'login']);
         }
         $post = $this->postManager->read($id);
-        return new Response(200, [], $this->renderer->render('edit-post.html.twig', ['post' => $post]));
+        return new Response(200, [], $this->renderer->render('edit-post.html.twig', ['post' => $post, 'user' => $this->user]));
     }
 
     public function updatePost($id): Response
@@ -193,17 +195,6 @@ class AdminController
         }
         $users = $this->userManager->readAll();
 
-        return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users]));
+        return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users,   'user' => $this->user]));
     }
-
-    // public function getRoles()
-    // {
-    //     return $this->userManager->getAllRoles();
-    // }
-
-    // public function assignedRoles($user, $roles)
-    // {
-    //     // if(str_contains($user->getRoles(), $r))
-    //     //TODO:
-    // }
 }
