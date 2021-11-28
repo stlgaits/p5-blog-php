@@ -10,9 +10,9 @@
 
 <main>
     <h2 class="text-secondary">Liste des commentaires</h2>
-    <p class="lead">Gérez ici les commentaires en attente</p>
+    <p class="lead">Gérez ici les commentaires. Pour chaque commentaire, vous pouvez le valider pour publication ou le rejeter.</p>
     <table class="table table-hover">
-        <caption>Liste des commentaires</caption>
+        <caption>Commentaires en attente de validation</caption>
         <thead>
         <tr>
             <th scope="col">ID</th>
@@ -26,37 +26,124 @@
         </tr>
         </thead>
         <tbody>
-            {% for comment in  comments %}
-                <tr>
-                    <th scope="row">{{ comment.id }}</th>
-                    <td>{{ comment.title }}</td>
-                    <td>{{ comment.content }}</td>
-                    <td>{{ comment.created_at }}</td>
-                    <td>{{ comment.username }}</td>
-                    <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
-                    <td>
-                        {% for status in  statuses %}
-                            {% for name,label in  status %}
-                                {% if comment.status == name %} 
-                                {{  label  }}
-                                {% endif %}
+            {% if comments|filter(comment => comment.status == constant('App\\Entity\\Comment::PENDING')) %}
+                {% for comment in comments|filter(comment => comment.status == constant('App\\Entity\\Comment::PENDING')) %}
+                    <tr>
+                        <th scope="row">{{ comment.id }}</th>
+                        <td>{{ comment.title }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.username }}</td>
+                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td>
+                            {% for status in  statuses %}
+                                {% for name,label in  status %}
+                                    {% if comment.status == name %} 
+                                    {{  label  }}
+                                    {% endif %}
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <form action="approve-comment/{{comment.id}}" method="post" >
-                            <button class="btn btn-success" type="submit">Valider</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="reject-comment/{{comment.id}}" method="post" >
-                            <button class="btn btn-danger"  type="submit">Rejeter</button>
-                        </form>
-                    </td>
+                        </td>
+                        <td>
+                            <form action="approve-comment/{{comment.id}}" method="post" >
+                                <button class="btn btn-success" type="submit">Valider</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="reject-comment/{{comment.id}}" method="post" >
+                                <button class="btn btn-danger"  type="submit">Rejeter</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun commentaire en attente.</td>
                 </tr>
-            {% endfor %}
+            {% endif %}
         </tbody>
-        {# TODO: sort comments in 3 categories/ tables :  first display pending comments, then approved & rejected comments #}
+    </table>
+    <table class="table table-hover">
+        <caption>Commentaires rejetés</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Commentaire</th>
+            <th scope="col">Envoyé à</th>
+            <th scope="col">Ecrit par</th>
+            <th scope="col">Article</th>
+            <th scope="col">Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if comments|filter(comment => comment.status == constant('App\\Entity\\Comment::REJECTED')) %}
+                {% for comment in comments|filter(comment => comment.status == constant('App\\Entity\\Comment::REJECTED')) %}
+                    <tr>
+                        <th scope="row">{{ comment.id }}</th>
+                        <td>{{ comment.title }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.username }}</td>
+                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td class="text-danger fw-bold">
+                            {% for status in  statuses %}
+                                {% for name,label in  status %}
+                                    {% if comment.status == name %} 
+                                    {{  label  }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <tr>
+                        <td colspan="7">Aucun commentaire rejeté.</td>
+                    </tr>
+            {% endif %}
+        </tbody>
+    </table> 
+    <table class="table table-hover">
+        <caption>Commentaires acceptés</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Commentaire</th>
+            <th scope="col">Envoyé à</th>
+            <th scope="col">Ecrit par</th>
+            <th scope="col">Article</th>
+            <th scope="col">Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if comments|filter(comment => comment.status == constant('App\\Entity\\Comment::APPROVED')) %}
+                {% for comment in comments|filter(comment => comment.status == constant('App\\Entity\\Comment::APPROVED')) %}
+                    <tr>
+                        <th scope="row">{{ comment.id }}</th>
+                        <td>{{ comment.title }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.username }}</td>
+                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td class="text-success fw-bold">
+                            {% for status in  statuses %}
+                                {% for name,label in  status %}
+                                    {% if comment.status == name %} 
+                                    {{  label  }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun commentaire publié.</td>
+                </tr>
+            {% endif %}   
+        </tbody>
     </table>
 </main>
 {% endblock %}
