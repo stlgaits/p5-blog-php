@@ -6,6 +6,7 @@ use App\Session;
 use App\TwigRenderer;
 use App\Model\PostManager;
 use App\Model\UserManager;
+use App\Model\CommentManager;
 use GuzzleHttp\Psr7\Response;
 
 class AdminController
@@ -64,25 +65,40 @@ class AdminController
      */
     private $user;
 
+    /**
+     * Comments
+     *
+     * @var CommentManager
+     */
+    private $commentManager;
+
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->postManager = new PostManager();
         $this->userManager = new UserManager();
+        $this->commentManager = new CommentManager();
         $this->userController = new UserController();
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
         // only allow access to users who are both logged in and have admin role
-        if ($this->userController->isCurrentUserAdmin() === false) {
-            //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
-            return new Response(301, ['Location' => 'login']);
-        }
+        // if ($this->userController->isCurrentUserAdmin() === false) {
+        // if ($this->userController->isCurrentUserAdmin() === false) {
+        //     //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
+        //     return new Response(301, ['Location' => 'login']);
+        // }
         $this->user = $this->userController->getCurrentUser();
     }
 
     public function index(): Response
     {
+        if ($this->userController->isCurrentUserAdmin() === false) {
+            //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
+            return new Response(301, ['Location' => 'login']);
+        }
+
+
         // only allow access to users who are both logged in and have admin role
         if (!$this->userController->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
@@ -208,4 +224,55 @@ class AdminController
         // redirect to Admin Blog Posts List
             return new Response(302, ['Location' => '/admin/show-users']);
     } 
+
+
+    //TODO: showUser() => show all info for a specific user 
+
+    public function showPendingComments(): Response
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userController->isLoggedIn()) {
+            return new Response(301, ['Location' => 'login']);
+        }
+        $comments = $this->commentManager->readAllWithAuthorsAndPostTitle();
+        return new Response(200, [], $this->renderer->render('pending-comments.html.twig', ['comments' => $comments, 'user' => $this->user]));
+    }
+
+    // TODO: The following 2 functions CLEARLY NEED REFACTORING since most of the code is the SAME
+    public function rejectComment($id): Response
+    {   
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userController->isLoggedIn()) {
+            return new Response(301, ['Location' => 'login']);
+        }
+        $comment = $this->commentManager->read($id);
+        $status = $comment->getStatus();
+        // Cannot reject a comment that's not pending
+        if($status !== $comment::PENDING){
+            return new Response(301, ['Location' => './../show-comments']);
+        }
+        $comment->setStatus($comment::REJECTED);
+        $this->commentManager->updateCommentStatus($id, $comment->getStatus());
+        // redirect to all comments view 
+        return new Response(301, ['Location' => './../show-comments']);
+    }
+
+    public function approveComment($id) : Response
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userController->isLoggedIn()) {
+            return new Response(301, ['Location' => 'login']);
+        }
+        $comment = $this->commentManager->read($id);
+        $status = $comment->getStatus();
+        // Cannot reject a comment that's not pending
+        if($status !== $comment::PENDING){
+            return new Response(301, ['Location' => './../show-comments']);
+        }
+        $comment->setStatus($comment::APPROVED);
+        $this->commentManager->updateCommentStatus($id, $comment->getStatus());
+        // redirect to all comments view 
+        return new Response(301, ['Location' => './../show-comments']);
+    }
+
 }

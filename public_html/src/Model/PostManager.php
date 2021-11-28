@@ -10,6 +10,11 @@ use App\Entity\Post;
 class PostManager extends Manager
 {
     
+    /**
+     * Get all blogposts sorted by creation date
+     *
+     * @return array
+     */
     public function readAll()
     {
         $posts = [];
@@ -22,17 +27,32 @@ class PostManager extends Manager
         return $posts;
     }
 
+    /**
+     * Find a blogpost by ID
+     *
+     * @param integer $id
+     * @return Post
+     */
     public function read(int $id)
     {
         $sql = "SELECT * FROM post WHERE id = ?";
         $r = $this->db->prepare($sql);
         $r->bindValue(1, $id, PDO::PARAM_INT);
         $r->execute();
-
         return new Post($r->fetch());
     }
 
-    public function create(string $title, string $content, $created_by, string $slug, string $leadSentence)
+    /**
+     * Insert a new blogpost in database
+     *
+     * @param string $title
+     * @param string $content
+     * @param int $created_by
+     * @param string $slug
+     * @param string $leadSentence
+     * @return int
+     */
+    public function create(string $title, string $content, int $created_by, string $slug, string $leadSentence)
     {
         $now = new DateTime();
         $sql = "INSERT INTO post(title, lead_sentence, content, created_at, created_by, slug) 
@@ -53,6 +73,12 @@ class PostManager extends Manager
         return $newPostId;
     }
 
+    /**
+     * Delete a Blogpost from database
+     *
+     * @param integer $id
+     * @return void
+     */
     public function delete(int $id)
     {
         $sql = "DELETE FROM post WHERE id=?";
@@ -60,6 +86,16 @@ class PostManager extends Manager
         $r->execute(array($id));
     }
 
+    /**
+     * Update a blog post 
+     *
+     * @param integer $id
+     * @param string $title
+     * @param string $content
+     * @param string $slug
+     * @param string $leadSentence
+     * @return void
+     */
     public function update(int $id, string $title, string $content, string $slug, string $leadSentence)
     {
             $sql = "UPDATE post SET title = :title, lead_sentence = :lead_sentence, content = :content, slug = :slug, updated_at = :updated_at WHERE id = :id";

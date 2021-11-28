@@ -33,7 +33,7 @@
             </li>
             
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="./../admin/show-comments" class="nav-link text-white">
                     Commentaires
                 </a>
             </li>
@@ -52,7 +52,11 @@
                 <li><a class="dropdown-item" href="#">Paramètres</a></li>
                 <li><a class="dropdown-item" href="#">Profil</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                <li>
+                    <form action="./../logout-user" method="post">
+                        <button class="dropdown-item" type="submit">Déconnexion</button>
+                    </form>                
+                </li>
             </ul>
         </div>
     </div>

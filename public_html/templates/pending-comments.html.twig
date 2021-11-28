@@ -1,0 +1,62 @@
+{% extends "admin.html.twig" %}
+
+{% block title %}Commentaires{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block admin_content %}
+
+{% set statuses = [{ 'PENDING' : 'En attente'}, {'APPROVED' : 'Accepté' }, {'REJECTED' : 'Rejeté' }] %}
+
+<main>
+    <h2 class="text-secondary">Liste des commentaires</h2>
+    <p class="lead">Gérez ici les commentaires en attente</p>
+    <table class="table table-hover">
+        <caption>Liste des commentaires</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Commentaire</th>
+            <th scope="col">Envoyé à</th>
+            <th scope="col">Ecrit par</th>
+            <th scope="col">Article</th>
+            <th scope="col">Statut</th>
+            <th scope="col" colspan="5">Edition</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for comment in  comments %}
+                <tr>
+                    <th scope="row">{{ comment.id }}</th>
+                    <td>{{ comment.title }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ comment.created_at }}</td>
+                    <td>{{ comment.username }}</td>
+                    <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                    <td>
+                        {% for status in  statuses %}
+                            {% for name,label in  status %}
+                                {% if comment.status == name %} 
+                                {{  label  }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <form action="approve-comment/{{comment.id}}" method="post" >
+                            <button class="btn btn-success" type="submit">Valider</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="reject-comment/{{comment.id}}" method="post" >
+                            <button class="btn btn-danger"  type="submit">Rejeter</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        {# TODO: sort comments in 3 categories/ tables :  first display pending comments, then approved & rejected comments #}
+    </table>
+</main>
+{% endblock %}

@@ -3,7 +3,6 @@
 use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
-// require_once './../src/config.php';
 require_once __DIR__ . '/../src/config.php';
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
@@ -28,6 +27,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/admin/delete-post/{id}', 'AdminController@deletePost');
     $r->addRoute('GET', '/admin/show-posts', 'AdminController@showPosts');
     $r->addRoute('GET', '/admin/show-users', 'AdminController@showUsers');
+    $r->addRoute('GET', '/admin/show-comments', 'AdminController@showPendingComments');
+    $r->addRoute('POST', '/admin/approve-comment/{id}', 'AdminController@approveComment');
+    $r->addRoute('POST', '/admin/reject-comment/{id}', 'AdminController@rejectComment');
     $r->addRoute('GET', '/admin/delete-user/{id}', 'AdminController@deleteUser');
 });
 
