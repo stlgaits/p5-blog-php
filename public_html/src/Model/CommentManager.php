@@ -41,7 +41,7 @@ class CommentManager extends Manager
 
 
     /**
-     * Allows to display Comment's author & Blogpost's title without instantiating objects
+     * Allows to display all Comment's author & Blogpost's title without instantiating objects
      *
      * @return array
      */
@@ -74,6 +74,29 @@ class CommentManager extends Manager
         $query->execute();
         while ($comment = $query->fetch(PDO::FETCH_ASSOC)) {
             $comments[] = new Comment($comment);
+        }
+        return $comments;
+    }
+
+    /**
+     * Get all approved comments for a single blog post with its author's username
+     *
+     * @param int $postID
+     * @return void
+     */
+    public function getApprovedComments($postID)
+    {
+        $comments = [];
+        $sql = "SELECT comment.content, comment.title , comment.created_at, comment.post_id, comment.created_by, comment.status, comment.id, user.username
+                FROM comment 
+                INNER JOIN user ON comment.created_by = user.id
+                WHERE post_id = :post_id
+                AND comment.status = 'APPROVED'";
+        $query = $this->db->prepare($sql);
+        $query->bindValue(':post_id', $postID, PDO::PARAM_INT);
+        $query->execute();
+        while ($comment = $query->fetch(PDO::FETCH_ASSOC)) {
+            $comments[] = $comment;
         }
         return $comments;
     }

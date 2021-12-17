@@ -32,7 +32,7 @@
                         <th scope="row">{{ comment.id }}</th>
                         <td>{{ comment.title }}</td>
                         <td>{{ comment.content }}</td>
-                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
                         <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td>
@@ -83,7 +83,7 @@
                         <th scope="row">{{ comment.id }}</th>
                         <td>{{ comment.title }}</td>
                         <td>{{ comment.content }}</td>
-                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
                         <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td class="text-danger fw-bold">
@@ -124,7 +124,7 @@
                         <th scope="row">{{ comment.id }}</th>
                         <td>{{ comment.title }}</td>
                         <td>{{ comment.content }}</td>
-                        <td>{{ comment.created_at }}</td>
+                        <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
                         <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td class="text-success fw-bold">

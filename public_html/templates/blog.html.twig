@@ -18,9 +18,9 @@
                             <p class="badge rounded-pill bg-secondary">{{ post.slug }}</p>
                             <p class="card-subtitle text-muted">
                                 {% if post.updated_at is not null %}
-                                    Modifié le {{ post.updated_at }} - 
+                                    Modifié le {{ post.updated_at|date("d/m/Y à H:i:s") }} - 
                                 {% else %}    
-                                    Ecrit le {{ post.created_at }} - 
+                                    Ecrit le {{ post.created_at|date("d/m/Y à H:i:s") }} - 
                                 {% endif %}
                                 {% for author in authors %}
                                     {% if post.created_by == author.id %}

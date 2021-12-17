@@ -1,0 +1,34 @@
+<section class="mb-5 pb-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="fw-bold pb-2">Commentaires</h2>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="card shadow mb-4">
+                        <div class="row g-0">
+                            <div class="col-md-2 text-center pt-3">
+                                <p class="fw-bold">
+                                    <i class="fas fa-user"></i>  {{comment.username}}
+                                </p>  
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body"> 
+                                    <h4 class="card-title">{{comment.title}}</h4>
+                                    <small class="text-muted">le {{comment.created_at|date("d/m/Y à H:i:s")}}</small>
+                                    <div class="card-text">{{comment.content}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="row">
+                    <div class="col text-center my-5">
+                        <p class="text-muted">Aucun commentaire pour le moment.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</section>

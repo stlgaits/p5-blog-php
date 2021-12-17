@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\TwigRenderer;
 use App\Model\PostManager;
-use GuzzleHttp\Psr7\Response;
 use App\Model\UserManager;
+use App\Model\CommentManager;
+use GuzzleHttp\Psr7\Response;
 
 class BlogController
 {
@@ -34,7 +35,14 @@ class BlogController
      *
      * @var UserManager
      */
-    private $userManager;
+    private $userManager; 
+    
+    /**
+     * Comment manager : PDO connection to Comments stored in the database
+     *
+     * @var CommentManager
+     */
+    private $commentManager;
 
 
     /**
@@ -51,6 +59,7 @@ class BlogController
         $this->renderer = $this->environment->getTwig();
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
+        $this->commentManager = new CommentManager();
         $this->userController = new UserController();
     }
     
@@ -119,6 +128,7 @@ class BlogController
             );
         }
         $user = $this->userController->getCurrentUser();
+        $comments = $this->commentManager->getApprovedComments($id);
         return new Response(
             200,
             [],
@@ -127,7 +137,8 @@ class BlogController
                 [
                 'post' => $post,
                 'author' => $author,
-                'user' => $user
+                'user' => $user,
+                'comments' => $comments
                 ]
             )
         );
