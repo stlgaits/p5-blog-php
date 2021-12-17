@@ -1,12 +1,12 @@
 {% extends "base.html.twig" %}
 
-{% block title %}S'inscrire'{% endblock %}
+{% block title %}S'inscrire - {% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<div class="d-flex text-center justify-content-center pt-5 mt-5">
-    <main class="py-5 my-5 bg-light w-50 ">
+<div id="content" class="d-flex text-center justify-content-center pt-3 mt-3 mb-5 container-fluid pb-5">
+    <main class="py-5 my-5 bg-light w-50 shadow">
         {% if message %}
             {% if success %}
                 <div class="alert alert-dismissible alert-success my-2">

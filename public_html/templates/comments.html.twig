@@ -1,12 +1,12 @@
-<section class="mb-5 pb-5">
+<section class="mb-5 p-5 shadow rounded">
     <div class="row">
         <div class="col">
             <h2 class="fw-bold pb-2">Commentaires</h2>
             {% if comments %}
                 {% for comment in comments %}
-                    <div class="card shadow mb-4">
+                    <div class="card mb-4 rounded">
                         <div class="row g-0">
-                            <div class="col-md-2 text-center pt-3">
+                            <div class="col-md-2 text-center pt-3 bg-light">
                                 <p class="fw-bold">
                                     <i class="fas fa-user"></i>  {{comment.username}}
                                 </p>  
@@ -30,5 +30,21 @@
             {% endif %}
         </div>
     </div>
-
+    <div class="row">
+        <div class="col my-4">
+            <form >
+                <legend>Laisser un commentaire sur cet article</legend>
+                <small class="text-muted">Vous devez <a href="./../login">être connecté(e)</a> à votre compte utilisateur pour pouvoir laisser un commentaire.</small>
+                <div class="my-3">
+                    <label for="commentTitle" class="form-label">Titre</label>
+                    <input type="text" class="form-control" id="commentTitle"  name="commentTitle" required>
+                </div>
+                <div class="mb-3">
+                    <label for="commentContent" class="form-label">Votre commentaire</label>
+                    <textarea name="commentContent" class="form-control" id="commentContent" rows="4" maxlength="250"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
 </section>
