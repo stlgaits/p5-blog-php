@@ -1,4 +1,30 @@
-
-.card-img-top{
+.card-img-top
+{
     max-height: 30vh;
 }
+
+#jumbotron-title
+{
+    /* margin-top: -20vh;
+    margin-left: 2vw;   */
+    margin-top: -200px;
+    margin-left: 100px;
+}
+
+#jumbotron-container 
+{
+    margin-bottom: 150px;
+
+}
+
+/* .container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+   */
+  /* Bottom left text */
+  /* #jumbotron-title {
+    margin-top: -25vh;
+  } */
+  
