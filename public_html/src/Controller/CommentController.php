@@ -58,7 +58,7 @@ class CommentController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userController->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return new Response(301, ['Location' => '/../../login']);
         }
         $user = $this->userController->getCurrentUser();
         $author = $user->getId();
@@ -67,10 +67,9 @@ class CommentController
         $newCommentId = $this->commentManager->create($title, $content, $author, $postId);
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
         $this->commentManager->read($newCommentId);
-        // redirect to Admin Blog Posts List
         $message = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
-        // return new Response(200, [], $this->renderer->render('post.html.twig', ['message' => $message]));
-        return new Response(301, ['Location' => 'post/'.$postId]);
+        // TODO: find out how to pass the message to the view within a redirect
+        return new Response(301, ['Location' => './../../post/'.$postId], $message);
     }
 
 }
