@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use PDO;
+use DateTime;
 use App\Entity\Comment;
 
 class CommentManager extends Manager
@@ -114,4 +115,35 @@ class CommentManager extends Manager
         $r->bindValue(':status', $status, PDO::PARAM_STR);
         $r->execute();
     }
+
+    /**
+     * Insert a new comment (with pending status) in the database
+     *
+     * @param string $title
+     * @param string $content
+     * @param integer $created_by Foreign key
+     * @param integer $post_id Foreign key 
+     * @return int
+     */
+    public function create(string $title, string $content, int $created_by, int $post_id)
+    {
+        $now = new DateTime();
+        $sql = "INSERT INTO comment(title, content, created_at, created_by, post_id, status) 
+                VALUES(:title, :content, :created_at, :created_by, :post_id, :status)";
+        $r = $this->db->prepare($sql);
+        $r->execute(
+            array(
+            ':title' => $title,
+            ':content' => $content,
+            ':created_at' => $now->format('Y-m-d H:i:s'),
+            ':created_by' => $created_by,
+            ':post_id' => $post_id,
+            ':status' => 'PENDING'
+            )
+        );
+        $newCommentId = $this->db->lastInsertId();
+
+        return $newCommentId;
+    }
+
 }
