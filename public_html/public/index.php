@@ -54,8 +54,7 @@ $response = new Response();
 
 try {
     $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
-
-    if (!empty($routeInfo[1])) {
+    if (!empty($routeInfo[1]) && is_string($routeInfo[1])) {
         $className = substr($routeInfo[1], 0, strpos($routeInfo[1], '@'));
         $methodName = substr($routeInfo[1], strpos($routeInfo[1], '@') + 1);
     }
@@ -89,5 +88,4 @@ switch ($routeInfo[0]) {
         $response = call_user_func_array($handler, $vars);
         break;
 }
-
 Http\Response\send($response);

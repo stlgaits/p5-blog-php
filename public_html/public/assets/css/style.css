@@ -3,28 +3,24 @@
     max-height: 30vh;
 }
 
-#jumbotron-title
-{
-    /* margin-top: -20vh;
-    margin-left: 2vw;   */
-    margin-top: -200px;
-    margin-left: 100px;
-}
-
 #jumbotron-container 
 {
-    margin-bottom: 150px;
-
+    position: relative;
 }
 
-/* .container {
-    position: relative;
-    text-align: center;
-    color: white;
-  }
-   */
-  /* Bottom left text */
-  /* #jumbotron-title {
-    margin-top: -25vh;
-  } */
-  
+#jumbotron-title
+{
+    padding-left: 5vw;
+    padding-top: 30vh;
+    position: absolute;
+    background: rgba(0,0,0,.3);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:100%;
+}
+
+#estelle
+{
+    font-size: 6rem;
+}

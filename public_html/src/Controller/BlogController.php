@@ -110,10 +110,11 @@ class BlogController
      *
      * @return Response
      */
-    public function post($id): Response
+    public function post(int $id): Response
     {
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
+        $comments = $this->commentManager->getApprovedComments($id);
         if (!$this->userController->isLoggedIn()) {
             return new Response(
                 200,
@@ -121,14 +122,14 @@ class BlogController
                 $this->renderer->render(
                     'post.html.twig',
                     [
-                    'post' => $post,
-                    'author' => $author
+                        'post' => $post,
+                        'author' => $author,
+                        'comments' => $comments
                     ]
                 )
             );
         }
         $user = $this->userController->getCurrentUser();
-        $comments = $this->commentManager->getApprovedComments($id);
         return new Response(
             200,
             [],

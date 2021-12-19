@@ -4,7 +4,7 @@
         {% block head %}
             <link rel="stylesheet" href="../public/assets/css/bootstrap.min.css"/>
             <link rel="stylesheet" href="../public/assets/css/style.css"/>
-            <title>{% block title %}{% endblock %} Estelle Gaits - Blog PHP Openclassrooms </title>
+            <title>{% block title %}Estelle Gaits - Blog PHP Openclassrooms {% endblock %} </title>
         {% endblock %}
     </head>
     <body>
@@ -19,7 +19,7 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">Accueil
+                            <a class="nav-link active" aria-current="page" href="/">Accueil
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
@@ -47,7 +47,9 @@
             {% block footer %}
                 <ul class="list-unstyled">
                     <li><p class="my-4">  &copy; Copyright 2021 - Estelle Gaits. </p></li>
+                    {% if user %}
                     <li><a href="../admin" class="text-white">Accéder à l'interface administrateur</a></li>
+                    {% endif %}
                 </ul>
             {% endblock %}
         </div>
