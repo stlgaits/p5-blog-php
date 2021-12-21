@@ -41,7 +41,7 @@
         {% endif %}
             <form method="post" action="/post/{{post.id}}/add-comment">
                 <legend>Laisser un commentaire sur cet article</legend>
-                <small class="text-muted">Vous devez <a href="./../login">être connecté(e)</a> à votre compte utilisateur pour pouvoir laisser un commentaire.</small>
+                <small class="text-muted">Vous devez <a href="/login">être connecté(e)</a> à votre compte utilisateur pour pouvoir laisser un commentaire.</small>
                 <div class="my-3">
                     <label for="commentTitle" class="form-label">Titre</label>
                     <input type="text" class="form-control" id="commentTitle"  name="commentTitle" required>

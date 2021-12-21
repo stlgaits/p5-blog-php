@@ -34,7 +34,7 @@
                         <td>{{ comment.content }}</td>
                         <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
-                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td><a href="/post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td>
                             {% for status in  statuses %}
                                 {% for name,label in  status %}
@@ -45,12 +45,12 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <form action="approve-comment/{{comment.id}}" method="post" >
+                            <form action="/admin/approve-comment/{{comment.id}}" method="post" >
                                 <button class="btn btn-success" type="submit">Valider</button>
                             </form>
                         </td>
                         <td>
-                            <form action="reject-comment/{{comment.id}}" method="post" >
+                            <form action="/admin/reject-comment/{{comment.id}}" method="post" >
                                 <button class="btn btn-danger"  type="submit">Rejeter</button>
                             </form>
                         </td>
@@ -85,7 +85,7 @@
                         <td>{{ comment.content }}</td>
                         <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
-                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td><a href="/post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td class="text-danger fw-bold">
                             {% for status in  statuses %}
                                 {% for name,label in  status %}
@@ -126,7 +126,7 @@
                         <td>{{ comment.content }}</td>
                         <td>{{ comment.created_at|date("d/m/Y H:i:s") }}</td>
                         <td>{{ comment.username }}</td>
-                        <td><a href="./../post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
+                        <td><a href="/post/{{ comment.post_id }}">{{ comment.post_title }}</a></td>
                         <td class="text-success fw-bold">
                             {% for status in  statuses %}
                                 {% for name,label in  status %}

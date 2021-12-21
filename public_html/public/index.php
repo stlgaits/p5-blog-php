@@ -33,6 +33,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/admin/approve-comment/{id}', 'AdminController@approveComment');
     $r->addRoute('POST', '/admin/reject-comment/{id}', 'AdminController@rejectComment');
     $r->addRoute('GET', '/admin/delete-user/{id}', 'AdminController@deleteUser');
+    $r->addRoute('GET', '/admin/user/{id}', 'AdminController@editUser');
+    
 });
 
 // Fetch method and URI from Server Globals

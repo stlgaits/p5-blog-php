@@ -37,10 +37,10 @@
                 {% endif %}
                 </td>
                 <td>
-                    <a href="./../user/{{user.id}}" class="btn btn-warning" role="button">Editer</a>
+                    <a href="/admin/user/{{user.id}}" class="btn btn-warning" role="button">Editer</a>
                 </td>
                 <td>
-                    <a  href="./delete-user/{{user.id}}" class="btn btn-danger" role="button">Supprimer</a>
+                    <a  href="/admin/delete-user/{{user.id}}" class="btn btn-danger" role="button">Supprimer</a>
                 </td>
             </tr>
             {% endfor %}

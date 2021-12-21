@@ -201,8 +201,6 @@ class AdminController
         return new Response(302, ['Location' => '/admin/show-posts']);
     }
 
-
-
     public function showUsers(): Response
     {
         // only allow access to users who are both logged in and have admin role
@@ -223,6 +221,16 @@ class AdminController
         $this->userManager->delete($id);
         // redirect to Admin Blog Posts List
             return new Response(302, ['Location' => '/admin/show-users']);
+    }     
+    
+    public function editUser($id): Response
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userController->isLoggedIn()) {
+            return new Response(301, ['Location' => 'login']);
+        }
+        $user = $this->userManager->read($id);
+        return new Response(200, [], $this->renderer->render('edit-user.html.twig', ['user' => $this->user, 'userAccount' => $user]));
     } 
 
 

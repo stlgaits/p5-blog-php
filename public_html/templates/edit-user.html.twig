@@ -1,0 +1,54 @@
+{% extends "admin.html.twig" %}
+
+{% block title %}Modifier un article{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block admin_content %}
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+            {# TODO: create the POST route to submit this form (updateUser) #}
+                <form class="shadow card p-5 mt-5">
+                    <h2 class=" card-title text-secondary">Modifier le compte utilisateur</h2>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="col mt-4">
+                                <label for="username">Pseudo</label>
+                                <input type="text" class="form-control mt-2" placeholder="Pseudo de l'utilisateur" name="username" value="{{userAccount.username}}">
+                            </div>   
+                            <div class="col mt-4">
+                                <label for="firstname">Prénom</label>
+                                <input type="text" class="form-control mt-2" placeholder="Prénom de l'utilisateur" name="firstname" value="{{userAccount.first_name}}">
+                            </div>  
+                            <div class="col mt-4">
+                                <label for="lastname">Nom</label>
+                                <input type="text" class="form-control mt-2" placeholder="Nom de l'utilisateur" name="lastname" value="{{userAccount.last_name}}">
+                            </div>
+                            <div class="col mt-4">
+                                <label for="email">Email de l'utilisateur</label>
+                                <input type="text" class="form-control mt-2" placeholder="Email utilisateur" name="email" value="{{userAccount.email}}">
+                            </div>
+                        </div>
+                            <fieldset>
+                            {# TODO: make this toggle switch functional #}
+                                <legend class="mt-4">Privilèges administrateur</legend>
+                                {% if userAccount.role == 0 %}
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" >
+                                </div>
+                                {% else %}
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                                </div>
+                                {% endif %}
+                            </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Modifier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
