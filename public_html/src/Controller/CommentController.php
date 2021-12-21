@@ -68,8 +68,9 @@ class CommentController
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
         $this->commentManager->read($newCommentId);
         $message = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
+        $_SESSION['message'] = $message;
         // TODO: find out how to pass the message to the view within a redirect
-        return new Response(301, ['Location' => './../../post/'.$postId], $message);
+        return new Response(301, ['Location' => './../../post/'.$postId]);
     }
 
 }

@@ -28,6 +28,7 @@ class NotFoundController
     
     public function notFound(): Response
     {
+        // TODO: add conditions on if user then (for navbar)
         return new Response(404, [], $this->renderer->render('404.html.twig'));
     }
 }

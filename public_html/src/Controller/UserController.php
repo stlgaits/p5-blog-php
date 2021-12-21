@@ -80,6 +80,20 @@ class UserController
     }
 
     /**
+     * Get user profile's View
+     *
+     * @return Response
+     */
+    public function profile()
+    {
+        // redirect user to homepage if user isn't logged in
+        if (!$this->isLoggedIn()) {
+            return new Response(301, ['Location' => '/']);
+        }
+        return new Response(200, [], $this->renderer->render('profile.html.twig'));
+    }
+
+    /**
      * Store a new user in Database
      *
      * @return Response

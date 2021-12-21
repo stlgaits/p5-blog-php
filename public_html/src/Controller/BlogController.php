@@ -6,6 +6,7 @@ use App\TwigRenderer;
 use App\Model\PostManager;
 use App\Model\UserManager;
 use App\Model\CommentManager;
+use App\Session;
 use GuzzleHttp\Psr7\Response;
 
 class BlogController
@@ -52,6 +53,8 @@ class BlogController
      */
     private $userController;
 
+    private $session;
+
     
     public function __construct()
     {
@@ -59,6 +62,7 @@ class BlogController
         $this->renderer = $this->environment->getTwig();
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
+        $this->session = new Session();
         $this->commentManager = new CommentManager();
         $this->userController = new UserController();
     }
@@ -115,6 +119,8 @@ class BlogController
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
         $comments = $this->commentManager->getApprovedComments($id);
+        $message = $this->session->get('message');
+
         if (!$this->userController->isLoggedIn()) {
             return new Response(
                 200,
@@ -139,7 +145,8 @@ class BlogController
                 'post' => $post,
                 'author' => $author,
                 'user' => $user,
-                'comments' => $comments
+                'comments' => $comments,
+                'message' => $message
                 ]
             )
         );
