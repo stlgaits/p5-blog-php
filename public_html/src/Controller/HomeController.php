@@ -41,7 +41,7 @@ class HomeController
      * @var UserController
      */
     private $userController;
-    
+
     public function __construct()
     {
         $this->environment = new TwigRenderer();

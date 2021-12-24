@@ -11,6 +11,7 @@ $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'HomeController@index');
     $r->addRoute('GET', '/home', 'HomeController@index');
+    $r->addRoute('POST', '/send-mail', 'MailController@sendMail');
     $r->addRoute('GET', '/index', 'HomeController@index');
     $r->addRoute('GET', '/blog', 'BlogController@list');
     $r->addRoute('GET', '/login', 'UserController@login');

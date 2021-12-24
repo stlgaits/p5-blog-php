@@ -24,7 +24,7 @@
                     <p class="fs-2 fw-light">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p>
                 </div>
             </div>
-            <div class="row mb-5">
+            <div class="row mb-2">
                 <div class="col mb-5">
                     <div class="card mb-3 rounded shadow px-4 py-5">
                         <div class="row">
@@ -64,11 +64,34 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-5">
-                <div class="col mb-5">
-                    <div class="card">
-                    <div>
-                        <p>ICI INSERER UN FORMUALIRE DE CONTACT (FAIRE UN TEMPLATE TWIG DIRECTEMENT)</p>
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <div class="card shadow p-5 rounded">
+                        <form method="POST" action="/send-mail">
+                            <fieldset>
+                                <legend>Me contacter</legend>
+                                <small class="text-muted">Une question? Un commentaire? N'hésitez pas à me contacter et je vous répondrai par email.</small>
+                                <div>
+                                    <label for="emailAddress" class="form-label mt-4">Adresse email</label>
+                                    <input name="emailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Votre adresse email">
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col">
+                                        <label for="firstname" class="form-label mt-4">Prénom</label>
+                                        <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Votre prénom">
+                                    </div>
+                                    <div class="col">
+                                        <label for="lastname" class="form-label mt-4">Nom</label>
+                                        <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="message" class="form-label mt-4">Message</label>
+                                    <textarea name="message" class="form-control" id="message" rows="3" placeholder="Votre message"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary rounded mt-3">Envoyer</button>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>
