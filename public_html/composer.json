@@ -16,6 +16,7 @@
         "psr/http-server-handler": "^1.0",
         "mezzio/mezzio-fastroute": "^3.2",
         "twig/twig": "^3.3",
-        "phpmailer/phpmailer": "^6.5"
+        "phpmailer/phpmailer": "^6.5",
+        "vlucas/phpdotenv": "^5.4"
     }
 }

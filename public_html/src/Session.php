@@ -10,6 +10,10 @@ class Session
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+        } else if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        } else {
+            session_destroy();
         }
     }
 

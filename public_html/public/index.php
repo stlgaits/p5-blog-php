@@ -3,6 +3,22 @@
 use GuzzleHttp\Psr7\Response;
 
 require_once realpath("./../vendor/autoload.php");
+/**
+ * For security reasons, store sensitive data in a .env file
+ * This file must be located at the root of your project (same directory as .env.example)
+ */
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+/** These variables MUST be filled in (in .env) for the blog to work */
+$dotenv->required([
+    'DB_HOST', 
+    'DB_NAME', 
+    'DB_USER', 
+    'DB_PASSWD', 
+    'BLOG_ADMIN_EMAIL', 
+    'BLOG_ADMIN_FULLNAME'
+]);
+
 require_once __DIR__ . '/../src/config.php';
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
