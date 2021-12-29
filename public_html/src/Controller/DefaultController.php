@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Mailer;
 use App\Session;
 use App\TwigRenderer;
+use GuzzleHttp\Psr7\ServerRequest;
 
 /**
  * Parent of all controllers
@@ -15,32 +16,31 @@ class DefaultController
      *
      * @var ServerRequest
      */
-    private $request;
+    protected $request;
 
     /**
      * Twig Environment
      *
      * @var TwigRenderer
      */
-    private $environment;
+    protected $environment;
 
     /**
      * Twig Renderer
      */
-    private $renderer;
+    protected $renderer;
 
     /**
      * User session
      *
      * @var Session
      */
-    private $session;
+    protected $session;
 
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
-        // $this->mailer = new Mailer();
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
