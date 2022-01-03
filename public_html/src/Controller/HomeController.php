@@ -7,27 +7,8 @@ use App\TwigRenderer;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
 
-class HomeController
+class HomeController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
-
-    /**
-     * User session
-     *
-     * @var Session
-     */
-    private $session;
-
     /**
      * User Manager - accessing users in database
      *
@@ -44,15 +25,24 @@ class HomeController
 
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
-        $this->session = new Session();
+        parent::__construct();
         $this->userManager = new UserManager();
         $this->userController = new UserController();
     }
 
     public function index(): Response
     {
+        // var_dump($_SESSION);
+        // // var_dump($this->session);
+        // // var_dump($this->session->get('flashMessage'));
+        // // foreach($this->session as $stf){
+        //     //     var_dump($stf);
+        //     // }
+        //     var_dump($this->session->getStatus());
+        // $this->session->reset();
+
+        //     var_dump($_SESSION);
+        // var_dump($this->session->getStatus());
         // change view according to whether user is logged in or not
         if ($this->userController->isLoggedIn()) {
             // Display username

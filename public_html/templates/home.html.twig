@@ -67,12 +67,13 @@
             <div class="row mb-5 justify-content-center">
                 <div class="col-md-6 mb-5">
                     <div class="card shadow p-5 rounded">
-                    {% if flashMessage %}
+                    {# {% if flashMessage %}
                         <div class="alert alert-dismissible alert-secondary">
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         <strong>Merci!</strong>  {{flashMessage}}
                         </div>
-                    {% endif %}
+                    {% endif %} #}
+                        {% block flash_message %}{% endblock %}
                         <form method="POST" action="/send-mail">
                             <fieldset>
                                 <legend>Me contacter</legend>

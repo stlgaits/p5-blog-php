@@ -25,7 +25,7 @@ class Mailer
         // passing true enables exceptions
         $this->mailer = new PHPMailer(true);
          // Server settings
-         $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;   // Enable verbose debug output (for dev only)
+        //  $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;   // Enable verbose debug output (for dev only)
         $this->mailer->isSMTP();                            // Send using SMTP
          $this->mailer->Host       = __SMTPHOST;           // Set the SMTP server to send through
          $this->mailer->SMTPAuth   = true;                // Enable SMTP authentication
@@ -63,7 +63,6 @@ class Mailer
                     return $this->mailer->ErrorInfo;
             } else{
                     return $mail;
-                    // return 'Message bien envoyé';
             }
         } catch (Exception $e) {
             return "Le message n'a pas pu être envoyé. Mailer Error: {$this->mailer->ErrorInfo} - PHP Error : {$e->getMessage()} line {$e->getLine()} at {$e->getFile()}";

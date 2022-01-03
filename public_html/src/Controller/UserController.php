@@ -9,19 +9,8 @@ use App\TwigRenderer;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
 
-class UserController
+class UserController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
 
     /**
      * User manager : PDO connection to Users stored in the database
@@ -30,25 +19,10 @@ class UserController
      */
     private $userManager;
 
-    /**
-     *
-     * @var ServerRequest
-     */
-    private $request;
-
-    /**
-     *
-     * @var Session
-     */
-    private $session;
-
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
+        parent::__construct();
         $this->userManager = new UserManager();
-        $this->session = new Session();
-        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
 
     /**

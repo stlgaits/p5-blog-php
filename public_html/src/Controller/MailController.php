@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Mailer;
-use App\Session;
-use App\TwigRenderer;
 use GuzzleHttp\Psr7\Response;
 use App\Controller\HomeController;
 use App\Controller\DefaultController;
@@ -18,18 +16,10 @@ class MailController extends DefaultController
      * @var Mailer
      */
     private $mailer;
-
-    /**
-     * Controller used to redirect to homepage once form is submitted
-     *
-     * @var HomeController
-     */
-    private $homeController;
     
     public function __construct()
     {
         parent::__construct();
-        $this->homeController = new HomeController();
         $this->mailer = new Mailer();
     }
 
@@ -42,9 +32,12 @@ class MailController extends DefaultController
         $message = filter_var($this->request->getParsedBody()['message'], FILTER_SANITIZE_STRING);
         // Send email to mailer 
         $mail = $this->mailer->sendMail("Contact - Blog PHP Estelle Gaits", $message, $emailAddress, $firstname.' '.$lastname);
-        $flashMessage = $mail;
+        $flashMessage = "Désolée, votre message n'a pas pu être envoyé.";
+        if($mail === 1){
+            $flashMessage = "Votre message a bien été envoyé. Un administrateur vous répondra par email.";
+        }
         // Store flash message(response from mailer) in user session
         $this->session->set('flashMessage', $flashMessage);
-        return $this->homeController->index();
+        return new Response(301, ['Location' => '/'] );
     }
 }

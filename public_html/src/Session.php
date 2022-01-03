@@ -5,15 +5,29 @@ namespace App;
 class Session
 {
 
+    public function __construct()
+    {
+        session_start();
+    }
+
+    public function getStatus()
+    {
+        return session_status();
+    }
+
+    public function reset()
+    {
+        return session_reset();
+    }
 
     private function ensureStarted()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
-        } else if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        } else {
-            session_destroy();
+        // } else if (session_status() !== PHP_SESSION_ACTIVE) {
+        //     session_start();
+        // } else {
+        //     session_destroy();
         }
     }
 
