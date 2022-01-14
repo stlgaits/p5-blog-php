@@ -2,40 +2,13 @@
 
 namespace App\Controller;
 
-use App\TwigRenderer;
-use App\Model\UserManager;
+use App\Auth;
 use App\Model\CommentManager;
 use GuzzleHttp\Psr7\Response;
-use App\Controller\UserController;
 
 //TODO: refactor the code in ADMINCONTROLLER to implement this class (and do the same for Post & User as well)
-class CommentController
+class CommentController extends DefaultController
 {
-
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
-
-    /**
-     * User Controller
-     *
-     * @var UserController
-     */
-    private $userController;
-
-    /**
-     *
-     * @var ServerRequest
-     */
-    private $request;
 
     /**
      * Comments PDO connection to database
@@ -44,23 +17,28 @@ class CommentController
      */
     private $commentManager;
 
+    /**
+     * User auth / guard
+     *
+     * @var Auth
+     */
+    private $userAuth;
+
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
-        $this->userController = new UserController();
+        parent::__construct();
+        $this->userAuth = new Auth();
         $this->commentManager = new CommentManager();
-        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     }
 
 
     public function addComment(int $postId): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => '/../../login']);
         }
-        $user = $this->userController->getCurrentUser();
+        $user = $this->userAuth->getCurrentUser();
         $author = $user->getId();
         $title =  $this->request->getParsedBody()['commentTitle'];
         $content =  $this->request->getParsedBody()['commentContent'];

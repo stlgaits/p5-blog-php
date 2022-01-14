@@ -7,7 +7,7 @@ class Session
 
     public function __construct()
     {
-        session_start();
+        $this->ensureStarted();
     }
 
     public function getStatus()
@@ -24,10 +24,6 @@ class Session
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
-        // } else if (session_status() !== PHP_SESSION_ACTIVE) {
-        //     session_start();
-        // } else {
-        //     session_destroy();
         }
     }
 

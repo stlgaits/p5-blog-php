@@ -90,4 +90,12 @@ class UserManager extends Manager
 
         return new User($r->fetch());
     }
+
+    public function disable($id){
+        $sql = "UPDATE user SET deleted = :deleted WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('deleted', true, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
+    }
 }

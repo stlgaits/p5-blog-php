@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Mailer;
 use App\Session;
 use App\TwigRenderer;
 use GuzzleHttp\Psr7\ServerRequest;

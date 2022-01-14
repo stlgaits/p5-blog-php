@@ -2,27 +2,14 @@
 
 namespace App\Controller;
 
-use App\Session;
-use App\TwigRenderer;
+use App\Auth;
 use App\Model\PostManager;
 use App\Model\UserManager;
 use App\Model\CommentManager;
 use GuzzleHttp\Psr7\Response;
 
-class AdminController
+class AdminController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
-
     /**
      * PostManager
      *
@@ -37,27 +24,6 @@ class AdminController
      */
     private $userManager;
     
-    /**
-     * Current User Session
-     *
-     * @var Session
-     */
-    private $session;
-
-    /**
-     *
-     * @var ServerRequest
-     */
-    private $request;
-
-
-    /**
-     * User Controller
-     *
-     * @var UserController
-     */
-    private $userController;
-
     /**
      * Currently logged in user
      *
@@ -74,36 +40,32 @@ class AdminController
 
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
+        parent::__construct();
         $this->postManager = new PostManager();
         $this->userManager = new UserManager();
         $this->commentManager = new CommentManager();
-        $this->userController = new UserController();
-        $this->session = new Session();
-        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        $this->userAuth = new Auth();
         // only allow access to users who are both logged in and have admin role
         // if ($this->userController->isCurrentUserAdmin() === false) {
         // if ($this->userController->isCurrentUserAdmin() === false) {
         //     //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
         //     return new Response(301, ['Location' => 'login']);
         // }
-        $this->user = $this->userController->getCurrentUser();
+        $this->user = $this->userAuth->getCurrentUser();
     }
 
     public function index(): Response
     {
-        if ($this->userController->isCurrentUserAdmin() === false) {
+        if ($this->userAuth->isCurrentUserAdmin() === false) {
             //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
             return new Response(301, ['Location' => 'login']);
         }
 
 
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
-        // $this->user = $this->userController->getCurrentUser();
         return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $this->user]));
     }
 
@@ -111,7 +73,7 @@ class AdminController
     public function createPost(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         return new Response(200, [], $this->renderer->render('create-post.html.twig', ['user' => $this->user]));
@@ -121,7 +83,7 @@ class AdminController
     public function addPost(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $user = $this->userManager->read($this->session->get('userID'));
@@ -140,7 +102,7 @@ class AdminController
     public function showPosts(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $posts = $this->postManager->readAll();
@@ -167,7 +129,7 @@ class AdminController
     public function editPost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $post = $this->postManager->read($id);
@@ -177,7 +139,7 @@ class AdminController
     public function updatePost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $title =  $this->request->getParsedBody()['title'];
@@ -193,7 +155,7 @@ class AdminController
     public function deletePost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $this->postManager->delete($id);
@@ -204,7 +166,7 @@ class AdminController
     public function showUsers(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $users = $this->userManager->readAll();
@@ -215,10 +177,10 @@ class AdminController
     public function deleteUser($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
-        $this->userManager->delete($id);
+        $this->userManager->disable($id);
         // redirect to Admin Blog Posts List
             return new Response(302, ['Location' => '/admin/show-users']);
     }     
@@ -226,7 +188,7 @@ class AdminController
     public function editUser($id): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $user = $this->userManager->read($id);
@@ -239,7 +201,7 @@ class AdminController
     public function showPendingComments(): Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $comments = $this->commentManager->readAllWithAuthorsAndPostTitle();
@@ -250,7 +212,7 @@ class AdminController
     public function rejectComment($id): Response
     {   
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $comment = $this->commentManager->read($id);
@@ -268,7 +230,7 @@ class AdminController
     public function approveComment($id) : Response
     {
         // only allow access to users who are both logged in and have admin role
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
         }
         $comment = $this->commentManager->read($id);
@@ -282,6 +244,4 @@ class AdminController
         // redirect to all comments view 
         return new Response(301, ['Location' => './../show-comments']);
     }
-
-
 }

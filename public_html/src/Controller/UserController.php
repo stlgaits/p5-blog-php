@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
+use App\Auth;
 use Exception;
-use App\Session;
 use App\Entity\User;
-use App\TwigRenderer;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
 
@@ -19,10 +18,18 @@ class UserController extends DefaultController
      */
     private $userManager;
 
+    /**
+     * User Auth / guard
+     *
+     * @var Auth
+     */
+    private $userAuth;
+
     public function __construct()
     {
         parent::__construct();
         $this->userManager = new UserManager();
+        $this->userAuth = new Auth();
     }
 
     /**
@@ -33,7 +40,7 @@ class UserController extends DefaultController
     public function login()
     {
         // redirect user to homepage if user is already logged in
-        if ($this->isLoggedIn()) {
+        if ($this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => '/']);
         }
         return new Response(200, [], $this->renderer->render('login.html.twig'));
@@ -47,7 +54,7 @@ class UserController extends DefaultController
     public function register()
     {
         // redirect user to homepage if user is already logged in
-        if ($this->isLoggedIn()) {
+        if ($this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => '/']);
         }
         return new Response(200, [], $this->renderer->render('register.html.twig'));
@@ -61,7 +68,7 @@ class UserController extends DefaultController
     public function profile()
     {
         // redirect user to homepage if user isn't logged in
-        if (!$this->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => '/']);
         }
         return new Response(200, [], $this->renderer->render('profile.html.twig'));
@@ -116,6 +123,9 @@ class UserController extends DefaultController
     {
         $this->session->delete('username');
         $this->session->delete('userID');
+        if($this->session->get('flashMessage')){
+            $this->session->delete('flashMessage');
+        }
         $this->session->destroy();
         return new Response(301, ['Location' => '/']);
     }
@@ -163,64 +173,5 @@ class UserController extends DefaultController
             $user = null;
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));
         }
-    }
-
-
-    /**
-     * Checks whether user is currently logged in
-     *
-     * @return boolean
-     */
-    public function isLoggedIn(): bool
-    {
-        // User credentials are stored in User Session
-        if (empty($this->session->get('userID')) && empty($this->session->get('username'))) {
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks a user's role
-     *
-     * @return boolean
-     */
-    public function isAdmin($user): bool
-    {
-        if ($user->role === false || $user->role === 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Checks whether the current user has admin role
-     *
-     * @return boolean
-     */
-    public function isCurrentUserAdmin(): bool
-    {
-        /**
-         * First retrieve user from session
-         */
-        if ($this->isLoggedIn()) {
-            $user = $this->userManager->read($this->session->get('userID'));
-            $role = $user->getRole();
-            if ($role === false || $role === 0 || $role === '0') {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retrieves current user from session storage
-     *
-     * @return User
-     */
-    public function getCurrentUser(): User
-    {
-        return $this->userManager->read($this->session->get('userID'));
     }
 }

@@ -2,28 +2,14 @@
 
 namespace App\Controller;
 
-use App\TwigRenderer;
+use App\Auth;
 use App\Model\PostManager;
 use App\Model\UserManager;
 use App\Model\CommentManager;
-use App\Session;
 use GuzzleHttp\Psr7\Response;
 
-class BlogController
+class BlogController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
-
-
     /**
      * Post manager : PDO connection to Posts stored in the database
      *
@@ -47,24 +33,19 @@ class BlogController
 
 
     /**
-     * User Controller
+     * User auth / guard 
      *
-     * @var UserController
+     * @var Auth
      */
-    private $userController;
+    private $userAuth;
 
-    private $session;
-
-    
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
+        parent::__construct();
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
-        $this->session = new Session();
         $this->commentManager = new CommentManager();
-        $this->userController = new UserController();
+        $this->userAuth = new Auth();
     }
     
     /**
@@ -81,7 +62,7 @@ class BlogController
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(
                 200,
                 [],
@@ -94,7 +75,7 @@ class BlogController
                 )
             );
         }
-        $user = $this->userController->getCurrentUser();
+        $user = $this->userAuth->getCurrentUser();
         return new Response(
             200,
             [],
@@ -121,7 +102,7 @@ class BlogController
         $comments = $this->commentManager->getApprovedComments($id);
         $message = $this->session->get('message');
 
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(
                 200,
                 [],
@@ -135,7 +116,7 @@ class BlogController
                 )
             );
         }
-        $user = $this->userController->getCurrentUser();
+        $user = $this->userAuth->getCurrentUser();
         return new Response(
             200,
             [],
