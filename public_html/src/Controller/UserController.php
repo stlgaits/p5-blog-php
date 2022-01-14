@@ -38,11 +38,11 @@ class UserController extends DefaultController
      *
      * @return Response
      */
-    public function login()
+    public function login(): Response
     {
         // redirect user to homepage if user is already logged in
         if ($this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => '/']);
+            return $this->redirect->redirectToHomePage();
         }
         return new Response(200, [], $this->renderer->render('login.html.twig'));
     }
@@ -52,25 +52,25 @@ class UserController extends DefaultController
      *
      * @return Response
      */
-    public function register()
+    public function register(): Response
     {
         // redirect user to homepage if user is already logged in
         if ($this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => '/']);
+            return $this->redirect->redirectToHomePage();
         }
         return new Response(200, [], $this->renderer->render('register.html.twig'));
     }
 
     /**
-     * Get user profile's View
+     * Get user profile's View TODO: finish this view
      *
      * @return Response
      */
-    public function profile()
+    public function profile(): Response
     {
         // redirect user to homepage if user isn't logged in
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => '/']);
+            return $this->redirect->redirectToHomePage();
         }
         return new Response(200, [], $this->renderer->render('profile.html.twig'));
     }
@@ -80,7 +80,7 @@ class UserController extends DefaultController
      *
      * @return Response
      */
-    public function registerUser()
+    public function registerUser(): Response
     {
         $message = 'Veuillez renseigner vos futurs identifiants de connexion.';
         $email = $this->request->getParsedBody()['email'];
@@ -125,7 +125,7 @@ class UserController extends DefaultController
      *
      * @return Response (Redirect to homepage)
      */
-    public function logoutUser()
+    public function logoutUser(): Response
     {
         $this->session->delete('username');
         $this->session->delete('userID');
@@ -142,7 +142,7 @@ class UserController extends DefaultController
      *
      * @return Response
      */
-    public function loginUser()
+    public function loginUser(): Response
     {
         $email = $this->request->getParsedBody()['email'];
         $password = $this->request->getParsedBody()['password'];
@@ -183,7 +183,7 @@ class UserController extends DefaultController
 
 
 
-    //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php
+    //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php (utiliser méthode update direct sinon?)
     public function promoteUserToRoleAdmin(int $id)
     {
         $this->userManager->promote($id);

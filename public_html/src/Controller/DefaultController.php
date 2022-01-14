@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Session;
 use App\TwigRenderer;
+use App\Service\Redirect;
 use GuzzleHttp\Psr7\ServerRequest;
 
 /**
@@ -36,12 +37,20 @@ class DefaultController
      */
     protected $session;
 
+    /**
+     * Redirection service for 301/302 Responses
+     *
+     * @var Redirect
+     */
+    protected $redirect;
+
     public function __construct()
     {
         $this->environment = new TwigRenderer();
         $this->renderer = $this->environment->getTwig();
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        $this->redirect = new Redirect();
     }
 
 

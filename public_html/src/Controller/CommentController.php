@@ -36,7 +36,7 @@ class CommentController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => '/../../login']);
+            return new Response(301, ['Location' => 'login']);
         }
         $user = $this->userAuth->getCurrentUser();
         $author = $user->getId();
@@ -48,7 +48,7 @@ class CommentController extends DefaultController
         $message = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
         $_SESSION['message'] = $message;
         // TODO: find out how to pass the message to the view within a redirect
-        return new Response(301, ['Location' => './../../post/'.$postId]);
+        return new Response(301, ['Location' => 'post/'.$postId]);
     }
 
 }

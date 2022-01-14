@@ -45,23 +45,14 @@ class AdminController extends DefaultController
         $this->userManager = new UserManager();
         $this->commentManager = new CommentManager();
         $this->userAuth = new Auth();
-        // only allow access to users who are both logged in and have admin role
-        // if ($this->userController->isCurrentUserAdmin() === false) {
-        // if ($this->userController->isCurrentUserAdmin() === false) {
-        //     //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
-        //     return new Response(301, ['Location' => 'login']);
-        // }
         $this->user = $this->userAuth->getCurrentUser();
     }
 
     public function index(): Response
     {
         if ($this->userAuth->isCurrentUserAdmin() === false) {
-            //TODO: bugfix why would this work with isLoggedIn() but not with iscrrentUserAdmin ???? despite clearly getting a false result and entering condition
             return new Response(301, ['Location' => 'login']);
         }
-
-
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
             return new Response(301, ['Location' => 'login']);
@@ -219,7 +210,7 @@ class AdminController extends DefaultController
         $status = $comment->getStatus();
         // Cannot reject a comment that's not pending
         if($status !== $comment::PENDING){
-            return new Response(301, ['Location' => './../show-comments']);
+            return new Response(301, ['Location' => '/admin/show-comments']);
         }
         $comment->setStatus($comment::REJECTED);
         $this->commentManager->updateCommentStatus($id, $comment->getStatus());

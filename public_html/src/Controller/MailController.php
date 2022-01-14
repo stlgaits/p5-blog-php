@@ -23,7 +23,7 @@ class MailController extends DefaultController
         $this->mailer = new Mailer();
     }
 
-    public function sendMail()
+    public function sendMail(): Response
     {
         try {
             $flashMessage = "Désolée, votre message n'a pas pu être envoyé.";
