@@ -103,10 +103,43 @@ class UserManager extends Manager
         return new User($r->fetch());
     }
 
-    public function disable($id){
+    /**
+     * Deactivates a user entirely (won't be able to log in anymore)
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function disable(int $id){
         $sql = "UPDATE user SET deleted = :deleted WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('deleted', true, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
+    }
+
+    /**
+     * Promotes user to role admin
+     *
+     * @param int $id
+     * @return void
+     */
+    public function promote(int $id){
+        $sql = "UPDATE user SET role = :role WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('role', true, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
+    }
+    /**
+     * Demotes user to simple user role
+     *
+     * @param int $id
+     * @return void
+     */
+    public function demote(int $id){
+        $sql = "UPDATE user SET role = :role WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('role', false, PDO::PARAM_BOOL);
         $r->bindValue('id', $id, PDO::PARAM_INT);
         $r->execute();
     }

@@ -50,7 +50,7 @@ class Auth
      */
     public function isAdmin($user): bool
     {
-        if ($user->getRole() === false || $user->getRole() === 0) {
+        if ($user->getRole() === false || $user->getRole() === 0 || $user->getROle() === '0') {
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ class Auth
      */
     public function isDisabled($user): bool
     {
-        if ($user->getDeleted() === true || $user->getDeleted() === 1){
+        if ($user->getDeleted() === true || $user->getDeleted() === 1 ||  $user->getDeleted() === '1'){
             return true;
         }
         return false;

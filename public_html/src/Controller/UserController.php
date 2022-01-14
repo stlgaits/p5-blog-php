@@ -7,6 +7,7 @@ use Exception;
 use App\Entity\User;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
+use App\Controller\DefaultController;
 
 class UserController extends DefaultController
 {
@@ -155,7 +156,7 @@ class UserController extends DefaultController
         }
         try {
             $user = $this->userManager->findByEmail($email);
-            if (empty($user) || $user->getDeleted() === 1 || $user->getDeleted() === true) {
+            if (empty($user) || $this->userAuth->isDisabled($user)) {
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             $actualPassword = $user->getPassword();
@@ -178,5 +179,18 @@ class UserController extends DefaultController
             $user = null;
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));
         }
+    }
+
+
+
+
+    public function promoteUserToRoleAdmin(int $id)
+    {
+        $this->userManager->promote($id);
+    }
+
+    public function demoteUser(int $id)
+    {
+        $this->userManager->demote($id);
     }
 }
