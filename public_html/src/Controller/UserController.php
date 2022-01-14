@@ -183,7 +183,7 @@ class UserController extends DefaultController
 
 
 
-
+    //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php
     public function promoteUserToRoleAdmin(int $id)
     {
         $this->userManager->promote($id);
