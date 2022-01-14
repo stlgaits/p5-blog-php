@@ -41,6 +41,18 @@ class UserManager extends Manager
             return null;
         }
         return new User($result);
+    } 
+    public function findByUsername(string $username)
+    {
+        $sql = "SELECT * FROM user WHERE username = ?";
+        $r = $this->db->prepare($sql);
+        $r->bindValue(1, $username, PDO::PARAM_STR);
+        $r->execute();
+        $result = $r->fetch();
+        if (!$result) {
+            return null;
+        }
+        return new User($result);
     }
 
     public function create($username, $email, $first_name, $last_name, $password, $role)

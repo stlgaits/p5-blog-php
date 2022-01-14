@@ -98,15 +98,20 @@ class UserController extends DefaultController
                 $message = 'Cette adresse email est déjà associée à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
+            // check if username doesn't already exist
+            if($this->userManager->findByUsername($username) !== null){
+                $message = 'Ce pseudo est déjà associé à un compte.';
+                return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+            }
             $admin = 0;
             $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, $admin);
             if (empty($user)) {
                 $message = "Impossible de créer le nouvel utilisateur";
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
-            // TODO: redirect to LOGIN user (post) so that user lands on either homepage or profile page
             $message = "Votre compte a été créé avec succès";
-            return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message, 'success' => true]));
+            $this->session->set('flashMessage', $message);
+            return $this->loginUser();
         } catch (Exception $e) {
             $message = $e->getMessage();
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
@@ -150,7 +155,7 @@ class UserController extends DefaultController
         }
         try {
             $user = $this->userManager->findByEmail($email);
-            if (empty($user)) {
+            if (empty($user) || $user->getDeleted() === 1 || $user->getDeleted() === true) {
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             $actualPassword = $user->getPassword();
