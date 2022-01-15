@@ -1,15 +1,12 @@
-.card-img-top
-{
+.card-img-top {
     max-height: 30vh;
 }
 
-#jumbotron-container 
-{
+#jumbotron-container {
     position: relative;
 }
 
-#jumbotron-title
-{
+#jumbotron-title {
     padding-left: 5vw;
     padding-top: 30vh;
     position: absolute;
@@ -20,7 +17,6 @@
     height:100%;
 }
 
-#estelle
-{
+#estelle {
     font-size: 6rem;
 }

@@ -30,18 +30,23 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/blog">Articles</a>
                         </li>
-                        <li class="nav-item">
-                            {% if user %}
+                        {% if user %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile">Mon compte</a>
+                            </li>
+                            <li class="nav-item">
                                 <form action="/logout-user" method="post">
                                     <button class="btn btn-warning" type="submit">Déconnexion</button>
                                 </form>
-                            {% else %}
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
                                 <a class="nav-link" href="/login">Connexion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Inscription</a>
-                        </li>
-                            {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/register">Inscription</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

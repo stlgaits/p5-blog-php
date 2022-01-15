@@ -72,7 +72,8 @@ class UserController extends DefaultController
         if (!$this->userAuth->isLoggedIn()) {
             return $this->redirect->redirectToHomePage();
         }
-        return new Response(200, [], $this->renderer->render('profile.html.twig'));
+        $user = $this->userAuth->getCurrentUser();
+        return new Response(200, [], $this->renderer->render('profile.html.twig', ['user' => $user]));
     }
 
     /**

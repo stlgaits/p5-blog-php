@@ -6,10 +6,100 @@
 {% endblock %}
 {% block content %}
     <div id="content" class="container mb-5">
-        <main class="p-5">
-            <div class="card shadow">
-            <div class="card-body">
-                <h1 class="card-title">Mon Profil</h1>
+        <main class="p-5 mb-5">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <div class="card shadow rounded mb-5">
+                        <div class="card-body mx-5">
+                            <div class="row">
+                                <div class="col text-center mt-2">
+                                    <h1 class="card-title">Mon Profil</h1>
+                                    <p class="lead">Modifier ses informations personnelles est un jeu d'enfant !</p>
+                                    <img class="mt-2" src="/public/assets/images/Coccinelle-seule.png" alt="" width="72" height="72">
+                                    <p class="lead">{{user.username}}</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col mb-5">       
+                                    <form method="post" action="/edit-user">
+                                        <div class="mb-3 input-group">
+                                            <span class="input-group-text">Adresse email</span>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" value="{{user.email}}" aria-label="email" disabled />
+                                        </div>
+                                        <div class="mb-3 input-group">
+                                            <span class="input-group-text">Pseudo</span>
+                                            <input type="text" class="form-control" placeholder="Votre pseudo" name="username" value="{{user.username}}" aria-label="username">
+                                        </div>
+                                        <div class="mb-3 input-group">
+                                            <span class="input-group-text">Prénom</span>
+                                            <input type="text" class="form-control" placeholder="Votre prénom" name="firstname" value="{{user.first_name}}">
+                                        </div>                            
+                                        <div class="mb-3 input-group">
+                                            <span class="input-group-text">Nom</span>
+                                            <input type="text" class="form-control" placeholder="Votre nom" name="lastname" value="{{user.last_name}}">
+                                        </div>                
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-primary rounded mb-2">Modifier</button>
+                                            {# TODO: add & implement this method #}
+                                            <a href="/delete-my-account" role="button" class="btn btn-danger rounded">Supprimer mon compte</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="col">
+                    <div class="card shadow rounded mb-5">
+                        <div class="card-body mx-5">
+                            <div class="row">
+                                <div class="col text-center mt-2">
+                                    <h2 class="card-title">Mot de passe</h2>
+                                    <p class="lead text-secondary">Modifiez votre mot de passe</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col mb-5">       
+                                    <form method="post" action="/edit-user">
+                                        <div class="mb-3">
+                                        {# TODO: add && implement methods to 1: update password 2: verif password strength + check current password is correct #}
+                                            <div class="mb-2 input-group">
+                                                <span class="input-group-text">Mot de passe actuel</span>
+                                                <input type="password" class="form-control" id="oldpassword">
+                                            </div>
+                                            <div class="mb-2 input-group">
+                                                <span class="input-group-text">Nouveau mot de passe</span>
+                                                <input type="password" class="form-control" id="newpassword1">
+                                            </div> 
+                                            <div class="mb-2 input-group">
+                                                <span class="input-group-text">Nouveau mot de passe</span>
+                                                <input type="password" class="form-control" id="newpassword2" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-primary rounded mb-2">Modifier</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow rounded mb-5">
+                        <div class="card-body mx-5 mb-5">
+                            <div class="row">
+                                <div class="col text-center my-2">
+                                    <h3 class="card-title">Mes commentaires</h3>
+                                    <p class="lead text-secondary">Liste des commentaires que vous avez laissés</p>
+                                    {# TODO: could be a nice feature to implement #}
+                                    <a href="postID" class="text-secondary">Article 1 - le 00/00/00 à 00:00:00</a>
+                                    <div>Anim consequat aute sint excepteur labore. Ex sit laboris id qui aliqua sunt ea sunt quis ut adipisicing cillum. Aliqua excepteur adipisicing cillum pariatur. Quis qui exercitation mollit officia fugiat ea ipsum. Veniam reprehenderit culpa voluptate labore.</div>
+                                    <a href="postID" class="text-secondary">Article 2  - le 00/00/00 à 00:00:00</a>
+                                    <div>Anim consequat aute sint excepteur labore. Ex sit laboris id qui aliqua sunt ea sunt quis ut adipisicing cillum. Aliqua excepteur adipisicing cillum pariatur. Quis qui exercitation mollit officia fugiat ea ipsum. Veniam reprehenderit culpa voluptate labore.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
