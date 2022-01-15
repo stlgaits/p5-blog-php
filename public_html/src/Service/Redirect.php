@@ -31,17 +31,17 @@ class Redirect
     public function redirectToAdminBlogPostsList()
     {
         return $this->redirect('/admin/show-posts');
-    }   
+    }
     
     public function redirectToAdminCommentsList()
     {
         return $this->redirect('/admin/show-comments');
-    } 
+    }
 
     public function redirectToAdminUsersList()
     {
         return $this->redirect('/admin/show-users');
-    }   
+    }
 
     public function redirectToBlog()
     {

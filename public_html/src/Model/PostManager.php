@@ -87,7 +87,7 @@ class PostManager extends Manager
     }
 
     /**
-     * Update a blog post 
+     * Update a blog post
      *
      * @param integer $id
      * @param string $title

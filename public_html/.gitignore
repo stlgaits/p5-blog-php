@@ -5,3 +5,7 @@
 # environment variables #
 .env
 # environment variables #
+
+# Unit Testing #
+.phpunit.result.cache
+# Unit Testing #

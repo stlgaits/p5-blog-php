@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 /**
  * Allows you to send emails via SMTP using the PHPMailer library
- * The config variables relative to your SMTP must be stored in .env file 
+ * The config variables relative to your SMTP must be stored in .env file
  */
 class Mailer
 {
@@ -21,7 +21,7 @@ class Mailer
     private $mailer;
 
     public function __construct()
-	{
+    {
         // passing true enables exceptions
         $this->mailer = new PHPMailer(true);
          // Server settings
@@ -33,7 +33,7 @@ class Mailer
          $this->mailer->Password   = __SMTPPASSWD;      // SMTP password
          $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;      // Enable implicit TLS encryption
          $this->mailer->Port       = __SMTPPORT;      // TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-	}
+    }
 
     /**
     * Sends emails from a contact form to the blog admin's email via SMTP
@@ -51,7 +51,7 @@ class Mailer
             $this->mailer->setFrom($fromAddress, $fromName);
             $this->mailer->addAddress(__SMTPEMAILADDRESS, __SMTPFULLNAME); // Add a recipient
             $this->mailer->addAddress(__SMTPEMAILADDRESS2);               // Name is optional
-            $this->mailer->addReplyTo($fromAddress, $fromName);   
+            $this->mailer->addReplyTo($fromAddress, $fromName);
 
             // Content
             $this->mailer->isHTML(true);       // Set email format to HTML
@@ -61,7 +61,7 @@ class Mailer
             $mail =  $this->mailer->send();
             if (!$mail) {
                     return $this->mailer->ErrorInfo;
-            } else{
+            } else {
                     return $mail;
             }
         } catch (Exception $e) {

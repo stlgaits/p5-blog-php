@@ -22,7 +22,7 @@ class BlogController extends DefaultController
      *
      * @var UserManager
      */
-    private $userManager; 
+    private $userManager;
     
     /**
      * Comment manager : PDO connection to Comments stored in the database
@@ -33,7 +33,7 @@ class BlogController extends DefaultController
 
 
     /**
-     * User auth / guard 
+     * User auth / guard
      *
      * @var Auth
      */
