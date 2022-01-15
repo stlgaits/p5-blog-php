@@ -47,8 +47,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/admin/show-posts', 'AdminController@showPosts');
     $r->addRoute('GET', '/admin/show-users', 'AdminController@showUsers');
     $r->addRoute('GET', '/admin/show-comments', 'AdminController@showPendingComments');
-    $r->addRoute('POST', '/admin/approve-comment/{id}', 'AdminController@approveComment');
-    $r->addRoute('POST', '/admin/reject-comment/{id}', 'AdminController@rejectComment');
+    $r->addRoute('POST', '/admin/approve-comment/{id}', 'CommentController@approveComment');
+    $r->addRoute('POST', '/admin/reject-comment/{id}', 'CommentController@rejectComment');
     $r->addRoute('GET', '/admin/delete-user/{id}', 'AdminController@deleteUser');
     $r->addRoute('GET', '/admin/user/{id}', 'AdminController@editUser');
     

@@ -15,6 +15,7 @@ class Session
         return session_status();
     }
 
+
     public function reset()
     {
         return session_reset();
@@ -66,5 +67,16 @@ class Session
     {
         $this->ensureStarted();
         unset($_SESSION[$key]);
+    }
+
+    /**
+     * All session variables
+     *
+     * @return void
+     */
+    public function getAll()
+    {
+        $this->ensureStarted();
+        return $_SESSION;
     }
 }

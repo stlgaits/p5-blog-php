@@ -33,7 +33,7 @@ class MailController extends DefaultController
             $lastname = filter_var($this->request->getParsedBody()['lastname'], FILTER_SANITIZE_STRING);
             $message = filter_var($this->request->getParsedBody()['message'], FILTER_SANITIZE_STRING);
             if ($emailAddress === false || $firstname === false || $lastname === false || $message === false){
-                return new Response(301, ['Location' => '/'] );
+                return $this->redirect->redirectToHomePage();
             }
             // Send email to mailer 
             $mail = $this->mailer->sendMail("Contact - Blog PHP Estelle Gaits", $message, $emailAddress, $firstname.' '.$lastname);
@@ -45,6 +45,6 @@ class MailController extends DefaultController
         }
         // Store flash message(response from mailer) in user session
         $this->session->set('flashMessage', $flashMessage);
-        return new Response(301, ['Location' => '/'] );
+        return $this->redirect->redirectToHomePage();
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Auth;
+use App\Entity\Comment;
 use App\Model\CommentManager;
 use GuzzleHttp\Psr7\Response;
 
-//TODO: refactor the code in ADMINCONTROLLER to implement this class (and do the same for Post & User as well)
 class CommentController extends DefaultController
 {
 
@@ -36,7 +36,7 @@ class CommentController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $user = $this->userAuth->getCurrentUser();
         $author = $user->getId();
@@ -45,10 +45,53 @@ class CommentController extends DefaultController
         $newCommentId = $this->commentManager->create($title, $content, $author, $postId);
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
         $this->commentManager->read($newCommentId);
-        $message = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
-        $_SESSION['message'] = $message;
+        $flashMessage = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
+        $this->session->set('flashMessage', $flashMessage);
         // TODO: find out how to pass the message to the view within a redirect
-        return new Response(301, ['Location' => 'post/'.$postId]);
+        return $this->redirect->redirectToCurrentBlogPost($postId);
     }
 
+    public function rejectComment(int $id): Response
+    { 
+        return $this->decideOnCommentStatus($id, 'reject');
+    }
+
+    public function approveComment(int $id): Response
+    {
+        return $this->decideOnCommentStatus($id, 'approve');
+    }
+
+    public function reject(Comment $comment)
+    {
+        return $comment->setStatus($comment::REJECTED);
+    }
+
+    public function approve(Comment $comment)
+    {
+        return $comment->setStatus($comment::APPROVED);
+    }
+
+    public function decideOnCommentStatus(int $id, string $action): Response
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userAuth->isLoggedIn()) 
+        {
+            return $this->redirect->redirectToLoginPage();
+        }
+        $comment = $this->commentManager->read($id);
+        $status = $comment->getStatus();
+        // Cannot reject a comment that's not pending
+        if($status !== $comment::PENDING)
+        {
+            return $this->redirect->redirectToAdminCommentsList();
+        }
+        if($action === 'approve')
+        {
+            $this->approve($comment);   
+        } else {
+            $this->reject($comment);   
+        }
+        $this->commentManager->updateCommentStatus($id, $comment->getStatus());
+        return $this->redirect->redirectToAdminCommentsList();
+    }
 }

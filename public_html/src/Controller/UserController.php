@@ -133,7 +133,7 @@ class UserController extends DefaultController
             $this->session->delete('flashMessage');
         }
         $this->session->destroy();
-        return new Response(301, ['Location' => '/']);
+        return $this->redirect->redirectToHomePage();
     }
 
     /**
@@ -174,7 +174,7 @@ class UserController extends DefaultController
             $this->session->set('username', $user->getUsername());
             $this->session->set('userID', $user->getId());
             // successful login redirects to homepage
-            return new Response(301, ['Location' => '/']);
+            return $this->redirect->redirectToHomePage();
         } catch (Exception $e) {
             $user = null;
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));

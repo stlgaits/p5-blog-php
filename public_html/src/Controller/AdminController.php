@@ -51,11 +51,11 @@ class AdminController extends DefaultController
     public function index(): Response
     {
         if ($this->userAuth->isCurrentUserAdmin() === false) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         return new Response(200, [], $this->renderer->render('admin.html.twig', ['user' => $this->user]));
     }
@@ -65,7 +65,7 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         return new Response(200, [], $this->renderer->render('create-post.html.twig', ['user' => $this->user]));
     }
@@ -75,7 +75,7 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $user = $this->userManager->read($this->session->get('userID'));
         $title =  $this->request->getParsedBody()['title'];
@@ -87,14 +87,14 @@ class AdminController extends DefaultController
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
         $this->postManager->read($newBlogPostId);
         // redirect to Admin Blog Posts List
-        return new Response(301, ['Location' => 'show-posts']);
+        return $this->redirect->redirectToAdminBlogPostsList();
     }
 
     public function showPosts(): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $posts = $this->postManager->readAll();
         foreach ($posts as $post) {
@@ -121,7 +121,7 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $post = $this->postManager->read($id);
         return new Response(200, [], $this->renderer->render('edit-post.html.twig', ['post' => $post, 'user' => $this->user]));
@@ -131,7 +131,7 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $title =  $this->request->getParsedBody()['title'];
         $content =  $this->request->getParsedBody()['content'];
@@ -139,26 +139,24 @@ class AdminController extends DefaultController
         $leadSentence = $this->request->getParsedBody()['leadSentence'];
         $this->postManager->update($id, $title, $content, $slug, $leadSentence);
         // TODO: next step 3 : sécurIté (htmlspecialchars etc)
-        // redirect to Admin Blog Posts List
-        return new Response(301, ['Location' => '/admin/show-posts']);
+        return $this->redirect->redirectToAdminBlogPostsList();
     }
 
     public function deletePost($id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $this->postManager->delete($id);
-        // redirect to Admin Blog Posts List
-        return new Response(302, ['Location' => '/admin/show-posts']);
+        return $this->redirect->redirectToAdminBlogPostsList();
     }
 
     public function showUsers(): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $users = $this->userManager->readAll();
 
@@ -169,18 +167,17 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $this->userManager->disable($id);
-        // redirect to Admin Blog Posts List
-            return new Response(302, ['Location' => '/admin/show-users']);
+        return $this->redirect->redirectToAdminUsersList();
     }     
     
     public function editUser($id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $user = $this->userManager->read($id);
         return new Response(200, [], $this->renderer->render('edit-user.html.twig', ['user' => $this->user, 'userAccount' => $user]));
@@ -193,46 +190,9 @@ class AdminController extends DefaultController
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
+            return $this->redirect->redirectToLoginPage();
         }
         $comments = $this->commentManager->readAllWithAuthorsAndPostTitle();
         return new Response(200, [], $this->renderer->render('pending-comments.html.twig', ['comments' => $comments, 'user' => $this->user]));
-    }
-
-    // TODO: The following 2 functions CLEARLY NEED REFACTORING since most of the code is the SAME
-    public function rejectComment($id): Response
-    {   
-        // only allow access to users who are both logged in and have admin role
-        if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
-        }
-        $comment = $this->commentManager->read($id);
-        $status = $comment->getStatus();
-        // Cannot reject a comment that's not pending
-        if($status !== $comment::PENDING){
-            return new Response(301, ['Location' => '/admin/show-comments']);
-        }
-        $comment->setStatus($comment::REJECTED);
-        $this->commentManager->updateCommentStatus($id, $comment->getStatus());
-        // redirect to all comments view 
-        return new Response(301, ['Location' => './../show-comments']);
-    }
-
-    public function approveComment($id) : Response
-    {
-        // only allow access to users who are both logged in and have admin role
-        if (!$this->userAuth->isLoggedIn()) {
-            return new Response(301, ['Location' => 'login']);
-        }
-        $comment = $this->commentManager->read($id);
-        $status = $comment->getStatus();
-        // Cannot reject a comment that's not pending
-        if($status !== $comment::PENDING){
-            return new Response(301, ['Location' => './../show-comments']);
-        }
-        $comment->setStatus($comment::APPROVED);
-        $this->commentManager->updateCommentStatus($id, $comment->getStatus());
-        // redirect to all comments view 
-        return new Response(301, ['Location' => './../show-comments']);
     }
 }
