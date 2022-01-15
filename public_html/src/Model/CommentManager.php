@@ -9,7 +9,7 @@ use App\Entity\Comment;
 class CommentManager extends Manager
 {
     /**
-     * Get all comments 
+     * Get all comments
      *
      * @return array of Comment objects
      */
@@ -30,7 +30,7 @@ class CommentManager extends Manager
      *
      * @param integer $id
      * @return Comment
-     */    
+     */
     public function read(int $id)
     {
         $sql = "SELECT * FROM comment WHERE id = ?";
@@ -122,7 +122,7 @@ class CommentManager extends Manager
      * @param string $title
      * @param string $content
      * @param integer $created_by Foreign key
-     * @param integer $post_id Foreign key 
+     * @param integer $post_id Foreign key
      * @return int
      */
     public function create(string $title, string $content, int $created_by, int $post_id)
@@ -145,5 +145,4 @@ class CommentManager extends Manager
 
         return $newCommentId;
     }
-
 }

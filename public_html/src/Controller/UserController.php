@@ -100,7 +100,7 @@ class UserController extends DefaultController
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
             // check if username doesn't already exist
-            if($this->userManager->findByUsername($username) !== null){
+            if ($this->userManager->findByUsername($username) !== null) {
                 $message = 'Ce pseudo est déjà associé à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
@@ -129,7 +129,7 @@ class UserController extends DefaultController
     {
         $this->session->delete('username');
         $this->session->delete('userID');
-        if($this->session->get('flashMessage')){
+        if ($this->session->get('flashMessage')) {
             $this->session->delete('flashMessage');
         }
         $this->session->destroy();
@@ -161,7 +161,7 @@ class UserController extends DefaultController
             }
             $actualPassword = $user->getPassword();
             // Check password input against hashed password in database
-            if(!password_verify($password, $actualPassword)){
+            if (!password_verify($password, $actualPassword)) {
             // wrong password input
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }

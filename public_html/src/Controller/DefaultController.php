@@ -52,6 +52,4 @@ class DefaultController
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
         $this->redirect = new Redirect();
     }
-
-
 }

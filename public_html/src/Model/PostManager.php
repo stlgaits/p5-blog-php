@@ -18,7 +18,7 @@ class PostManager extends Manager
     public function readAll()
     {
         $posts = [];
-        $sql = "SELECT * FROM post ORDER BY created_at";
+        $sql = "SELECT * FROM post ORDER BY created_at DESC";
         // TODO: jointure sur le User pour éviter d'avoir à appeler un READ supplémentaire pour chaque userID
         $results = $this->db->query($sql);
         while ($post = $results->fetch()) {
@@ -87,7 +87,7 @@ class PostManager extends Manager
     }
 
     /**
-     * Update a blog post 
+     * Update a blog post
      *
      * @param integer $id
      * @param string $title

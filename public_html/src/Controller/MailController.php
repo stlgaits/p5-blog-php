@@ -11,7 +11,7 @@ class MailController extends DefaultController
 {
 
     /**
-     * Mailer that handles emails via SMTP 
+     * Mailer that handles emails via SMTP
      *
      * @var Mailer
      */
@@ -32,15 +32,15 @@ class MailController extends DefaultController
             $firstname = filter_var($this->request->getParsedBody()['firstname'], FILTER_SANITIZE_STRING);
             $lastname = filter_var($this->request->getParsedBody()['lastname'], FILTER_SANITIZE_STRING);
             $message = filter_var($this->request->getParsedBody()['message'], FILTER_SANITIZE_STRING);
-            if ($emailAddress === false || $firstname === false || $lastname === false || $message === false){
+            if ($emailAddress === false || $firstname === false || $lastname === false || $message === false) {
                 return $this->redirect->redirectToHomePage();
             }
-            // Send email to mailer 
-            $mail = $this->mailer->sendMail("Contact - Blog PHP Estelle Gaits", $message, $emailAddress, $firstname.' '.$lastname);
-            if($mail === 1){
+            // Send email to mailer
+            $mail = $this->mailer->sendMail("Contact - Blog PHP Estelle Gaits", $message, $emailAddress, $firstname . ' ' . $lastname);
+            if ($mail === 1) {
                 $flashMessage = "Votre message a bien été envoyé. Un administrateur vous répondra par email.";
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $flashMessage = $e->getMessage();
         }
         // Store flash message(response from mailer) in user session

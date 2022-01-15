@@ -41,7 +41,7 @@ class UserManager extends Manager
             return null;
         }
         return new User($result);
-    } 
+    }
     public function findByUsername(string $username)
     {
         $sql = "SELECT * FROM user WHERE username = ?";
@@ -109,7 +109,8 @@ class UserManager extends Manager
      * @param integer $id
      * @return void
      */
-    public function disable(int $id){
+    public function disable(int $id)
+    {
         $sql = "UPDATE user SET deleted = :deleted WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('deleted', true, PDO::PARAM_BOOL);
@@ -123,7 +124,8 @@ class UserManager extends Manager
      * @param int $id
      * @return void
      */
-    public function promote(int $id){
+    public function promote(int $id)
+    {
         $sql = "UPDATE user SET role = :role WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('role', true, PDO::PARAM_BOOL);
@@ -136,7 +138,8 @@ class UserManager extends Manager
      * @param int $id
      * @return void
      */
-    public function demote(int $id){
+    public function demote(int $id)
+    {
         $sql = "UPDATE user SET role = :role WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('role', false, PDO::PARAM_BOOL);

@@ -115,7 +115,7 @@ class User
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-    }  
+    }
 
     private function hydrate($data)
     {

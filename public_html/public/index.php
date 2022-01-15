@@ -11,11 +11,11 @@ $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 /** These variables MUST be filled in (in .env) for the blog to work */
 $dotenv->required([
-    'DB_HOST', 
-    'DB_NAME', 
-    'DB_USER', 
-    'DB_PASSWD', 
-    'BLOG_ADMIN_EMAIL', 
+    'DB_HOST',
+    'DB_NAME',
+    'DB_USER',
+    'DB_PASSWD',
+    'BLOG_ADMIN_EMAIL',
     'BLOG_ADMIN_FULLNAME'
 ]);
 
@@ -51,7 +51,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/admin/reject-comment/{id}', 'CommentController@rejectComment');
     $r->addRoute('GET', '/admin/delete-user/{id}', 'AdminController@deleteUser');
     $r->addRoute('GET', '/admin/user/{id}', 'AdminController@editUser');
-    
 });
 
 // Fetch method and URI from Server Globals

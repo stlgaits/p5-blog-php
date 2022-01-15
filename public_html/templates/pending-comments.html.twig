@@ -8,7 +8,7 @@
 
 {% set statuses = [{ 'PENDING' : 'En attente'}, {'APPROVED' : 'Accepté' }, {'REJECTED' : 'Rejeté' }] %}
 
-<main>
+<main class="mb-5 pb-5">
     <h2 class="text-secondary">Liste des commentaires</h2>
     <p class="lead">Gérez ici les commentaires. Pour chaque commentaire, vous pouvez le valider pour publication ou le rejeter.</p>
     <table class="table table-hover">
@@ -104,7 +104,7 @@
             {% endif %}
         </tbody>
     </table> 
-    <table class="table table-hover">
+    <table class="table table-hover mb-5">
         <caption>Commentaires acceptés</caption>
         <thead>
         <tr>

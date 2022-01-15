@@ -6,7 +6,7 @@ use App\Session;
 use App\Entity\User;
 use App\Model\UserManager;
 
-class Auth 
+class Auth
 {
     /**
      * User manager : PDO connection to Users stored in the database
@@ -88,14 +88,14 @@ class Auth
     }
 
     /**
-     * Determines whether a user's account is disabled ("deleted") or not 
+     * Determines whether a user's account is disabled ("deleted") or not
      *
      * @param User $user
      * @return boolean
      */
     public function isDisabled($user): bool
     {
-        if ($user->getDeleted() === true || $user->getDeleted() === 1 ||  $user->getDeleted() === '1'){
+        if ($user->getDeleted() === true || $user->getDeleted() === 1 ||  $user->getDeleted() === '1') {
             return true;
         }
         return false;

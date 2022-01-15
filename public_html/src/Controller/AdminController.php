@@ -171,7 +171,7 @@ class AdminController extends DefaultController
         }
         $this->userManager->disable($id);
         return $this->redirect->redirectToAdminUsersList();
-    }     
+    }
     
     public function editUser($id): Response
     {
@@ -181,10 +181,10 @@ class AdminController extends DefaultController
         }
         $user = $this->userManager->read($id);
         return new Response(200, [], $this->renderer->render('edit-user.html.twig', ['user' => $this->user, 'userAccount' => $user]));
-    } 
+    }
 
 
-    //TODO: showUser() => show all info for a specific user 
+    //TODO: showUser() => show all info for a specific user
 
     public function showPendingComments(): Response
     {
