@@ -5,7 +5,7 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <div id="content" class="container">
+    <div id="content" class="container mb-5">
         <main class="pb-5">
             <div id="posts" class="my-5">
                 <h1>Articles</h1>
@@ -18,9 +18,9 @@
                             <p class="badge rounded-pill bg-secondary">{{ post.slug }}</p>
                             <p class="card-subtitle text-muted">
                                 {% if post.updated_at is not null %}
-                                    Modifié le {{ post.updated_at }} - 
+                                    Modifié le {{ post.updated_at|date("d/m/Y à H:i:s") }} - 
                                 {% else %}    
-                                    Ecrit le {{ post.created_at }} - 
+                                    Ecrit le {{ post.created_at|date("d/m/Y à H:i:s") }} - 
                                 {% endif %}
                                 {% for author in authors %}
                                     {% if post.created_by == author.id %}
@@ -29,7 +29,7 @@
                                 {% endfor %}
                             </p>
                             <p class="card-text">{{ post.lead_sentence }}</p>
-                            <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Lire l'article</a>
+                            <a href="/post/{{post.id}}" class="btn btn-primary rounded" role="button">Lire l'article</a>
                         </div>
                     </div>
                 {% endfor %}

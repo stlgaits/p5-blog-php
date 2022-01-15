@@ -8,10 +8,15 @@ class Comment
 {
     private $id;
     private $title;
+    private $status;
     private $content;
     private $createdAt;
     private $createdBy;
     private $postId;
+    // TODO: if possible when a PHP 8.1 fpm alpine image is released on Docker hub, replace this with an Enum class
+    const PENDING = 'PENDING';
+    const REJECTED = 'REJECTED';
+    const APPROVED = 'APPROVED';
 
     public function __construct(array $data = [])
     {
@@ -32,6 +37,9 @@ class Comment
 
     public function setId($id)
     {
+        if (is_string($id) && intval($id) > 0) {
+            $this->id = intval($id);
+        }
         if (is_int($id) && $id > 0) {
             $this->id = $id;
         }
@@ -67,16 +75,17 @@ class Comment
         return $this->createdAt;
     }
 
-    public function setCreateAt($createdAt)
+    public function setCreated_at($createdAt)
     {
         $format = 'Y-m-d H:i:s';
         // Teste la validité de la date
         $d = DateTime::createFromFormat($format, $createdAt);
         if ($createdAt == $d->format($format)) {
             $this->createdAt = $d->format($format);
+        } else {
+            $dd = new DateTime();
+            $this->createdAt = $dd->format($format);
         }
-        $dd = new DateTime();
-        $this->createdAt = $dd->format($format);
     }
 
     public function getCreatedBy()
@@ -84,9 +93,9 @@ class Comment
         return $this->createdBy;
     }
 
-    public function setCreatedBy($user)
+    public function setCreated_by($user)
     {
-        $this->createdBy = $user->getId();
+        $this->createdBy = $user;
     }
 
     public function getPostId()
@@ -94,9 +103,23 @@ class Comment
         return $this->postId;
     }
 
-    public function setPostId($postId)
+    public function setPost_id($postId)
     {
         $this->postId = $postId;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        /**
+         * Pending status by default for new comments
+         */
+        $status = $status ?? $this::PENDING;
+        $this->status = $status;
     }
 
     private function hydrate($data)
@@ -106,7 +129,6 @@ class Comment
             // Construit le nom de la méthode grâce
             // au nom des champs de la DB
             $methodName = 'set' . ucfirst($key);
-            
             // Si la méthode existe
             if (method_exists($this, $methodName)) {
                 // Appel de la méthode

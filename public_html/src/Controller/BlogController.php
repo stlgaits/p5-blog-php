@@ -2,26 +2,14 @@
 
 namespace App\Controller;
 
-use App\TwigRenderer;
+use App\Auth;
 use App\Model\PostManager;
-use GuzzleHttp\Psr7\Response;
 use App\Model\UserManager;
+use App\Model\CommentManager;
+use GuzzleHttp\Psr7\Response;
 
-class BlogController
+class BlogController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
-
-
     /**
      * Post manager : PDO connection to Posts stored in the database
      *
@@ -34,24 +22,30 @@ class BlogController
      *
      * @var UserManager
      */
-    private $userManager;
+    private $userManager; 
+    
+    /**
+     * Comment manager : PDO connection to Comments stored in the database
+     *
+     * @var CommentManager
+     */
+    private $commentManager;
 
 
     /**
-     * User Controller
+     * User auth / guard 
      *
-     * @var UserController
+     * @var Auth
      */
-    private $userController;
+    private $userAuth;
 
-    
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
+        parent::__construct();
         $this->manager = new PostManager();
         $this->userManager = new UserManager();
-        $this->userController = new UserController();
+        $this->commentManager = new CommentManager();
+        $this->userAuth = new Auth();
     }
     
     /**
@@ -68,7 +62,7 @@ class BlogController
             $author = $this->userManager->read($authorID);
             $authors[$authorID] = $author;
         }
-        if (!$this->userController->isLoggedIn()) {
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(
                 200,
                 [],
@@ -81,7 +75,7 @@ class BlogController
                 )
             );
         }
-        $user = $this->userController->getCurrentUser();
+        $user = $this->userAuth->getCurrentUser();
         return new Response(
             200,
             [],
@@ -101,24 +95,28 @@ class BlogController
      *
      * @return Response
      */
-    public function post($id): Response
+    public function post(int $id): Response
     {
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
-        if (!$this->userController->isLoggedIn()) {
+        $comments = $this->commentManager->getApprovedComments($id);
+        $message = $this->session->get('message');
+
+        if (!$this->userAuth->isLoggedIn()) {
             return new Response(
                 200,
                 [],
                 $this->renderer->render(
                     'post.html.twig',
                     [
-                    'post' => $post,
-                    'author' => $author
+                        'post' => $post,
+                        'author' => $author,
+                        'comments' => $comments
                     ]
                 )
             );
         }
-        $user = $this->userController->getCurrentUser();
+        $user = $this->userAuth->getCurrentUser();
         return new Response(
             200,
             [],
@@ -127,7 +125,9 @@ class BlogController
                 [
                 'post' => $post,
                 'author' => $author,
-                'user' => $user
+                'user' => $user,
+                'comments' => $comments,
+                'message' => $message
                 ]
             )
         );

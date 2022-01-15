@@ -1,3 +1,7 @@
 # packages #
 /vendor/
 # packages #
+
+# environment variables #
+.env
+# environment variables #

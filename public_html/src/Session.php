@@ -5,6 +5,21 @@ namespace App;
 class Session
 {
 
+    public function __construct()
+    {
+        $this->ensureStarted();
+    }
+
+    public function getStatus()
+    {
+        return session_status();
+    }
+
+
+    public function reset()
+    {
+        return session_reset();
+    }
 
     private function ensureStarted()
     {
@@ -52,5 +67,16 @@ class Session
     {
         $this->ensureStarted();
         unset($_SESSION[$key]);
+    }
+
+    /**
+     * All session variables
+     *
+     * @return void
+     */
+    public function getAll()
+    {
+        $this->ensureStarted();
+        return $_SESSION;
     }
 }

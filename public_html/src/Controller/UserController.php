@@ -2,26 +2,15 @@
 
 namespace App\Controller;
 
+use App\Auth;
 use Exception;
-use App\Session;
 use App\Entity\User;
-use App\TwigRenderer;
 use App\Model\UserManager;
 use GuzzleHttp\Psr7\Response;
+use App\Controller\DefaultController;
 
-class UserController
+class UserController extends DefaultController
 {
-    /**
-     * Twig Environment
-     *
-     * @var TwigRenderer
-     */
-    private $environment;
-
-    /**
-     * Twig Renderer
-     */
-    private $renderer;
 
     /**
      * User manager : PDO connection to Users stored in the database
@@ -31,24 +20,17 @@ class UserController
     private $userManager;
 
     /**
+     * User Auth / guard
      *
-     * @var ServerRequest
+     * @var Auth
      */
-    private $request;
-
-    /**
-     *
-     * @var Session
-     */
-    private $session;
+    private $userAuth;
 
     public function __construct()
     {
-        $this->environment = new TwigRenderer();
-        $this->renderer = $this->environment->getTwig();
+        parent::__construct();
         $this->userManager = new UserManager();
-        $this->session = new Session();
-        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        $this->userAuth = new Auth();
     }
 
     /**
@@ -56,11 +38,11 @@ class UserController
      *
      * @return Response
      */
-    public function login()
+    public function login(): Response
     {
         // redirect user to homepage if user is already logged in
-        if ($this->isLoggedIn()) {
-            return new Response(301, ['Location' => '/']);
+        if ($this->userAuth->isLoggedIn()) {
+            return $this->redirect->redirectToHomePage();
         }
         return new Response(200, [], $this->renderer->render('login.html.twig'));
     }
@@ -70,13 +52,27 @@ class UserController
      *
      * @return Response
      */
-    public function register()
+    public function register(): Response
     {
         // redirect user to homepage if user is already logged in
-        if ($this->isLoggedIn()) {
-            return new Response(301, ['Location' => '/']);
+        if ($this->userAuth->isLoggedIn()) {
+            return $this->redirect->redirectToHomePage();
         }
         return new Response(200, [], $this->renderer->render('register.html.twig'));
+    }
+
+    /**
+     * Get user profile's View TODO: finish this view
+     *
+     * @return Response
+     */
+    public function profile(): Response
+    {
+        // redirect user to homepage if user isn't logged in
+        if (!$this->userAuth->isLoggedIn()) {
+            return $this->redirect->redirectToHomePage();
+        }
+        return new Response(200, [], $this->renderer->render('profile.html.twig'));
     }
 
     /**
@@ -84,7 +80,7 @@ class UserController
      *
      * @return Response
      */
-    public function registerUser()
+    public function registerUser(): Response
     {
         $message = 'Veuillez renseigner vos futurs identifiants de connexion.';
         $email = $this->request->getParsedBody()['email'];
@@ -103,6 +99,11 @@ class UserController
                 $message = 'Cette adresse email est déjà associée à un compte.';
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
+            // check if username doesn't already exist
+            if($this->userManager->findByUsername($username) !== null){
+                $message = 'Ce pseudo est déjà associé à un compte.';
+                return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
+            }
             $admin = 0;
             $user =  $this->userManager->create($username, $email, $firstName, $lastName, $password, $admin);
             if (empty($user)) {
@@ -110,7 +111,8 @@ class UserController
                 return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
             }
             $message = "Votre compte a été créé avec succès";
-            return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message, 'success' => true]));
+            $this->session->set('flashMessage', $message);
+            return $this->loginUser();
         } catch (Exception $e) {
             $message = $e->getMessage();
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
@@ -123,12 +125,15 @@ class UserController
      *
      * @return Response (Redirect to homepage)
      */
-    public function logoutUser()
+    public function logoutUser(): Response
     {
         $this->session->delete('username');
         $this->session->delete('userID');
+        if($this->session->get('flashMessage')){
+            $this->session->delete('flashMessage');
+        }
         $this->session->destroy();
-        return new Response(301, ['Location' => '/']);
+        return $this->redirect->redirectToHomePage();
     }
 
     /**
@@ -137,7 +142,7 @@ class UserController
      *
      * @return Response
      */
-    public function loginUser()
+    public function loginUser(): Response
     {
         $email = $this->request->getParsedBody()['email'];
         $password = $this->request->getParsedBody()['password'];
@@ -151,7 +156,7 @@ class UserController
         }
         try {
             $user = $this->userManager->findByEmail($email);
-            if (empty($user)) {
+            if (empty($user) || $this->userAuth->isDisabled($user)) {
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             $actualPassword = $user->getPassword();
@@ -169,7 +174,7 @@ class UserController
             $this->session->set('username', $user->getUsername());
             $this->session->set('userID', $user->getId());
             // successful login redirects to homepage
-            return new Response(301, ['Location' => '/']);
+            return $this->redirect->redirectToHomePage();
         } catch (Exception $e) {
             $user = null;
             return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $e->getMessage()]));
@@ -177,61 +182,15 @@ class UserController
     }
 
 
-    /**
-     * Checks whether user is currently logged in
-     *
-     * @return boolean
-     */
-    public function isLoggedIn(): bool
+
+    //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php (utiliser méthode update direct sinon?)
+    public function promoteUserToRoleAdmin(int $id)
     {
-        // User credentials are stored in User Session
-        if (empty($this->session->get('userID')) && empty($this->session->get('username'))) {
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks a user's role
-     *
-     * @return boolean
-     */
-    public function isAdmin($user): bool
-    {
-        if ($user->role === false || $user->role === 0) {
-            return false;
-        }
-        return true;
+        $this->userManager->promote($id);
     }
 
-    /**
-     * Checks whether the current user has admin role
-     *
-     * @return boolean
-     */
-    public function isCurrentUserAdmin(): bool
+    public function demoteUser(int $id)
     {
-        /**
-         * First retrieve user from session
-         */
-        if ($this->isLoggedIn()) {
-            $user = $this->userManager->read($this->session->get('userID'));
-            $role = $user->getRole();
-            if ($role === false || $role === 0 || $role === '0') {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retrieves current user from session storage
-     *
-     * @return User
-     */
-    public function getCurrentUser(): User
-    {
-        return $this->userManager->read($this->session->get('userID'));
+        $this->userManager->demote($id);
     }
 }

@@ -15,18 +15,23 @@
                     Bienvenue. Vous êtes connecté en tant que visiteur. Si vous souhaitez publier sur ce blog ou laisser un commentaire, veuillez vous connecter.
                 {% endif %}
             </div>
-            <div class="mt-3 p-4 p-md-5 mb-4 text-white rounded bg-dark">
-                    <h2 class="display-4 fst-italic">Estelle Gaits</h2>
-                    <p class="lead my-3">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p> 
+            <div  id="jumbotron-container" class="rounded shadow my-3">
+                <div>
+                    <img id="jumbotron-img" src="/public/assets/images/2009_07_25_Montaigu_039.jpg" alt="lever de soleil et mer de nuages depuis le Montaigu" class="img-fluid rounded" />
+                </div>
+                <div id="jumbotron-title" class="text-white rounded">
+                    <h1 id="estelle" class="fst-italic">Estelle Gaits</h1>
+                    <p class="fs-2 fw-light">Développeuse web en alternance & fondatrice de l'agence Escadença Media</p>
+                </div>
             </div>
-            <div class="row mb-5">
-                <div class="col-md-8 mb-5">
-                    <div class="card mb-3 rounded shadow-sm">
+            <div class="row mb-2">
+                <div class="col mb-5">
+                    <div class="card mb-3 rounded shadow px-4 py-5">
                         <div class="row">
-                            <div class="col-md-6">
-                                <img src="../public/assets/images/Estelle.jpg" alt="Estelle Gaits" class="img-fluid rounded-start h-100"/>
+                            <div class="col-md-4 ps-2">
+                                <img src="/public/assets/images/Bloc-marque-noir.png" alt="Logo Agence Escadença" class="img-fluid " />
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="card-body m-4">
                                     <h3 class="card-title mb-4">Bienvenue sur mon blog !</h3>
                                     <p class="card-text text-justify">
@@ -44,7 +49,7 @@
                                     <p class="card-text text-justify">
                                         Mais assez parlé de moi ! Je vous propose également ici d'échanger sur l'actualité du monde du développement web au travers des différents <a href="./../blog" target="_blank">articles de ce blog</a>. Je vous encourage à laisser vos commentaires, pour cela, il vous suffit simplement de <a href="./../register" target="_blank">créer un compte</a>.
                                     </p>
-                                    <a class="btn btn-primary btn-lg rounded mt-5" role="button" href="../public/assets/docs/CV.pdf" download>Télécharger mon CV</a>
+                                    <a class="btn btn-primary btn-lg rounded mt-5" role="button" href="/public/assets/docs/CV.pdf" download>Télécharger mon CV</a>
                                     <a class="btn btn-warning btn-lg rounded mt-5" role="button" href="https://github.com/EstelleMyddleware" target="_blank">
                                         <i class="fab fa-github"></i>
                                         Mon GitHub
@@ -53,17 +58,47 @@
                                         <i class="fab fa-linkedin"></i>
                                         Mon LinkedIn
                                     </a>
-                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="card rounded shadow-sm bg-nav">
-                        <div class="card-body">
-                            <img src="../public/assets/images/Bloc-marque.png" alt="Logo Agence Escadença" class="img-fluid " />
+            </div>
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <div class="card shadow p-5 rounded">
+                    {# {% if flashMessage %}
+                        <div class="alert alert-dismissible alert-secondary">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <strong>Merci!</strong>  {{flashMessage}}
                         </div>
+                    {% endif %} #}
+                        {% block flash_message %}{% endblock %}
+                        <form method="POST" action="/send-mail">
+                            <fieldset>
+                                <legend>Me contacter</legend>
+                                <small class="text-muted">Une question? Un commentaire? N'hésitez pas à me contacter et je vous répondrai par email.</small>
+                                <div>
+                                    <label for="emailAddress" class="form-label mt-4">Adresse email</label>
+                                    <input name="emailAddress" type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Votre adresse email">
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col">
+                                        <label for="firstname" class="form-label mt-4">Prénom</label>
+                                        <input name="firstname" type="text" class="form-control" id="firstname" placeholder="Votre prénom">
+                                    </div>
+                                    <div class="col">
+                                        <label for="lastname" class="form-label mt-4">Nom</label>
+                                        <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Votre nom">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="message" class="form-label mt-4">Message</label>
+                                    <textarea name="message" class="form-control" id="message" rows="3" placeholder="Votre message"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary rounded mt-3">Envoyer</button>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>

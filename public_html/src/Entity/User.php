@@ -11,6 +11,12 @@ class User
     private $last_name;
     private $password;
     private $role;
+    /**
+     * Used to detect whether a user has been deleted by admin
+     *
+     * @var boolean default = false
+     */
+    private $deleted;
 
     public function __construct(array $data = [])
     {
@@ -100,7 +106,17 @@ class User
     {
         $this->role = $role;
     }
-    
+
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }  
+
     private function hydrate($data)
     {
         // Boucle sur tous les champs et valeurs

@@ -5,11 +5,51 @@
     {{ parent() }}
 {% endblock %}
 {% block admin_content %}
-<main>
+<main class="mb-5 pb-5">
     <h2 class="text-secondary">Liste des utilisateurs</h2>
     <p class="lead">Gérez ici les utilisateurs et définissez leurs rôles.</p>
     <table class="table table-hover">
-        <caption>Liste des utilisateurs</caption>
+        <caption>Liste des utilisateurs actifs</caption>
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rôle</th>
+                <th scope="col" colspan="5">Edition</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in  users %}
+                {% if user.deleted == 0 %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                        {% if user.role == 0 %}
+                            Utilisateur 
+                        {% else %}
+                            Administrateur
+                        {% endif %}
+                        </td>
+                        <td>
+                            <a href="/admin/user/{{user.id}}" class="btn btn-warning" role="button">Editer</a>
+                        </td>
+                        <td>
+                            <a  href="/admin/delete-user/{{user.id}}" class="btn btn-danger" role="button">Désactiver</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table table-hover my-5 py-5">
+        <caption>Liste des utilisateurs désactivés</caption>
         <thead>
         <tr>
             <th scope="col">ID</th>
@@ -18,34 +58,26 @@
             <th scope="col">Nom</th>
             <th scope="col">Email</th>
             <th scope="col">Rôle</th>
-            <th scope="col" colspan="5">Edition</th>
         </tr>
-    </thead>
-    <tbody>
-        {% for user in  users %}
-            <tr>
-                <th scope="row">{{ user.id }}</th>
-                <td>{{ user.username }}</td>
-                <td>{{ user.first_name }}</td>
-                <td>{{ user.last_name }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                {% if user.role == 0 %}
-                    Utilisateur 
-                {% else %}
-                    Administrateur
+        </thead>
+        <tbody>
+            {% for user in  users %}
+                {% if user.deleted == 1 %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                        {% if user.role == 0 %}
+                            Utilisateur 
+                        {% else %}
+                            Administrateur
+                        {% endif %}
+                        </td>
+                    </tr>
                 {% endif %}
-                </td>
-                <td>
-                    <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Voir</a>
-                </td>
-                <td>
-                    <a href="./../post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
-                </td>
-                <td>
-                    <button class="btn btn-danger" type="button">Supprimer</button>
-                </td>
-            </tr>
             {% endfor %}
         </tbody>
     </table>

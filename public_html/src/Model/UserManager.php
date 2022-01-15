@@ -41,6 +41,18 @@ class UserManager extends Manager
             return null;
         }
         return new User($result);
+    } 
+    public function findByUsername(string $username)
+    {
+        $sql = "SELECT * FROM user WHERE username = ?";
+        $r = $this->db->prepare($sql);
+        $r->bindValue(1, $username, PDO::PARAM_STR);
+        $r->execute();
+        $result = $r->fetch();
+        if (!$result) {
+            return null;
+        }
+        return new User($result);
     }
 
     public function create($username, $email, $first_name, $last_name, $password, $role)
@@ -89,5 +101,46 @@ class UserManager extends Manager
         $r->execute();
 
         return new User($r->fetch());
+    }
+
+    /**
+     * Deactivates a user entirely (won't be able to log in anymore)
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function disable(int $id){
+        $sql = "UPDATE user SET deleted = :deleted WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('deleted', true, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
+    }
+
+    /**
+     * Promotes user to role admin
+     *
+     * @param int $id
+     * @return void
+     */
+    public function promote(int $id){
+        $sql = "UPDATE user SET role = :role WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('role', true, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
+    }
+    /**
+     * Demotes user to simple user role
+     *
+     * @param int $id
+     * @return void
+     */
+    public function demote(int $id){
+        $sql = "UPDATE user SET role = :role WHERE id = :id";
+        $r = $this->db->prepare($sql);
+        $r->bindValue('role', false, PDO::PARAM_BOOL);
+        $r->bindValue('id', $id, PDO::PARAM_INT);
+        $r->execute();
     }
 }

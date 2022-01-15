@@ -1,12 +1,26 @@
-
-.bg-nav {
-    /* background-color: #423252; */
-    /* background-color: #78948a; */
-    /* background-color: #5b7a72; */
-    /* background-color: #507876; */
-    background-color: #6e9999;
+.card-img-top
+{
+    max-height: 30vh;
 }
 
-.card-img-top{
-    max-height: 30vh;
+#jumbotron-container 
+{
+    position: relative;
+}
+
+#jumbotron-title
+{
+    padding-left: 5vw;
+    padding-top: 30vh;
+    position: absolute;
+    background: rgba(0,0,0,.3);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:100%;
+}
+
+#estelle
+{
+    font-size: 6rem;
 }

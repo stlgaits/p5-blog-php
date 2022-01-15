@@ -9,7 +9,7 @@
         <h2 class="text-secondary">Articles</h2>
         <p class="lead">Administrez ici les articles du blog.</p>
         <div class="d-flex justify-content-end">
-            <a href="./../admin/create-post" class="btn btn-link">Ajouter +</a>
+            <a href="/admin/create-post" class="btn btn-link">Ajouter +</a>
         </div>
         <table class="table table-hover">
             <caption>Liste des articles</caption>
@@ -19,8 +19,8 @@
                     <th scope="col">Titre</th>
                     <th scope="col">Chapô</th>
                     <th scope="col">Slug</th>
-                    <th scope="col">Date création</th>
-                    <th scope="col">Date modification</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Date de modification</th>
                     <th scope="col">Auteur</th>
                     <th scope="col" colspan="5">Edition</th>
                 </tr>
@@ -32,8 +32,8 @@
                     <td>{{ post.title }}</td>
                     <td>{{ post.lead_sentence }}</td>
                     <td>{{ post.slug }}</td>
-                    <td>{{ post.created_at }}</td>
-                    <td>{{ post.updated_at }}</td>
+                    <td>{{ post.created_at|date("d/m/Y à H:i:s") }}</td>
+                    <td>{{ post.updated_at|date("d/m/Y à H:i:s") }}</td>
                     <td>
                         {% for author in authors %}
                             {% if post.created_by == author.id %}
@@ -42,13 +42,13 @@
                         {% endfor %}
                     </td>
                     <td>
-                        <a href="./../post/{{post.id}}" class="btn btn-primary" role="button">Voir</a>
+                        <a href="/post/{{post.id}}" class="btn btn-primary" role="button">Voir</a>
                     </td>
                     <td>
-                        <a href="./edit-post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
+                        <a href="/admin/edit-post/{{post.id}}" class="btn btn-secondary" role="button">Editer</a>
                     </td>
                     <td>
-                        <a  href="./delete-post/{{post.id}}" class="btn btn-danger" role="button">Supprimer</a>
+                        <a  href="/admin/delete-post/{{post.id}}" class="btn btn-danger" role="button">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
