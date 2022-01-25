@@ -48,6 +48,11 @@ class AdminController extends DefaultController
         $this->user = $this->userAuth->getCurrentUser();
     }
 
+    /**
+     * Admin dashboard homepage
+     *
+     * @return Response
+     */
     public function index(): Response
     {
         if ($this->userAuth->isCurrentUserAdmin() === false) {
@@ -70,7 +75,11 @@ class AdminController extends DefaultController
         return new Response(200, [], $this->renderer->render('create-post.html.twig', ['user' => $this->user]));
     }
     
-    // send the request to Database
+    /**
+     * Sends request to add a new blog post to database manager
+     *
+     * @return Response
+     */
     public function addPost(): Response
     {
         // only allow access to users who are both logged in and have admin role
@@ -90,6 +99,11 @@ class AdminController extends DefaultController
         return $this->redirect->redirectToAdminBlogPostsList();
     }
 
+    /**
+     * Renders the list of blog posts in admin dashboard (as a table)
+     *
+     * @return Response
+     */
     public function showPosts(): Response
     {
         // only allow access to users who are both logged in and have admin role
@@ -116,8 +130,13 @@ class AdminController extends DefaultController
         );
     }
 
-    // form to edit a blog post
-    public function editPost($id): Response
+    /**
+     * Renders the view where admin can edit a blog post
+     *
+     * @param integer $id
+     * @return Response
+     */
+    public function editPost(int $id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
@@ -127,7 +146,13 @@ class AdminController extends DefaultController
         return new Response(200, [], $this->renderer->render('edit-post.html.twig', ['post' => $post, 'user' => $this->user]));
     }
 
-    public function updatePost($id): Response
+    /**
+     * Update a blog post
+     *
+     * @param integer $id
+     * @return Response
+     */
+    public function updatePost(int $id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
@@ -142,7 +167,13 @@ class AdminController extends DefaultController
         return $this->redirect->redirectToAdminBlogPostsList();
     }
 
-    public function deletePost($id): Response
+    /**
+     * Deletes a blog post
+     *      
+     * @param integer $id
+     * @return Response
+     */
+    public function deletePost(int $id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
@@ -152,6 +183,11 @@ class AdminController extends DefaultController
         return $this->redirect->redirectToAdminBlogPostsList();
     }
 
+    /**
+     * Renders a list of users sorted into a table
+     *
+     * @return Response
+     */
     public function showUsers(): Response
     {
         // only allow access to users who are both logged in and have admin role
@@ -163,7 +199,13 @@ class AdminController extends DefaultController
         return new Response(200, [], $this->renderer->render('users.html.twig', ['users' => $users,   'user' => $this->user]));
     }
 
-    public function deleteUser($id): Response
+    /**
+     * Disables a user's account & privileges
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function deleteUser(int $id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
@@ -173,7 +215,13 @@ class AdminController extends DefaultController
         return $this->redirect->redirectToAdminUsersList();
     }
     
-    public function editUser($id): Response
+    /**
+     * Renders the form to edit a user from Admin Dashboard
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function editUser(int $id): Response
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {

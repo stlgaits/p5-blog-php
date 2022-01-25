@@ -20,3 +20,13 @@
 #estelle {
     font-size: 6rem;
 }
+
+#admin-nav {
+    /* position: fixed; */
+    position: sticky;
+    max-height: 75vh;
+    min-height: 75vh;
+    /* height:100%;    
+    max-height:100%;    
+    min-height:100%;     */
+} 

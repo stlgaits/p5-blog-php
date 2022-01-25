@@ -182,7 +182,37 @@ class UserController extends DefaultController
         }
     }
 
+    /**
+     * Updates heir info
+     *
+     * @param array $data
+     * @return void
+     */
+    public function editProfile()
+    {
+        // only allow access to users who are both logged in and have admin role
+        if (!$this->userAuth->isLoggedIn()) {
+            return $this->redirect->redirectToLoginPage();
+        }
+        $data = $this->request->getParsedBody();
+        $username = $this->request->getParsedBody()['username'];
+        $firstname = $this->request->getParsedBody()['firstname'];
+        $lastname = $this->request->getParsedBody()['lastname'];
+        $email = $this->request->getParsedBody()['email'];
+        // $role = TODO;
+        var_dump($data);
+        die();
+    }
 
+    // /**
+    //  * Updates a user from Admin's dashboard
+    //  *
+    //  * @return void
+    //  */
+    // public function editUserProfile()
+    // {
+
+    // }
 
     //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php (utiliser méthode update direct sinon?)
     public function promoteUserToRoleAdmin(int $id)
