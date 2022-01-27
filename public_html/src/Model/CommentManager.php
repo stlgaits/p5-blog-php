@@ -40,6 +40,7 @@ class CommentManager extends Manager
         return new Comment($r->fetch());
     }
 
+    // TODO: get & delete all comments from 1 blogpost BEFORE deleting the blog post
 
     /**
      * Allows to display all Comment's author & Blogpost's title without instantiating objects

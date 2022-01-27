@@ -5,12 +5,12 @@
     {{ parent() }}
 {% endblock %}
 {% block admin_content %}
-<main>
+<main class="mb-5 pb-5">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
             {# TODO: create the POST route to submit this form (updateUser) #}
-                <form class="shadow card p-5 my-5">
+                <form method="post" action="/edit-user" class="shadow card p-5 my-5">
                     <h2 class=" card-title text-secondary">Modifier le compte utilisateur</h2>
                     <div class="card-body">
                         <div class="form-group">
@@ -45,7 +45,7 @@
                                 {% endif %}
                             </fieldset>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">Modifier</button>
+                    <button type="submit" class="btn btn-primary mt-4">Sauvegarder la modification</button>
                 </form>
             </div>
         </div>
