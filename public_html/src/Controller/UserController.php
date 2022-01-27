@@ -74,7 +74,7 @@ class UserController extends DefaultController
         }
         $user = $this->userAuth->getCurrentUser();
         $flashMessage = $this->session->get('flashMessage');
-        if(isset($flashMessage)) {
+        if (isset($flashMessage)) {
             // Remove flash message from user session before displaying it
             $this->session->delete('flashMessage');
             return new Response(200, [], $this->renderer->render('profile.html.twig', ['user' => $user, 'message' => $flashMessage]));
@@ -200,38 +200,35 @@ class UserController extends DefaultController
         if (!$this->userAuth->isLoggedIn()) {
             return $this->redirect->redirectToLoginPage();
         }
-        $flashMessage ='';
+        $flashMessage = '';
         $userToUpdate = $this->userManager->read($id);
         $data = $this->request->getParsedBody();
-        foreach ($data as $key => $value)
-        {
-            $setter = 'set'.ucfirst($key);
-            if($value !== $userToUpdate->__get($key))
-            {
-                if ($key !== 'password' && $key !== 'id'){
+        foreach ($data as $key => $value) {
+            $setter = 'set' . ucfirst($key);
+            if ($value !== $userToUpdate->__get($key)) {
+                if ($key !== 'password' && $key !== 'id') {
                     $userToUpdate->$setter($value);
                 } else {
                     // TODO: password is hashed so we treat it differently
-
                 }
             }
         }
         try {
             // database query
             $this->userManager->update(
-                        intval($userToUpdate->getId()), 
-                        $userToUpdate->getUsername(), 
-                        $userToUpdate->getEmail(), 
-                        $userToUpdate->getFirst_name(), 
-                        $userToUpdate->getLast_name(), 
-                        $userToUpdate->getPassword(), 
-                        intval($userToUpdate->getRole()), 
-                    );
+                intval($userToUpdate->getId()),
+                $userToUpdate->getUsername(),
+                $userToUpdate->getEmail(),
+                $userToUpdate->getFirst_name(),
+                $userToUpdate->getLast_name(),
+                $userToUpdate->getPassword(),
+                intval($userToUpdate->getRole()),
+            );
             $flashMessage = 'Le profil a été modifié avec succès.';
-        } catch(Exception $e){
-            $flashMessage = 'Il y a eu une erreur : '. $e->getMessage();
+        } catch (Exception $e) {
+            $flashMessage = 'Il y a eu une erreur : ' . $e->getMessage();
         }
-        $this->session->set('flashMessage',$flashMessage);
+        $this->session->set('flashMessage', $flashMessage);
         return $this->redirect->redirectToPreviousPage();
     }
 
@@ -243,7 +240,6 @@ class UserController extends DefaultController
      */
     public function editUserProfile()
     {
-
     }
 
     //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php (utiliser méthode update direct sinon?)
