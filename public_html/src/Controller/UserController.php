@@ -73,6 +73,12 @@ class UserController extends DefaultController
             return $this->redirect->redirectToHomePage();
         }
         $user = $this->userAuth->getCurrentUser();
+        $flashMessage = $this->session->get('flashMessage');
+        if(isset($flashMessage)) {
+            // Remove flash message from user session before displaying it
+            $this->session->delete('flashMessage');
+            return new Response(200, [], $this->renderer->render('profile.html.twig', ['user' => $user, 'message' => $flashMessage]));
+        }
         return new Response(200, [], $this->renderer->render('profile.html.twig', ['user' => $user]));
     }
 
@@ -183,36 +189,62 @@ class UserController extends DefaultController
     }
 
     /**
-     * Updates heir info
+     * Updates a user info
      *
      * @param array $data
      * @return void
      */
-    public function editProfile()
+    public function editProfile(int $id)
     {
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
             return $this->redirect->redirectToLoginPage();
         }
+        $flashMessage ='';
+        $userToUpdate = $this->userManager->read($id);
         $data = $this->request->getParsedBody();
-        $username = $this->request->getParsedBody()['username'];
-        $firstname = $this->request->getParsedBody()['firstname'];
-        $lastname = $this->request->getParsedBody()['lastname'];
-        $email = $this->request->getParsedBody()['email'];
-        // $role = TODO;
-        var_dump($data);
-        die();
+        foreach ($data as $key => $value)
+        {
+            $setter = 'set'.ucfirst($key);
+            if($value !== $userToUpdate->__get($key))
+            {
+                if ($key !== 'password' && $key !== 'id'){
+                    $userToUpdate->$setter($value);
+                } else {
+                    // TODO: password is hashed so we treat it differently
+
+                }
+            }
+        }
+        try {
+            // database query
+            $this->userManager->update(
+                        intval($userToUpdate->getId()), 
+                        $userToUpdate->getUsername(), 
+                        $userToUpdate->getEmail(), 
+                        $userToUpdate->getFirst_name(), 
+                        $userToUpdate->getLast_name(), 
+                        $userToUpdate->getPassword(), 
+                        intval($userToUpdate->getRole()), 
+                    );
+            $flashMessage = 'Le profil a été modifié avec succès.';
+        } catch(Exception $e){
+            $flashMessage = 'Il y a eu une erreur : '. $e->getMessage();
+        }
+        $this->session->set('flashMessage',$flashMessage);
+        return $this->redirect->redirectToPreviousPage();
     }
 
-    // /**
-    //  * Updates a user from Admin's dashboard
-    //  *
-    //  * @return void
-    //  */
-    // public function editUserProfile()
-    // {
+    /**
+     * TODO:
+     * Updates a user from Admin's dashboard
+     *
+     * @return void
+     */
+    public function editUserProfile()
+    {
 
-    // }
+    }
 
     //TODO: allow admins (from admindb so admincontroller) to promote & demote users => create ROUTES for this in index.php (utiliser méthode update direct sinon?)
     public function promoteUserToRoleAdmin(int $id)

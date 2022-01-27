@@ -20,7 +20,7 @@ class UserManager extends Manager
         return $users;
     }
 
-    public function read($id)
+    public function read(int $id)
     {
         $sql = "SELECT * FROM user WHERE id = ?";
         $r = $this->db->prepare($sql);
@@ -55,7 +55,7 @@ class UserManager extends Manager
         return new User($result);
     }
 
-    public function create($username, $email, $first_name, $last_name, $password, $role)
+    public function create(string $username, string $email, string $first_name, string $last_name, string $password, $role)
     {
         $sql = "INSERT INTO user(username, email, first_name, last_name, password, role) 
                 VALUES(:username, :email, :first_name, :last_name, :password, :role)";
@@ -74,21 +74,21 @@ class UserManager extends Manager
         return $newUserId;
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $sql = "DELETE FROM user WHERE id=?";
         $r = $this->db->prepare($sql);
         $r->execute(array($id));
     }
 
-    public function update($id, $username, $email, $first_name, $last_name, $password, $role)
+    public function update(int $id, string $username, string $email,string $first_name, string $last_name, string $password, int $role)
     {
         $sql = "UPDATE user SET username = :username,
                                 email = :email,
                                 first_name = :first_name,
                                 last_name = :last_name,
                                 password = :password,
-                                role = :role,
+                                role = :role
                 WHERE id = :id";
         $r = $this->db->prepare($sql);
         $r->bindValue('username', $username, PDO::PARAM_STR);
@@ -99,8 +99,12 @@ class UserManager extends Manager
         $r->bindValue('role', $role, PDO::PARAM_INT);
         $r->bindValue('id', $id, PDO::PARAM_INT);
         $r->execute();
-
-        return new User($r->fetch());
+        $result = $r->fetch();
+        if (!$result) {
+            return null;
+        }
+        return new User($result);
+        // return new User($r->fetch());
     }
 
     /**

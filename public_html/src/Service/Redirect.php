@@ -3,12 +3,24 @@
 namespace App\Service;
 
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 
 /**
  * Centralizes redirect responses
  */
 class Redirect
 {
+    /**
+     *
+     * @var ServerRequest
+     */
+    protected $request;
+
+    public function __construct()
+    {
+        $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+    }
+
     /**
      * @param string $location
      * @return Response
@@ -26,6 +38,11 @@ class Redirect
     public function redirectToLoginPage()
     {
         return $this->redirect('login');
+    }
+
+    public function redirectToProfilePage()
+    {
+        return $this->redirect('/profile');
     }
 
     public function redirectToAdminBlogPostsList()
@@ -51,5 +68,13 @@ class Redirect
     public function redirectToCurrentBlogPost(int $id)
     {
         return $this->redirect("/post/$id");
+    }
+
+    public function redirectToPreviousPage()
+    {
+        $previousPageUrl = $this->request->getServerParams()['HTTP_REFERER'];
+        $originUrl = $this->request->getServerParams()['HTTP_ORIGIN'];
+        $previousUri = str_replace($originUrl, '', $previousPageUrl);
+        return $this->redirect($previousUri);
     }
 }
