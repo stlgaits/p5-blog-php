@@ -25,8 +25,8 @@ class MailController extends DefaultController
 
     public function sendMail(): Response
     {
+        $flashMessage = "Désolée, votre message n'a pas pu être envoyé.";
         try {
-            $flashMessage = "Désolée, votre message n'a pas pu être envoyé.";
             // input from the Contact form
             $emailAddress = filter_var($this->request->getParsedBody()['emailAddress'], FILTER_VALIDATE_EMAIL);
             $firstname = filter_var($this->request->getParsedBody()['firstname'], FILTER_SANITIZE_STRING);
@@ -37,7 +37,7 @@ class MailController extends DefaultController
             }
             // Send email to mailer
             $mail = $this->mailer->sendMail("Contact - Blog PHP Estelle Gaits", $message, $emailAddress, $firstname . ' ' . $lastname);
-            if ($mail === 1) {
+            if ($mail === 1 || $mail === '1') {
                 $flashMessage = "Votre message a bien été envoyé. Un administrateur vous répondra par email.";
             }
         } catch (Exception $e) {

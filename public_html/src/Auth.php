@@ -45,10 +45,10 @@ class Auth
     
     /**
      * Checks a user's role
-     *
+     * @param User $user
      * @return boolean
      */
-    public function isAdmin($user): bool
+    public function isAdmin(User $user): bool
     {
         if ($user->getRole() === false || $user->getRole() === 0 || $user->getROle() === '0') {
             return false;
@@ -93,7 +93,7 @@ class Auth
      * @param User $user
      * @return boolean
      */
-    public function isDisabled($user): bool
+    public function isDisabled(User $user): bool
     {
         if ($user->getDeleted() === true || $user->getDeleted() === 1 ||  $user->getDeleted() === '1') {
             return true;
