@@ -100,7 +100,7 @@ class BlogController extends DefaultController
         $post = $this->manager->read($id);
         $author = $this->userManager->read($post->getCreated_By());
         $comments = $this->commentManager->getApprovedComments($id);
-        // Display flash message to user
+        // Display flash message to user (in comments section)
         $message = $this->session->get('flashMessage');
         // Remove flash message from user session
         $this->session->delete('flashMessage');

@@ -21,6 +21,7 @@
     font-size: 6rem;
 }
 
+/* TODO: find correct way to have uniform display of navbar on left-handside of admin */
 #admin-nav {
     /* position: fixed; */
     position: sticky;
