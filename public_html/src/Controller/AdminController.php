@@ -169,7 +169,7 @@ class AdminController extends DefaultController
 
     /**
      * Deletes a blog post
-     *      
+     *
      * @param integer $id
      * @return Response
      */

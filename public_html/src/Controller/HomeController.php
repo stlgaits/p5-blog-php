@@ -29,9 +29,9 @@ class HomeController extends DefaultController
             // Display username
             $user = $this->userAuth->getCurrentUser();
             $flashMessage = $this->session->get('flashMessage');
-            if(!isset($flashMessage)){
+            if (!isset($flashMessage)) {
                 return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
-            } 
+            }
             // Remove flash message from user session
             $this->session->delete('flashMessage');
             // Display flash message content to user

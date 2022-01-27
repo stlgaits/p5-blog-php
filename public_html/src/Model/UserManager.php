@@ -81,7 +81,7 @@ class UserManager extends Manager
         $r->execute(array($id));
     }
 
-    public function update(int $id, string $username, string $email,string $first_name, string $last_name, string $password, int $role)
+    public function update(int $id, string $username, string $email, string $first_name, string $last_name, string $password, int $role)
     {
         $sql = "UPDATE user SET username = :username,
                                 email = :email,
