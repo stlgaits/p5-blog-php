@@ -8,15 +8,9 @@ use GuzzleHttp\Psr7\Response;
 
 class HomeController extends DefaultController
 {
-    /**
-     * User Manager - accessing users in database
-     *
-     * @var UserManager
-     */
-    private $userManager;
 
     /**
-     * User auth guard
+     * User auth guard: accessing user methods
      *
      * @var Auth
      */
@@ -25,7 +19,6 @@ class HomeController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        $this->userManager = new UserManager();
         $this->userAuth = new Auth();
     }
 
@@ -34,8 +27,15 @@ class HomeController extends DefaultController
         // change view according to whether user is logged in or not
         if ($this->userAuth->isLoggedIn()) {
             // Display username
-            $user = $this->userManager->read($this->session->get('userID'));
-            return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
+            $user = $this->userAuth->getCurrentUser();
+            $flashMessage = $this->session->get('flashMessage');
+            if(!isset($flashMessage)){
+                return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user]));
+            } 
+            // Remove flash message from user session
+            $this->session->delete('flashMessage');
+            // Display flash message content to user
+            return new Response(200, [], $this->renderer->render('home.html.twig', ['user' => $user, 'message' => $flashMessage]));
         }
         return new Response(200, [], $this->renderer->render('home.html.twig'));
     }
