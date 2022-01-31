@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
             {# TODO: create the POST route to submit this form (updateUser) #}
-                <form method="post" action="/edit-user" class="shadow card p-5 my-5">
+                <form method="post" action="/edit-user/{{userAccount.id}}" class="shadow card p-5 my-5">
                     <h2 class=" card-title text-secondary">Modifier le compte utilisateur</h2>
                     <div class="card-body">
                         <div class="form-group">
@@ -20,15 +20,15 @@
                             </div>   
                             <div class="col mt-4">
                                 <label for="firstname">Prénom</label>
-                                <input type="text" class="form-control mt-2" placeholder="Prénom de l'utilisateur" name="firstname" value="{{userAccount.first_name}}">
+                                <input type="text" class="form-control mt-2" placeholder="Prénom de l'utilisateur" name="first_name" value="{{userAccount.first_name}}">
                             </div>  
                             <div class="col mt-4">
                                 <label for="lastname">Nom</label>
-                                <input type="text" class="form-control mt-2" placeholder="Nom de l'utilisateur" name="lastname" value="{{userAccount.last_name}}">
+                                <input type="text" class="form-control mt-2" placeholder="Nom de l'utilisateur" name="last_ name" value="{{userAccount.last_name}}">
                             </div>
                             <div class="col mt-4">
                                 <label for="email">Email de l'utilisateur</label>
-                                <input type="text" class="form-control mt-2" placeholder="Email utilisateur" name="email" value="{{userAccount.email}}">
+                                <input type="text" class="form-control mt-2" placeholder="Email utilisateur" name="email" value="{{userAccount.email}}" disabled>
                             </div>
                         </div>
                             <fieldset>
@@ -36,11 +36,11 @@
                                 <legend class="mt-4">Privilèges administrateur</legend>
                                 {% if userAccount.role == 0 %}
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" >
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="role">
                                 </div>
                                 {% else %}
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="" name="role">
                                 </div>
                                 {% endif %}
                             </fieldset>
