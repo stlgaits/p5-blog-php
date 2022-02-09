@@ -1,10 +1,8 @@
-# Openclassrooms Blog PHP
+# Openclassrooms PHP Blog
 
-> An awesome project.
+> Openclassrooms PHP/Symfony developer course project 5 : develop your own blog using PHP.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/28088ec6bd5a4c14bd5eaffc0745034c)](https://app.codacy.com/gh/EstelleMyddleware/p5-blog-php?utm_source=github.com&utm_medium=referral&utm_content=EstelleMyddleware/p5-blog-php&utm_campaign=Badge_Grade_Settings)
-
-Openclassrooms project : develop your own blog using PHP.
 
 ## Features
 
