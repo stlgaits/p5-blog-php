@@ -30,7 +30,7 @@ class PostManager extends Manager
     /**
      * Find a blogpost by ID
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Post
      */
     public function read(int $id)
@@ -45,11 +45,11 @@ class PostManager extends Manager
     /**
      * Insert a new blogpost in database
      *
-     * @param string $title
-     * @param string $content
-     * @param int $created_by
-     * @param string $slug
-     * @param string $leadSentence
+     * @param  string $title
+     * @param  string $content
+     * @param  int    $created_by
+     * @param  string $slug
+     * @param  string $leadSentence
      * @return int
      */
     public function create(string $title, string $content, int $created_by, string $slug, string $leadSentence)
@@ -76,7 +76,7 @@ class PostManager extends Manager
     /**
      * Delete a Blogpost from database
      *
-     * @param integer $id
+     * @param  integer $id
      * @return void
      */
     public function delete(int $id)
@@ -89,11 +89,11 @@ class PostManager extends Manager
     /**
      * Update a blog post
      *
-     * @param integer $id
-     * @param string $title
-     * @param string $content
-     * @param string $slug
-     * @param string $leadSentence
+     * @param  integer $id
+     * @param  string  $title
+     * @param  string  $content
+     * @param  string  $slug
+     * @param  string  $leadSentence
      * @return void
      */
     public function update(int $id, string $title, string $content, string $slug, string $leadSentence)

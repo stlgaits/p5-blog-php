@@ -15,6 +15,7 @@
                 <div class="row">
                     <div class="col-10 card bg-light mt-5">
                         <form action="/admin/add-post" method="post" class="card-body">
+                            {{ form_token("/admin/add-post") }}
                             <div class="form-group">
                                 <div class="col mt-4">
                                     <label for="title">Titre</label>

@@ -36,14 +36,14 @@ class Mailer
     }
 
     /**
-    * Sends emails from a contact form to the blog admin's email via SMTP
-    *
-    * @param string $subject = the email's title
-    * @param string $body = the user's message submitted via the form
-    * @param string $fromAddress = the address the user supplied in the form input
-    * @param string $fromName = first name & last name the user supplied when submitting the form
-    * @return string
-    */
+     * Sends emails from a contact form to the blog admin's email via SMTP
+     *
+     * @param  string $subject     = the email's title
+     * @param  string $body        = the user's message submitted via the form
+     * @param  string $fromAddress = the address the user supplied in the form input
+     * @param  string $fromName    = first name & last name the user supplied when submitting the form
+     * @return string
+     */
     public function sendMail(string $subject, string $body, string $fromAddress, string $fromName): string
     {
         try {
