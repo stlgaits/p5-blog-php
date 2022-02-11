@@ -190,9 +190,8 @@ class UserController extends DefaultController
 
     /**
      * Updates a user info
-     *
-     * @param  array $data
-     * @return void
+     * @param array $data
+     * @return Response
      */
     public function editProfile(int $id)
     {
