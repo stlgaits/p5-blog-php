@@ -54,7 +54,7 @@ Footer contains a link to Admin back office.
 
 If you would like to install this project on your computer, you will first need to [clone the repo](https://github.com/EstelleMyddleware/p5-blog-php) of this project using Git.
 
-Inside the public_html folder, you need to create a .env file (same level as .env.example) in which you need to configure the appropriate values for your blog to run :
+At the root of your projet, you need to create a .env file (same level as .env.example) in which you need to configure the appropriate values for your blog to run :
 
 ```text
 # DOCKER Database standard parameters 
@@ -81,16 +81,6 @@ To install this project, you will need to have [Docker](<https://www.docker.com/
 Once your Docker configuration is up and ready, you can launch the project by running the following command in your terminal :
 
 ``` docker-compose up --build ```
-
-### Install dependencies
-
-Then, you need to open a shell linked to the newly created PHP container and run the following command to install dependencies.
-
-``` composer install ```
-
-You may also need to run
-
-``` composer dump-autoload ```
 
 Once the Docker container is built, go to <http://estellegaits:8080/> on your browser or localhost if you do not want to change your Windows vhost file, in which case, you need to update the following line from apache/apache.conf file line 1  and replace estellegaits with localhost :
 
@@ -124,10 +114,19 @@ The following PHP extensions need to be installed and enabled :
 Before running the project, you need to run the following commands in order to install the appropriate dependencies.
 
 ``` composer install ```
-
-### Import database files
-
-To generate the database, you need to import the blog.sql file into your DBMS.
  
 <!-- tabs:end  -->
 
+### Import database files
+
+To generate an empty database, you need to import the blog_empty.sql file into your DBMS. Then, got to the website, register yourself as a user.
+In order to become an admin (and therefore be able to write your own blog posts & use the admin dashboard), you need to update the role property of your user and set it to 1.
+You can do this manually or with the following SQL request :
+
+```sql
+UPDATE `user` SET `role` = '1' WHERE `user`.`id` = 1;
+```
+
+> NB: Here 1 corresponds to the first created user. If you've created multiple users, you need to change the ID to the account you want to update.
+
+Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead. 
