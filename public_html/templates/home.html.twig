@@ -74,6 +74,7 @@
                             </div>
                         {% endif %}
                         <form method="POST" action="/send-mail">
+                            {{ form_token("/send-mail") }}
                             <fieldset>
                                 <legend>Me contacter</legend>
                                 <small class="text-muted">Une question? Un commentaire? N'hésitez pas à me contacter et je vous répondrai par email.</small>

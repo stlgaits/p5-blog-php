@@ -10,6 +10,7 @@ services:
     volumes:
       - ./public_html/:/var/www/html/
   mysql:
+    container_name: "blog_mysql"
     image: mysql:latest
     restart: always
     environment: 
@@ -28,7 +29,7 @@ services:
     image: phpmyadmin/phpmyadmin
     ports:
     - "8585:80"
-    container_name: admin
+    container_name: blog_admin
     restart: always
     depends_on:
       - mysql
@@ -40,6 +41,7 @@ services:
     networks: 
       - backend
   apache:
+    container_name: "blog_apache"
     build: "./apache/"
     depends_on:
       - php-fpm

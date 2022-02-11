@@ -54,7 +54,7 @@ Footer contains a link to Admin back office.
 
 If you would like to install this project on your computer, you will first need to [clone the repo](https://github.com/EstelleMyddleware/p5-blog-php) of this project using Git.
 
-At the root of your projet, you need to create a .env file (same level as .env.example) in which you need to configure the appropriate values for your blog to run :
+Inside the public_html folder, you need to create a .env file (same level as .env.example) in which you need to configure the appropriate values for your blog to run :
 
 ```text
 # DOCKER Database standard parameters 
@@ -81,6 +81,16 @@ To install this project, you will need to have [Docker](<https://www.docker.com/
 Once your Docker configuration is up and ready, you can launch the project by running the following command in your terminal :
 
 ``` docker-compose up --build ```
+
+### Install dependencies
+
+Then, you need to open a shell linked to the newly created PHP container and run the following command to install dependencies.
+
+``` composer install ```
+
+You may also need to run
+
+``` composer dump-autoload ```
 
 Once the Docker container is built, go to <http://estellegaits:8080/> on your browser or localhost if you do not want to change your Windows vhost file, in which case, you need to update the following line from apache/apache.conf file line 1  and replace estellegaits with localhost :
 

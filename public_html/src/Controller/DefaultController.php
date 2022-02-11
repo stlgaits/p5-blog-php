@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Session;
 use App\TwigRenderer;
 use App\Service\Redirect;
+use ParagonIE\AntiCSRF\AntiCSRF;
 use GuzzleHttp\Psr7\ServerRequest;
 
 /**
@@ -50,6 +52,22 @@ class DefaultController
         $this->renderer = $this->environment->getTwig();
         $this->session = new Session();
         $this->request =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        $this->antiCsrf();
         $this->redirect = new Redirect();
+    }
+
+    public function antiCsrf()
+    {
+        // AntiCSRF
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;   
+        $httpMethod = $this->request->getServerParams()['REQUEST_METHOD'];
+        if ($httpMethod === 'POST' && !empty($_POST)) {
+            if ($csrf->validateRequest()) {
+                // Valid
+            } else {
+                // Log a CSRF attack attempt
+                throw new Exception('CSRF attack detected');
+            }
+        }
     }
 }
