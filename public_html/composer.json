@@ -17,6 +17,7 @@
         "mezzio/mezzio-fastroute": "^3.2",
         "twig/twig": "^3.3",
         "phpmailer/phpmailer": "^6.5",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "paragonie/anti-csrf": "^2.3"
     }
 }

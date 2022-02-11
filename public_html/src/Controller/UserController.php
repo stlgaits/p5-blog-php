@@ -169,7 +169,7 @@ class UserController extends DefaultController
             $actualPassword = $user->getPassword();
             // Check password input against hashed password in database
             if (!password_verify($password, $actualPassword)) {
-            // wrong password input
+                // wrong password input
                 return new Response(200, [], $this->renderer->render('login.html.twig', ['message' => $message]));
             }
             // 'Remember me' checkbox
@@ -190,7 +190,6 @@ class UserController extends DefaultController
 
     /**
      * Updates a user info
-     *
      * @param array $data
      * @return Response
      */

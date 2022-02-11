@@ -55,7 +55,7 @@ class BlogController extends DefaultController
      */
     public function list(): Response
     {
-
+        $authors = [];
         $blogPosts = $this->manager->readAll();
         foreach ($blogPosts as $post) {
             $authorID = $post->getCreated_By();

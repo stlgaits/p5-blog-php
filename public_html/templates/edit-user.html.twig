@@ -9,8 +9,8 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-6">
-            {# TODO: create the POST route to submit this form (updateUser) #}
                 <form method="post" action="/edit-user/{{userAccount.id}}" class="shadow card p-5 my-5">
+                    {{ form_token("/edit-user/#{userAccount.id}")}}
                     <h2 class=" card-title text-secondary">Modifier le compte utilisateur</h2>
                     <div class="card-body">
                         <div class="form-group">

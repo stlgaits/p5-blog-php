@@ -28,6 +28,7 @@
                             <div class="row justify-content-center">
                                 <div class="col mb-5">      
                                     <form method="post" action="/edit-user/{{user.id}}">
+                                        {{ form_token("/edit-user/#{user.id}") }}
                                         <div class="mb-3 input-group">
                                             <span class="input-group-text">Adresse email</span>
                                             <input type="email" class="form-control" id="exampleInputEmail1" value="{{user.email}}" aria-label="email" disabled />
@@ -68,6 +69,7 @@
                             <div class="row justify-content-center">
                                 <div class="col mb-5">       
                                     <form method="post" action="/edit-user/{{user.id}}">
+                                        {{ form_token("/edit-user/#{user.id}") }}
                                         <div class="mb-3">
                                         {# TODO: add && implement methods to 1: update password 2: verif password strength + check current password is correct #}
                                             <div class="mb-2 input-group">
