@@ -114,10 +114,19 @@ The following PHP extensions need to be installed and enabled :
 Before running the project, you need to run the following commands in order to install the appropriate dependencies.
 
 ``` composer install ```
-
-### Import database files
-
-To generate the database, you need to import the blog.sql file into your DBMS.
  
 <!-- tabs:end  -->
 
+### Import database files
+
+To generate an empty database, you need to import the blog_empty.sql file into your DBMS. Then, got to the website, register yourself as a user.
+In order to become an admin (and therefore be able to write your own blog posts & use the admin dashboard), you need to update the role property of your user and set it to 1.
+You can do this manually or with the following SQL request :
+
+```sql
+UPDATE `user` SET `role` = '1' WHERE `user`.`id` = 1;
+```
+
+> NB: Here 1 corresponds to the first created user. If you've created multiple users, you need to change the ID to the account you want to update.
+
+Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead. 
