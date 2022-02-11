@@ -62,9 +62,7 @@ class DefaultController
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;   
         $httpMethod = $this->request->getServerParams()['REQUEST_METHOD'];
         if ($httpMethod === 'POST' && !empty($_POST)) {
-            if ($csrf->validateRequest()) {
-                // Valid
-            } else {
+            if (!$csrf->validateRequest()) {
                 // Log a CSRF attack attempt
                 throw new Exception('CSRF attack detected');
             }

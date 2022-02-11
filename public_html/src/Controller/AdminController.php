@@ -106,6 +106,7 @@ class AdminController extends DefaultController
      */
     public function showPosts(): Response
     {
+        $authors = [];
         // only allow access to users who are both logged in and have admin role
         if (!$this->userAuth->isLoggedIn()) {
             return $this->redirect->redirectToLoginPage();

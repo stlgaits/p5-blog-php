@@ -51,7 +51,7 @@ class TwigRenderer
 
     public function getTwig()
     {
-        $this->addAntiCsrf();
+        $this->addAntiCsrf();;
         return $this->environment;
     }
 }
