@@ -110,7 +110,7 @@ class UserManager extends Manager
     /**
      * Deactivates a user entirely (won't be able to log in anymore)
      *
-     * @param integer $id
+     * @param  integer $id
      * @return void
      */
     public function disable(int $id)
@@ -125,7 +125,7 @@ class UserManager extends Manager
     /**
      * Promotes user to role admin
      *
-     * @param int $id
+     * @param  int $id
      * @return void
      */
     public function promote(int $id)
@@ -139,7 +139,7 @@ class UserManager extends Manager
     /**
      * Demotes user to simple user role
      *
-     * @param int $id
+     * @param  int $id
      * @return void
      */
     public function demote(int $id)

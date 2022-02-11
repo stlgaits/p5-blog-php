@@ -28,7 +28,7 @@ class CommentManager extends Manager
     /**
      * Find 1 comment by ID
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Comment
      */
     public function read(int $id)
@@ -83,7 +83,7 @@ class CommentManager extends Manager
     /**
      * Get all approved comments for a single blog post with its author's username
      *
-     * @param int $postID
+     * @param  int $postID
      * @return void
      */
     public function getApprovedComments($postID)
@@ -120,10 +120,10 @@ class CommentManager extends Manager
     /**
      * Insert a new comment (with pending status) in the database
      *
-     * @param string $title
-     * @param string $content
-     * @param integer $created_by Foreign key
-     * @param integer $post_id Foreign key
+     * @param  string  $title
+     * @param  string  $content
+     * @param  integer $created_by Foreign key
+     * @param  integer $post_id    Foreign key
      * @return int
      */
     public function create(string $title, string $content, int $created_by, int $post_id)

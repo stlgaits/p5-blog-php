@@ -37,9 +37,9 @@ class TwigRenderer
         $this->environment->addFunction(
             new TwigFunction(
                 'form_token',
-                function($lock_to = null) {
+                function ($lock_to = null) {
                     static $csrf;
-                    if ($csrf === null){
+                    if ($csrf === null) {
                         $csrf = new AntiCSRF;
                     }
                     return $csrf->insertToken($lock_to, false);
@@ -51,7 +51,7 @@ class TwigRenderer
 
     public function getTwig()
     {
-        $this->addAntiCsrf();;
+        $this->addAntiCsrf();
         return $this->environment;
     }
 }

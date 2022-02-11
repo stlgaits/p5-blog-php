@@ -134,7 +134,7 @@ class AdminController extends DefaultController
     /**
      * Renders the view where admin can edit a blog post
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Response
      */
     public function editPost(int $id): Response
@@ -150,7 +150,7 @@ class AdminController extends DefaultController
     /**
      * Update a blog post
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Response
      */
     public function updatePost(int $id): Response
@@ -171,7 +171,7 @@ class AdminController extends DefaultController
     /**
      * Deletes a blog post
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Response
      */
     public function deletePost(int $id): Response
@@ -203,7 +203,7 @@ class AdminController extends DefaultController
     /**
      * Disables a user's account & privileges
      *
-     * @param int $id
+     * @param  int $id
      * @return Response
      */
     public function deleteUser(int $id): Response
@@ -219,7 +219,7 @@ class AdminController extends DefaultController
     /**
      * Renders the form to edit a user from Admin Dashboard
      *
-     * @param int $id
+     * @param  int $id
      * @return Response
      */
     public function editUser(int $id): Response

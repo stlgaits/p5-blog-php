@@ -22,7 +22,7 @@ class Redirect
     }
 
     /**
-     * @param string $location
+     * @param  string $location
      * @return Response
      */
     private function redirect(string $location): Response

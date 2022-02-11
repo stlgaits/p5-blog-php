@@ -45,7 +45,8 @@ class Auth
     
     /**
      * Checks a user's role
-     * @param User $user
+     *
+     * @param  User $user
      * @return boolean
      */
     public function isAdmin(User $user): bool
@@ -79,7 +80,7 @@ class Auth
 
     /**
      * Retrieves current user from session storage
-    *
+     *
      * @return User
      */
     public function getCurrentUser(): User
@@ -90,7 +91,7 @@ class Auth
     /**
      * Determines whether a user's account is disabled ("deleted") or not
      *
-     * @param User $user
+     * @param  User $user
      * @return boolean
      */
     public function isDisabled(User $user): bool
