@@ -119,7 +119,14 @@ Before running the project, you need to run the following commands in order to i
 
 ### Import database files
 
-To generate an empty database, you need to import the blog_empty.sql file into your DBMS. Then, got to the website, register yourself as a user.
+To generate an empty database, you need to import the blog_empty.sql file into your DBMS.
+You may need to change the default database name (blog) in the SQL file to match the allocated database name provided by your host.
+
+```sql
+-- Base de données : `blog`
+```
+
+Then, go to the website, register yourself as a user.
 In order to become an admin (and therefore be able to write your own blog posts & use the admin dashboard), you need to update the role property of your user and set it to 1.
 You can do this manually or with the following SQL request :
 
