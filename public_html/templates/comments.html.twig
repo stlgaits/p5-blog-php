@@ -39,7 +39,7 @@
             </div>
         {% endif %}
             <form method="post" action="/post/{{post.id}}/add-comment">
-                {{ form_token("/post/{{post.id}}/add-comment") }}
+                {{ form_token("/post/#{post.id}/add-comment") }}
                 <legend>Laisser un commentaire sur cet article</legend>
                 <small class="text-muted">Vous devez <a href="/login">être connecté(e)</a> à votre compte utilisateur pour pouvoir laisser un commentaire.</small>
                 <div class="my-3">

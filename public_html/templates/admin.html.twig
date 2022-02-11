@@ -52,6 +52,7 @@
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <form action="/logout-user" method="post">
+                        {{ form_token("/logout-user")}}
                         <button class="dropdown-item" type="submit">Déconnexion</button>
                     </form>                
                 </li>

@@ -11,7 +11,7 @@
             <div class="col-md-6">
             {# TODO: create the POST route to submit this form (updateUser) #}
                 <form method="post" action="/edit-user" class="shadow card p-5 my-5">
-                
+                    {{ form_token("/edit-user")}}
                     <h2 class=" card-title text-secondary">Modifier le compte utilisateur</h2>
                     <div class="card-body">
                         <div class="form-group">

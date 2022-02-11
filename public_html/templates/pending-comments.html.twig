@@ -46,13 +46,13 @@
                         </td>
                         <td>
                             <form action="/admin/approve-comment/{{comment.id}}" method="post" >
-                                {{ form_token("/admin/approve-comment/{{comment.id}}") }}
+                                {{ form_token("/admin/approve-comment/#{comment.id}") }}
                                 <button class="btn btn-success" type="submit">Valider</button>
                             </form>
                         </td>
                         <td>
                             <form action="/admin/reject-comment/{{comment.id}}" method="post" >
-                                {{ form_token("/admin/reject-comment/{{comment.id}}") }}
+                                {{ form_token("/admin/reject-comment/#{comment.id}") }}
                                 <button class="btn btn-danger"  type="submit">Rejeter</button>
                             </form>
                         </td>
