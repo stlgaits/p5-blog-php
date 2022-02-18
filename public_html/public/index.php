@@ -10,7 +10,7 @@ require_once realpath("./../vendor/autoload.php");
 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 /**
- * These variables MUST be filled in (in .env) for the blog to work 
+ * These variables MUST be filled in (in .env) for the blog to work
 */
 $dotenv->required(
     [
@@ -28,7 +28,7 @@ require_once __DIR__ . '/../src/config.php';
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
 /**
- * Router : add list of routes with method, uri & handler 
+ * Router : add list of routes with method, uri & handler
 */
 $dispatcher = FastRoute\simpleDispatcher(
     function (FastRoute\RouteCollector $r) {
@@ -89,32 +89,32 @@ try {
     }
 } catch (Exception $e) {
     //TODO: il faut que ce soit plus propre que ça
-    var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
+    // var_dump($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
     throw new Exception('La classe ou la méthode demandée n\'est pas reconnue');
 }
 
 
 switch ($routeInfo[0]) {
-case FastRoute\Dispatcher::NOT_FOUND:
-    // ... 404 Not Found
-    $class = 'App\Controller\\NotFoundController';
-    $methodName = 'notFound';
-    $controller = new $class();
-    $vars = [];
-    $handler = array($controller, $methodName);
-    $response = call_user_func_array($handler, $vars);
-    break;
-case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-    $allowedMethods = $routeInfo[1];
-    // ... 405 Method Not Allowed
-    break;
-case FastRoute\Dispatcher::FOUND:
-    $class = 'App\Controller\\' . $className;
-    $controller = new $class();
-    $handler = array($controller, $methodName);
-    $vars = $routeInfo[2];
-    // send response
-    $response = call_user_func_array($handler, $vars);
-    break;
+    case FastRoute\Dispatcher::NOT_FOUND:
+        // ... 404 Not Found
+        $class = 'App\Controller\\NotFoundController';
+        $methodName = 'notFound';
+        $controller = new $class();
+        $vars = [];
+        $handler = array($controller, $methodName);
+        $response = call_user_func_array($handler, $vars);
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        // ... 405 Method Not Allowed
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $class = 'App\Controller\\' . $className;
+        $controller = new $class();
+        $handler = array($controller, $methodName);
+        $vars = $routeInfo[2];
+        // send response
+        $response = call_user_func_array($handler, $vars);
+        break;
 }
 Http\Response\send($response);
