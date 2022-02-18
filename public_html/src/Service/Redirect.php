@@ -37,7 +37,7 @@ class Redirect
 
     public function redirectToLoginPage()
     {
-        return $this->redirect('login');
+        return $this->redirect('/login');
     }
 
     public function redirectToProfilePage()
@@ -62,7 +62,7 @@ class Redirect
 
     public function redirectToBlog()
     {
-        return $this->redirect('blog');
+        return $this->redirect('/blog');
     }
 
     public function redirectToCurrentBlogPost(int $id)

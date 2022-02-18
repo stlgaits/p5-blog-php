@@ -90,11 +90,11 @@ class UserController extends DefaultController
     public function registerUser(): Response
     {
         $message = 'Veuillez renseigner vos futurs identifiants de connexion.';
-        $email = $this->request->getParsedBody()['email'];
-        $username = $this->request->getParsedBody()['username'];
-        $lastName = $this->request->getParsedBody()['last_name'];
-        $firstName = $this->request->getParsedBody()['first_name'];
-        $password = $this->request->getParsedBody()['password'];
+        $email = htmlspecialchars($this->request->getParsedBody()['email']);
+        $username = htmlspecialchars($this->request->getParsedBody()['username']);
+        $lastName = htmlspecialchars($this->request->getParsedBody()['last_name']);
+        $firstName = htmlspecialchars($this->request->getParsedBody()['first_name']);
+        $password = htmlspecialchars($this->request->getParsedBody()['password']);
         if (strlen($password) < 12) {
             $message = 'Votre mot de passe doit contenir au moins 12 caractères.';
             return new Response(200, [], $this->renderer->render('register.html.twig', ['message' => $message]));
@@ -151,11 +151,11 @@ class UserController extends DefaultController
      */
     public function loginUser(): Response
     {
-        $email = $this->request->getParsedBody()['email'];
-        $password = $this->request->getParsedBody()['password'];
+        $email = htmlspecialchars($this->request->getParsedBody()['email']);
+        $password = htmlspecialchars($this->request->getParsedBody()['password']);
         $rememberMe = '';
         if (isset($this->request->getParsedBody()['remember-me'])) {
-            $rememberMe = $this->request->getParsedBody()['remember-me'];
+            $rememberMe = htmlspecialchars($this->request->getParsedBody()['remember-me']);
         }
         $message = 'Veuillez vérifier vos identifiants de connexion.';
         if (empty($email) || empty($password)) {
@@ -203,9 +203,10 @@ class UserController extends DefaultController
         $userToUpdate = $this->userManager->read($id);
         $data = $this->request->getParsedBody();
         foreach ($data as $key => $value) {
+            $value = htmlspecialchars($value);
             $setter = 'set' . ucfirst($key);
             if ($value !== $userToUpdate->__get($key)) {
-                if ($key !== 'password' && $key !== 'id') {
+                if ($key !== 'password' && $key !== 'id' && $key !== '_CSRF_INDEX' && $key !== '_CSRF_TOKEN') {
                     $userToUpdate->$setter($value);
                 } else {
                     // TODO: password is hashed so we treat it differently

@@ -87,10 +87,10 @@ class AdminController extends DefaultController
             return $this->redirect->redirectToLoginPage();
         }
         $user = $this->userManager->read($this->session->get('userID'));
-        $title =  $this->request->getParsedBody()['title'];
-        $content =  $this->request->getParsedBody()['content'];
-        $slug =  $this->request->getParsedBody()['slug'];
-        $leadSentence = $this->request->getParsedBody()['leadSentence'];
+        $title =  htmlspecialchars($this->request->getParsedBody()['title']);
+        $content = htmlspecialchars($this->request->getParsedBody()['content']);
+        $slug =  htmlspecialchars($this->request->getParsedBody()['slug']);
+        $leadSentence = htmlspecialchars($this->request->getParsedBody()['leadSentence']);
         $author = $user->getId();
         $newBlogPostId = $this->postManager->create($title, $content, $author, $slug, $leadSentence);
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
@@ -159,10 +159,10 @@ class AdminController extends DefaultController
         if (!$this->userAuth->isLoggedIn()) {
             return $this->redirect->redirectToLoginPage();
         }
-        $title =  $this->request->getParsedBody()['title'];
-        $content =  $this->request->getParsedBody()['content'];
-        $slug =  $this->request->getParsedBody()['slug'];
-        $leadSentence = $this->request->getParsedBody()['leadSentence'];
+        $title =  htmlspecialchars($this->request->getParsedBody()['title']);
+        $content =  htmlspecialchars($this->request->getParsedBody()['content']);
+        $slug =  htmlspecialchars($this->request->getParsedBody()['slug']);
+        $leadSentence = htmlspecialchars($this->request->getParsedBody()['leadSentence']);
         $this->postManager->update($id, $title, $content, $slug, $leadSentence);
         // TODO: next step 3 : sécurIté (htmlspecialchars etc)
         return $this->redirect->redirectToAdminBlogPostsList();
