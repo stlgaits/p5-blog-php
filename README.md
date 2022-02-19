@@ -4,7 +4,9 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/28088ec6bd5a4c14bd5eaffc0745034c)](https://app.codacy.com/gh/EstelleMyddleware/p5-blog-php?utm_source=github.com&utm_medium=referral&utm_content=EstelleMyddleware/p5-blog-php&utm_campaign=Badge_Grade_Settings)
 
-Full documentation for this project is available [here](https://estellemyddleware.github.io/p5-blog-php/)
+!> Full documentation & UML diagrams for this project are available [here](https://estellemyddleware.github.io/p5-blog-php/)
+
+> You can also checkout the [online demo](http://estellegaits.fr).
 
 ## Features
 
@@ -114,12 +116,19 @@ The following PHP extensions need to be installed and enabled :
 Before running the project, you need to run the following commands in order to install the appropriate dependencies.
 
 ``` composer install ```
- 
+
 <!-- tabs:end  -->
 
 ### Import database files
 
-To generate an empty database, you need to import the blog_empty.sql file into your DBMS. Then, got to the website, register yourself as a user.
+To generate an empty database, you need to import the blog_empty.sql file into your DBMS.
+You may need to change the default database name (blog) in the SQL file to match the allocated database name provided by your host.
+
+```sql
+-- Base de données : `blog`
+```
+
+Then, go to the website, register yourself as a user.
 In order to become an admin (and therefore be able to write your own blog posts & use the admin dashboard), you need to update the role property of your user and set it to 1.
 You can do this manually or with the following SQL request :
 
@@ -129,4 +138,4 @@ UPDATE `user` SET `role` = '1' WHERE `user`.`id` = 1;
 
 > NB: Here 1 corresponds to the first created user. If you've created multiple users, you need to change the ID to the account you want to update.
 
-Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead. 
+Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead.

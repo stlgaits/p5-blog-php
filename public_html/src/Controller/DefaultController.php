@@ -59,7 +59,7 @@ class DefaultController
     public function antiCsrf()
     {
         // AntiCSRF
-        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;   
+        $csrf = new AntiCSRF();
         $httpMethod = $this->request->getServerParams()['REQUEST_METHOD'];
         if ($httpMethod === 'POST' && !empty($_POST)) {
             if (!$csrf->validateRequest()) {

@@ -4,7 +4,7 @@ namespace App;
 
 use Twig\Environment;
 use Twig\TwigFunction;
-use \ParagonIE\AntiCSRF\AntiCSRF;
+use ParagonIE\AntiCSRF\AntiCSRF;
 use Twig\Loader\FilesystemLoader;
 
 class TwigRenderer
@@ -40,7 +40,7 @@ class TwigRenderer
                 function ($lock_to = null) {
                     static $csrf;
                     if ($csrf === null) {
-                        $csrf = new AntiCSRF;
+                        $csrf = new AntiCSRF();
                     }
                     return $csrf->insertToken($lock_to, false);
                 },

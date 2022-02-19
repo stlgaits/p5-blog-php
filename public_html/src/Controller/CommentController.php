@@ -40,14 +40,14 @@ class CommentController extends DefaultController
         }
         $user = $this->userAuth->getCurrentUser();
         $author = $user->getId();
-        $title =  $this->request->getParsedBody()['commentTitle'];
-        $content =  $this->request->getParsedBody()['commentContent'];
+        $title = htmlspecialchars($this->request->getParsedBody()['commentTitle']);
+        $content = htmlspecialchars($this->request->getParsedBody()['commentContent']);
         $newCommentId = $this->commentManager->create($title, $content, $author, $postId);
         // TODO: next step 3 : sécurité (htmlspecialchars etc)
         $this->commentManager->read($newCommentId);
         $flashMessage = 'Votre commentaire a bien été ajouté et est en attente de validation par un administrateur';
         $this->session->set('flashMessage', $flashMessage);
-        // TODO: find out how to pass the message to the view within a redirect
+
         return $this->redirect->redirectToCurrentBlogPost($postId);
     }
 
