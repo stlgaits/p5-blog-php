@@ -20,14 +20,18 @@
 
 ### Create an account
 
+![Images](./images/diagrams/sequence_register.png)
+
 ### Sign in
 
-### Update my profile
+![Images](./images/diagrams/sequence_login.png)
 
 ### Publish a blog post
 
+![Images](./images/diagrams/sequence_publish_post.png)
 ### Edit a blog post
 
+![Images](./images/diagrams/sequence_edit_post.png)
 ### Leave a comment
 
 ![Images](./images/diagrams/sequence_comment.png)

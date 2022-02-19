@@ -114,7 +114,7 @@ The following PHP extensions need to be installed and enabled :
 Before running the project, you need to run the following commands in order to install the appropriate dependencies.
 
 ``` composer install ```
- 
+
 <!-- tabs:end  -->
 
 ### Import database files
@@ -136,4 +136,4 @@ UPDATE `user` SET `role` = '1' WHERE `user`.`id` = 1;
 
 > NB: Here 1 corresponds to the first created user. If you've created multiple users, you need to change the ID to the account you want to update.
 
-Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead. 
+Alternatively, if you wish to import and already prefilled database, use the blog.sql file instead.
