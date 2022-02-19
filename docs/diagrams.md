@@ -1,6 +1,10 @@
 # UML diagrams
 
-Here you will find a series of diagrams to further delimit this project's needs.
+> Here you will find a series of diagrams to further delimit this project's needs.
+
+## Class diagram
+
+![Images](./images/diagrams/classes.png)
 
 ## Use case diagrams
 
@@ -46,9 +50,6 @@ Here you will find a series of diagrams to further delimit this project's needs.
 
 ![Images](./images/diagrams/sequence_contact.png)
 
-
-## Class diagram
-
-![Images](./images/diagrams/classes.png)
-
 ## Sitemap
+
+![Images](./images/diagrams/site_map.png)
