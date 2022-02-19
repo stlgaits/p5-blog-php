@@ -12,23 +12,9 @@
 
 ![Images](./images/diagrams/use_case_blog.png)
 
-### Create a profile use case
+### Blog admin (back-office) - managing posts & comments
 
-### Log in use case
-
-### Publish a blog post use case
-
-### Edit a blog post use case
-
-### Leave a comment use case
-
-### Suspend a user's account use case
-
-### Edit a user's profile use case
-
-### Review pending comments use case
-
-### Contact blog admin use case
+![Images](./images/diagrams/use_case_admin.png)
 
 ## Sequence diagrams
 
