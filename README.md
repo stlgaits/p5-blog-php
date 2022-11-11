@@ -4,7 +4,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/28088ec6bd5a4c14bd5eaffc0745034c)](https://app.codacy.com/gh/EstelleMyddleware/p5-blog-php?utm_source=github.com&utm_medium=referral&utm_content=EstelleMyddleware/p5-blog-php&utm_campaign=Badge_Grade_Settings)
 
-!> Full documentation & UML diagrams for this project are available [here](https://estellemyddleware.github.io/p5-blog-php/)
+!> Full documentation & UML diagrams for this project are available [here](https://stlgaits.github.io/p5-blog-php/)
 
 > You can also checkout the [online demo](http://estellegaits.fr).
 
